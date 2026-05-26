@@ -7,7 +7,7 @@ const WS_BASE =
   typeof window !== 'undefined' &&
   (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
     ? 'ws://localhost:3001'
-    : 'wss://respawn-ws.up.railway.app'; // oppdater etter Railway-deploy
+    : 'wss://respawnostfold-production.up.railway.app';
 
 const OVERLAY_BASE =
   process.env.NODE_ENV === 'production'

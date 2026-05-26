@@ -7,7 +7,7 @@
     if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
       return 'ws://localhost:3001';
     }
-    return 'wss://respawn-ws.up.railway.app'; // oppdater med Railway-URL etter deploy
+    return 'wss://respawnostfold-production.up.railway.app';
   })();
 
   const SESSION_ID = new URLSearchParams(location.search).get('session') || 'default';
