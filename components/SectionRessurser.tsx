@@ -2,58 +2,73 @@
 
 import { useState } from 'react';
 
+const base = process.env.NODE_ENV === 'production' ? '/respawn-ostfold' : '';
+
 const resources = [
   {
     type: 'BRAND',
-    name: 'PROFILGUIDE PDF',
+    name: 'Profilguide PDF',
     desc: 'Fullstendig brand guide med farger, fonter, logobruk og designprinsipper.',
-    href: '/RespawnOstfoldProfilGuide.pdf',
-    icon: '↓',
+    href: `${base}/downloads/profilguide.pdf`,
+    download: 'RespawnOstfold-ProfilGuide.pdf',
+    action: '↓ LAST NED',
+    external: false,
   },
   {
     type: 'LOGO',
-    name: 'LOGO PAKKE',
-    desc: 'PNG i 4x skala, SVG-varianter. Horisontal og ikon-variant. Til alle bruksområder.',
-    href: '#',
-    icon: '↓',
+    name: 'Logo Pakke',
+    desc: 'SVG, PNG og JPG i alle størrelser. Horisontal og kvadratisk variant.',
+    href: `${base}/downloads/logo-pakke.zip`,
+    download: 'respawn-ostfold-logo.zip',
+    action: '↓ LAST NED',
+    external: false,
   },
   {
     type: 'STREAM',
-    name: 'OBS OVERLAY-SYSTEM',
-    desc: 'Node.js WebSocket-server med alle overlays v3. Klart til bruk på turneringsdagen.',
-    href: '#',
-    icon: '↓',
+    name: 'OBS Overlay-system v3',
+    desc: 'Node.js WebSocket-server med alle 8 overlays. README og start-script inkludert.',
+    href: `${base}/downloads/stream-overlays-v3.zip`,
+    download: 'respawn-overlays-v3.zip',
+    action: '↓ LAST NED',
+    external: false,
   },
   {
     type: 'FONT',
-    name: 'PIXER FONT',
-    desc: 'Last ned fra Fontfabric.com. Gratis for personlig bruk. Primær pixel-font.',
+    name: 'Pixer Font',
+    desc: 'Primær pixel-font brukt for all tekst. Last ned fra Fontfabric. Gratis for personlig bruk.',
     href: 'https://www.fontfabric.com/fonts/pixer/',
-    icon: '↗',
+    download: undefined,
+    action: '↗ ÅPNE',
+    external: true,
   },
   {
     type: 'FONT',
-    name: 'PRESS START 2P',
-    desc: 'Google Fonts. Brukes kun for Ø-tegnet i logotypen.',
+    name: 'Press Start 2P',
+    desc: 'Brukes kun for Ø-tegnet i logotypen. Google Fonts.',
     href: 'https://fonts.google.com/specimen/Press+Start+2P',
-    icon: '↗',
+    download: undefined,
+    action: '↗ ÅPNE',
+    external: true,
   },
   {
     type: 'PITCH',
-    name: 'PRESENTASJON',
+    name: 'Pitch-presentasjon',
     desc: 'Gamma-presentasjon for rekruttering av VG1-elever til produksjonsteam.',
-    href: '#',
-    icon: '↗',
+    href: 'https://gamma.app/docs/Ostfolds-forste-Minecraft-esports-turnering-t11byix06w66flz?following_id=srum38fvpluqs2l&follow_on_start=true',
+    download: undefined,
+    action: '↗ ÅPNE',
+    external: true,
   },
 ];
 
-function ResourceCard({ resource }: { resource: typeof resources[0] }) {
+function ResourceCard({ r }: { r: typeof resources[0] }) {
   const [hovered, setHovered] = useState(false);
   return (
     <a
-      href={resource.href}
-      target={resource.href.startsWith('http') ? '_blank' : undefined}
-      rel={resource.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+      href={r.href}
+      download={r.download}
+      target={r.external ? '_blank' : undefined}
+      rel={r.external ? 'noopener noreferrer' : undefined}
       style={{
         background: 'var(--forest)',
         padding: '24px',
@@ -64,7 +79,6 @@ function ResourceCard({ resource }: { resource: typeof resources[0] }) {
         transition: 'border-color .2s',
         textDecoration: 'none',
         cursor: 'pointer',
-        position: 'relative',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -76,15 +90,16 @@ function ResourceCard({ resource }: { resource: typeof resources[0] }) {
           letterSpacing: '3px',
           color: 'var(--portal)',
         }}>
-          {resource.type}
+          {r.type}
         </span>
         <span style={{
           fontFamily: "'Share Tech Mono', monospace",
-          fontSize: '14px',
+          fontSize: '11px',
+          letterSpacing: '2px',
           color: hovered ? 'var(--green)' : 'var(--muted)',
           transition: 'color .2s',
         }}>
-          {resource.icon}
+          {r.action}
         </span>
       </div>
       <span style={{
@@ -93,10 +108,10 @@ function ResourceCard({ resource }: { resource: typeof resources[0] }) {
         color: 'var(--white)',
         letterSpacing: '1px',
       }}>
-        {resource.name}
+        {r.name}
       </span>
-      <span style={{ fontSize: '13px', color: 'var(--muted)', fontWeight: 600, lineHeight: 1.5 }}>
-        {resource.desc}
+      <span style={{ fontSize: '13px', color: 'var(--muted)', fontWeight: 600, lineHeight: 1.55 }}>
+        {r.desc}
       </span>
     </a>
   );
@@ -130,7 +145,7 @@ export default function SectionRessurser() {
         gap: '2px',
       }}>
         {resources.map((r) => (
-          <ResourceCard key={r.name} resource={r} />
+          <ResourceCard key={r.name} r={r} />
         ))}
       </div>
 

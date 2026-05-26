@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<!--
+  INTERVIEW SCENE — RESPAWN ØSTFOLD
+  1920×1080 full scene layout
+  Left: Commentator cam placeholder (replace with actual cam source in OBS)
+  Right: 3D Minecraft skin viewer + player info
+  
+  URL params: ?player=IGN&handle=@handle&skin=PLAYERNAME (uses Crafatar API)
+  Example: ?player=Dream&handle=@dreamwastaken&skin=Dream
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1920px; height: 1080px;
+    background: #102C31;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Press Start 2P', monospace;
+  }
+
+  .bg-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(135,206,52,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(135,206,52,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .bar-top    { position: absolute; top:0;    left:0; right:0; height:5px; background:#87CE34; }
+  .bar-bottom { position: absolute; bottom:0; left:0; right:0; height:5px; background:#87CE34; }
+
+  /* Main layout */
+  .layout {
+    position: absolute;
+    inset: 5px;
+    display: flex;
+    gap: 0;
+  }
+
+  /* Left — Cam area */
+  .cam-area {
+    flex: 0 0 1120px;
+    height: 100%;
+    position: relative;
+    background: #0a1f22;
+    border-right: 3px solid #87CE34;
+  }
+
+  /* Cam label */
+  .cam-label {
+    position: absolute;
+    top: 24px; left: 24px;
+    background: rgba(16,44,49,0.88);
+    border-left: 3px solid #87CE34;
+    padding: 10px 20px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .cam-label-role { color: #87CE34; font-size: 8px; letter-spacing: 3px; }
+  .cam-label-name { color: #fff;    font-size: 13px; }
+
+  /* Corner brackets for cam */
+  .cc { position: absolute; width: 40px; height: 40px; }
+  .cc::before, .cc::after { content:''; position: absolute; background: #87CE34; }
+  .cc::before { width: 3px; height: 100%; }
+  .cc::after  { width: 100%; height: 3px; }
+  .cc.tl { top:14px;   left:14px; }
+  .cc.tr { top:14px;   right:14px; transform: scaleX(-1); }
+  .cc.bl { bottom:14px; left:14px; transform: scaleY(-1); }
+  .cc.br { bottom:14px; right:14px; transform: scale(-1); }
+
+  /* Live dot */
+  .live-badge {
+    position: absolute;
+    top: 24px; right: 24px;
+    background: #87CE34; color: #102C31;
+    font-size: 9px; padding: 6px 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .live-dot {
+    width: 8px; height: 8px; background: #102C31;
+    border-radius: 50%; animation: livepulse 1s step-end infinite;
+  }
+  @keyframes livepulse { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* Right — Player info panel */
+  .player-panel {
+    flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 40px 32px;
+    gap: 28px;
+  }
+
+  /* INTERVIEW label */
+  .interview-label {
+    color: #316364; font-size: 9px; letter-spacing: 4px;
+    border-top: 1px solid #1E4835;
+    border-bottom: 1px solid #1E4835;
+    padding: 8px 32px;
+    text-align: center;
+  }
+
+  /* Skin viewer */
+  .skin-wrap {
+    position: relative;
+    width: 280px; height: 340px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(16,44,49,0.5);
+    border: 1px solid #1E4835;
+  }
+  .skin-img {
+    image-rendering: pixelated;
+    height: 300px;
+    width: auto;
+    animation: skinFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 12px 20px rgba(135,206,52,0.2));
+  }
+  @keyframes skinFloat {
+    0%,100% { transform: translateY(0) rotate(-1deg); }
+    50%      { transform: translateY(-10px) rotate(1deg); }
+  }
+
+  /* Corner bracket for skin */
+  .sc { position: absolute; width: 24px; height: 24px; }
+  .sc::before, .sc::after { content:''; position: absolute; background: #87CE34; }
+  .sc::before { width: 2px; height: 100%; }
+  .sc::after  { width: 100%; height: 2px; }
+  .sc.tl { top:8px;    left:8px; }
+  .sc.tr { top:8px;    right:8px; transform: scaleX(-1); }
+  .sc.bl { bottom:8px; left:8px;  transform: scaleY(-1); }
+  .sc.br { bottom:8px; right:8px; transform: scale(-1); }
+
+  /* Player name block */
+  .player-name-block {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    text-align: center;
+  }
+  .p-ign    { color: #fff;    font-size: 22px; letter-spacing: 2px; }
+  .p-handle { color: #87CE34; font-size: 10px; letter-spacing: 3px; }
+  .p-divider {
+    display: flex; align-items: center; gap: 12px; width: 280px;
+  }
+  .p-divider-line { flex: 1; height: 1px; background: #1E4835; }
+  .p-divider-diamond { width: 8px; height: 8px; background: #87CE34; transform: rotate(45deg); }
+
+  /* Stats row */
+  .stats-row {
+    display: flex; gap: 0;
+    width: 360px;
+  }
+  .stat-box {
+    flex: 1;
+    border: 1px solid #1E4835;
+    padding: 12px 8px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .stat-box + .stat-box { border-left: none; }
+  .stat-val   { color: #87CE34; font-size: 14px; }
+  .stat-label { color: #316364; font-size: 7px;  letter-spacing: 2px; }
+
+  /* Bottom logo */
+  .bottom-logo {
+    display: flex; align-items: center; gap: 14px; margin-top: 8px;
+  }
+  .bottom-logo img { width: 32px; image-rendering: pixelated; }
+  .bottom-logo-text { color: #1E4835; font-size: 9px; letter-spacing: 3px; }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bar-top"></div>
+<div class="bar-bottom"></div>
+
+<div class="layout">
+  <!-- LEFT: Cam area (this is a visual frame — place actual cam behind in OBS) -->
+  <div class="cam-area">
+    <div class="cc tl"></div>
+    <div class="cc tr"></div>
+    <div class="cc bl"></div>
+    <div class="cc br"></div>
+
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      LIVE
+    </div>
+
+    <div class="cam-label">
+      <div class="cam-label-role">KOMMENTATOR</div>
+      <div class="cam-label-name" id="commName">NAVN NAVNESEN</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Player panel -->
+  <div class="player-panel">
+    <div class="interview-label">INTERVJU</div>
+
+    <div class="skin-wrap">
+      <div class="sc tl"></div>
+      <div class="sc tr"></div>
+      <div class="sc bl"></div>
+      <div class="sc br"></div>
+      <!--
+        Uses Crafatar API for 3D body render
+        https://crafatar.com/renders/body/{UUID or username}
+        Note: Requires MC Java account UUID for best results
+        Falls back to Steve if username not found
+      -->
+      <img class="skin-img" id="skinImg" src="" alt="Player skin">
+    </div>
+
+    <div class="player-name-block">
+      <div class="p-ign" id="playerIGN">PLAYERNAME</div>
+      <div class="p-handle" id="playerHandle">@handle</div>
+      <div class="p-divider">
+        <div class="p-divider-line"></div>
+        <div class="p-divider-diamond"></div>
+        <div class="p-divider-line"></div>
+      </div>
+    </div>
+
+    <div class="stats-row" id="statsRow">
+      <div class="stat-box">
+        <div class="stat-val" id="stat1val">—</div>
+        <div class="stat-label">ELO</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="stat2val">—</div>
+        <div class="stat-label">BEST TIME</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="stat3val">—</div>
+        <div class="stat-label">RANK</div>
+      </div>
+    </div>
+
+    <div class="bottom-logo">
+      <img src="logo.png" alt="">
+      <span class="bottom-logo-text">RESPAWN ØSTFOLD</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  const player  = p.get('player')  || 'Steve';
+  const handle  = p.get('handle')  || '@player';
+  const comm    = p.get('comm')    || 'KOMMENTATOR';
+  const elo     = p.get('elo')     || '—';
+  const time    = p.get('time')    || '—';
+  const rank    = p.get('rank')    || '—';
+
+  document.getElementById('playerIGN').textContent    = player.toUpperCase();
+  document.getElementById('playerHandle').textContent = handle;
+  document.getElementById('commName').textContent     = comm.toUpperCase();
+  document.getElementById('stat1val').textContent     = elo;
+  document.getElementById('stat2val').textContent     = time;
+  document.getElementById('stat3val').textContent     = rank;
+
+  // Crafatar 3D body render (free API, no key needed)
+  // Uses username — for production use UUID for guaranteed accuracy
+  const skinName = p.get('skin') || player;
+  document.getElementById('skinImg').src = 
+    `https://crafatar.com/renders/body/${encodeURIComponent(skinName)}?size=12&overlay`;
+  
+  // Fallback to steve if skin fails
+  document.getElementById('skinImg').onerror = function() {
+    this.src = 'https://crafatar.com/renders/body/ec561538f3fd461daff5086b22154bce?size=12&overlay';
+  };
+</script>
+</body>
+
+<script src="_ws_client.js"></script>
+<script>
+
+window.addEventListener('ro:interview', function(e) {
+  var d = e.detail;
+  if (!d) return;
+  if (d.player) {
+    document.getElementById('playerIGN').textContent = d.player.toUpperCase();
+    loadSkin(d.player);
+  }
+  if (d.handle) document.getElementById('playerHandle').textContent = d.handle;
+  if (d.comm)   document.getElementById('commName').textContent     = d.comm.toUpperCase();
+  if (d.elo)    document.getElementById('stat1val').textContent     = d.elo;
+  if (d.time)   document.getElementById('stat2val').textContent     = d.time;
+  if (d.rank)   document.getElementById('stat3val').textContent     = d.rank;
+});
+
+function loadSkin(username) {
+  var img = document.getElementById('skinImg');
+  var apis = [
+    'https://crafatar.com/renders/body/' + encodeURIComponent(username) + '?size=12&overlay',
+    'https://mc-heads.net/body/' + encodeURIComponent(username) + '/100',
+    'https://minotar.net/body/' + encodeURIComponent(username) + '/100'
+  ];
+  var idx = 0;
+  function tryNext() {
+    if (idx >= apis.length) return;
+    img.onerror = function() { idx++; tryNext(); };
+    img.src = apis[idx];
+  }
+  tryNext();
+}
+
+</script>
+
+</html>

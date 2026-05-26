@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<!--
+  BACKGROUND PLATE — RESPAWN ØSTFOLD
+  Full 1920×1080 background for scenes
+  URL param: ?scene=brb|break|intermission|setup
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1920px; height: 1080px;
+    background: #102C31;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Press Start 2P', monospace;
+  }
+
+  /* Grid */
+  .bg-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(135,206,52,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(135,206,52,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Pixel vignette */
+  .vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, rgba(10,22,25,0.7) 100%);
+  }
+
+  /* Top/bottom bars */
+  .bar-top    { position: absolute; top:0;    left:0; right:0; height:6px; background:#87CE34; }
+  .bar-bottom { position: absolute; bottom:0; left:0; right:0; height:6px; background:#87CE34; }
+
+  /* Corner brackets */
+  .corner { position: absolute; width: 80px; height: 80px; }
+  .corner::before, .corner::after { content:''; position: absolute; background: #87CE34; }
+  .corner::before { width: 4px; height: 100%; }
+  .corner::after  { width: 100%; height: 4px; }
+  .tl { top:40px; left:40px; }
+  .tr { top:40px; right:40px; transform: scaleX(-1); }
+  .bl { bottom:40px; left:40px; transform: scaleY(-1); }
+  .br { bottom:40px; right:40px; transform: scale(-1); }
+
+  /* Decorative pixel squares BG */
+  .deco-squares {
+    position: absolute; inset: 0;
+    pointer-events: none;
+  }
+  .deco-sq {
+    position: absolute;
+    opacity: 0.06;
+  }
+
+  /* Center content */
+  .center {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 32px;
+  }
+  .logo-wrap {
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+    animation: logoFloat 3s ease-in-out infinite;
+  }
+  @keyframes logoFloat {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+  }
+  .logo-wrap img { width: 160px; image-rendering: pixelated; }
+
+  .brand-name { color: #fff; font-size: 40px; letter-spacing: 6px; }
+  .brand-sub  { color: #87CE34; font-size: 16px; letter-spacing: 8px; margin-top: -8px; }
+
+  /* Scene title */
+  .scene-block {
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    margin-top: 16px;
+  }
+  .scene-divider {
+    display: flex; align-items: center; gap: 24px; width: 560px;
+  }
+  .scene-divider-line { flex: 1; height: 1px; background: #1E4835; }
+  .scene-divider-diamond {
+    width: 10px; height: 10px;
+    background: #87CE34; transform: rotate(45deg);
+  }
+  .scene-title {
+    color: #87CE34; font-size: 20px; letter-spacing: 4px;
+    animation: textBlink 4s ease-in-out infinite;
+  }
+  @keyframes textBlink {
+    0%,100%{ opacity:1 } 90%{ opacity:1 } 95%{ opacity:0.4 } 97%{ opacity:1 }
+  }
+  .scene-sub { color: #316364; font-size: 10px; letter-spacing: 3px; }
+
+  /* Loading bar */
+  .load-bar-wrap {
+    width: 400px; margin-top: 24px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .load-bar-label {
+    display: flex; justify-content: space-between;
+    color: #1E4835; font-size: 8px; letter-spacing: 2px;
+  }
+  .load-bar-track {
+    height: 6px; background: #1E4835; position: relative;
+  }
+  .load-bar-fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    background: #87CE34;
+    animation: loadPulse 3s ease-in-out infinite;
+  }
+  @keyframes loadPulse {
+    0%   { width:5%; }
+    70%  { width:95%; }
+    71%  { width:5%; }
+    100% { width:5%; }
+  }
+
+  /* Bottom info */
+  .bottom-info {
+    position: absolute;
+    bottom: 60px; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: center;
+    gap: 32px;
+  }
+  .info-item { color: #1E4835; font-size: 10px; letter-spacing: 2px; }
+  .info-sep  { width: 6px; height: 6px; background: #87CE34; transform: rotate(45deg); opacity: 0.5; }
+
+  /* Scan line */
+  .scanline {
+    position: absolute; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent 0%, rgba(135,206,52,0.12) 50%, transparent 100%);
+    animation: scan 6s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes scan { from{top:0} to{top:100%} }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="vignette"></div>
+<div class="bar-top"></div>
+<div class="bar-bottom"></div>
+<div class="scanline"></div>
+
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+
+<!-- Decorative pixel background elements -->
+<div class="deco-squares" id="decoSquares"></div>
+
+<div class="center">
+  <div class="logo-wrap">
+    <img src="logo.png" alt="Respawn Østfold">
+  </div>
+
+  <div class="brand-name">RESPAWN</div>
+  <div class="brand-sub">ØSTFOLD</div>
+
+  <div class="scene-block">
+    <div class="scene-divider">
+      <div class="scene-divider-line"></div>
+      <div class="scene-divider-diamond"></div>
+      <div class="scene-divider-line"></div>
+    </div>
+    <div class="scene-title" id="sceneTitle">STRAKS TILBAKE</div>
+    <div class="scene-sub" id="sceneSub">MCSR RANKED CASH PRIZE TOURNAMENT</div>
+  </div>
+
+  <div class="load-bar-wrap">
+    <div class="load-bar-label">
+      <span>LOADING</span>
+      <span id="loadPct">...</span>
+    </div>
+    <div class="load-bar-track">
+      <div class="load-bar-fill"></div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-info">
+  <span class="info-item">GLEMMEN VGS</span>
+  <div class="info-sep"></div>
+  <span class="info-item">FREDRIKSTAD, ØSTFOLD</span>
+  <div class="info-sep"></div>
+  <span class="info-item">MCSR RANKED</span>
+</div>
+
+<script>
+  // Decorative background squares (pixel art feel)
+  const sizes = [20,40,60,80,120];
+  const colors = ['#1E4835','#316364','#1D9E75','#6EC836'];
+  const wrap = document.getElementById('decoSquares');
+  for(let i=0;i<18;i++){
+    const d = document.createElement('div');
+    d.className = 'deco-sq';
+    const sz = sizes[Math.floor(Math.random()*sizes.length)];
+    d.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*1800+60}px;
+      top:${Math.random()*900+90}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      transform:rotate(${Math.random()*45}deg);
+    `;
+    wrap.appendChild(d);
+  }
+
+  // Scene config
+  const scenes = {
+    brb:          { title:'STRAKS TILBAKE',   sub:'BRB — BE RIGHT BACK' },
+    break:        { title:'PAUSE',            sub:'KORT PAUSE — SHORT BREAK' },
+    intermission: { title:'MELLOMSPILL',      sub:'NESTE KAMP STARTER SNART' },
+    setup:        { title:'KLARGJØRING',      sub:'SETTER OPP NESTE RUNDE' },
+    starting:     { title:'STARTER SNART',    sub:'MCSR RANKED CASH PRIZE TOURNAMENT' },
+  };
+  const p = new URLSearchParams(location.search);
+  const s = scenes[p.get('scene')] || scenes.brb;
+  document.getElementById('sceneTitle').textContent = s.title;
+  document.getElementById('sceneSub').textContent   = s.sub;
+
+  // Loading percentage animation
+  let pct = 0;
+  setInterval(() => {
+    pct = (pct + Math.floor(Math.random()*12+1)) % 101;
+    document.getElementById('loadPct').textContent = pct + '%';
+  }, 400);
+</script>
+</body>
+
+<script src="_ws_client.js"></script>
+<script>
+
+const _sceneLabels = { brb:'STRAKS TILBAKE', break:'PAUSE', intermission:'MELLOMSPILL', setup:'KLARGJØRING', starting:'STARTER SNART' };
+const _sceneSubs   = { brb:'BRB — BE RIGHT BACK', break:'KORT PAUSE — SHORT BREAK', intermission:'NESTE KAMP STARTER SNART', setup:'SETTER OPP NESTE RUNDE', starting:'MCSR RANKED CASH PRIZE TOURNAMENT' };
+window.addEventListener('ro:scene', e => {
+  const s = e.detail || 'brb';
+  document.getElementById('sceneTitle').textContent = _sceneLabels[s] || s.toUpperCase();
+  document.getElementById('sceneSub').textContent   = _sceneSubs[s]   || '';
+});
+
+</script>
+
+</html>

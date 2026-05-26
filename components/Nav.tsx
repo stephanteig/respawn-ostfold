@@ -56,6 +56,23 @@ export default function Nav() {
               </a>
             </li>
           ))}
+          <li>
+            <a
+              href="/kontrollpanel"
+              style={{
+                fontFamily: "'Share Tech Mono', monospace",
+                fontSize: '10px', letterSpacing: '2px',
+                padding: '5px 12px',
+                border: '1px solid rgba(135,206,52,0.5)',
+                color: 'var(--green)',
+                textDecoration: 'none', transition: 'all .2s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(135,206,52,0.12)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+            >
+              KONTROLLPANEL
+            </a>
+          </li>
         </ul>
 
         {/* Mobile hamburger */}
