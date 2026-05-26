@@ -1,66 +1,53 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Nav from '@/components/Nav';
+import Hero from '@/components/Hero';
+import InfoStrip from '@/components/InfoStrip';
+import SectionOm from '@/components/SectionOm';
+import SectionRoller from '@/components/SectionRoller';
+import SectionProfil from '@/components/SectionProfil';
+import SectionRessurser from '@/components/SectionRessurser';
+import Footer from '@/components/Footer';
+
+const SectionDivider = () => (
+  <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 48px' }}>
+    <hr style={{ border: 'none', borderTop: '1px solid rgba(135,206,52,0.12)' }} />
+  </div>
+);
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <>
+      {/* Corner brackets (fixed, full viewport) */}
+      <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 998 }}>
+        {[
+          { top: 16, left: 16, borderWidth: '2px 0 0 2px' },
+          { top: 16, right: 16, borderWidth: '2px 2px 0 0' },
+          { bottom: 16, left: 16, borderWidth: '0 0 2px 2px' },
+          { bottom: 16, right: 16, borderWidth: '0 2px 2px 0' },
+        ].map((pos, i) => (
+          <div key={i} style={{
+            position: 'absolute',
+            ...pos,
+            width: 28,
+            height: 28,
+            borderColor: 'var(--green)',
+            borderStyle: 'solid',
+          }} />
+        ))}
+      </div>
+
+      <Nav />
+      <main>
+        <Hero />
+        <InfoStrip />
+        <SectionOm />
+        <SectionDivider />
+        <SectionRoller />
+        <SectionDivider />
+        <SectionProfil />
+        <SectionDivider />
+        <SectionRessurser />
       </main>
-    </div>
+      <Footer />
+    </>
   );
 }

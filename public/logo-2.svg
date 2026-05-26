@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 498.78 498.78">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #316364;
+      }
+
+      .cls-2 {
+        letter-spacing: -.05em;
+      }
+
+      .cls-3 {
+        opacity: .8;
+      }
+
+      .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9 {
+        isolation: isolate;
+      }
+
+      .cls-3, .cls-4, .cls-8, .cls-9 {
+        fill: #87ce34;
+      }
+
+      .cls-4 {
+        font-size: 41px;
+      }
+
+      .cls-4, .cls-7 {
+        font-family: Pixer-Regular, Pixer;
+      }
+
+      .cls-10 {
+        stroke-width: 2.5px;
+      }
+
+      .cls-10, .cls-6, .cls-11 {
+        fill: none;
+        stroke: #87ce34;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-5, .cls-7 {
+        fill: #fff;
+      }
+
+      .cls-6 {
+        opacity: .5;
+      }
+
+      .cls-7 {
+        font-size: 84px;
+      }
+
+      .cls-12 {
+        opacity: 0;
+      }
+
+      .cls-13 {
+        fill: #1e4835;
+      }
+
+      .cls-8 {
+        opacity: .4;
+      }
+
+      .cls-9 {
+        font-family: PressStart2P-Regular, 'Press Start 2P';
+        font-size: 28px;
+      }
+
+      .cls-11 {
+        stroke-width: 5px;
+      }
+
+      .cls-14 {
+        fill: #102c31;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <rect class="cls-14" width="498.78" height="498.78"/>
+      <g>
+        <line class="cls-6" x1="66.6" y1="342.7" x2="210.38" y2="342.7"/>
+        <polygon class="cls-3" points="249.39 329.7 265.65 342.7 249.39 355.71 233.14 342.7 249.39 329.7"/>
+        <line class="cls-6" x1="288.4" y1="342.7" x2="429.99" y2="342.7"/>
+        <text class="cls-7" transform="translate(64.59 320.1)"><tspan x="0" y="0">RES</tspan><tspan class="cls-2" x="142.8" y="0">PA</tspan><tspan x="235.2" y="0">WN</tspan></text>
+        <g>
+          <text class="cls-4" transform="translate(167.02 388.88)"><tspan class="cls-12" x="0" y="0">O</tspan><tspan x="24.6" y="0">STFOLD</tspan></text>
+          <text class="cls-9" transform="translate(167.09 392.3)"><tspan x="0" y="0">Ø</tspan></text>
+        </g>
+        <g>
+          <rect class="cls-11" x="177.87" y="99.85" width="143.04" height="143.04"/>
+          <rect class="cls-8" x="171.37" y="93.35" width="13" height="13"/>
+          <rect class="cls-8" x="314.41" y="93.35" width="13" height="13"/>
+          <rect class="cls-8" x="171.37" y="236.39" width="13" height="13"/>
+          <rect class="cls-8" x="314.41" y="236.39" width="13" height="13"/>
+          <rect class="cls-13" x="194.13" y="116.11" width="110.53" height="110.53"/>
+          <rect class="cls-1" x="210.38" y="132.36" width="78.02" height="78.02"/>
+          <rect class="cls-3" x="226.64" y="148.61" width="45.51" height="45.51"/>
+          <rect class="cls-5" x="239.64" y="161.62" width="19.51" height="19.51"/>
+        </g>
+      </g>
+      <path class="cls-10" d="M472.63,436.87v35.76h-35.76"/>
+      <path class="cls-10" d="M473.2,61.34V25.58h-35.76"/>
+      <path class="cls-10" d="M25.91,61.66V25.91h35.76"/>
+      <path class="cls-10" d="M26.03,436.99v35.76h35.76"/>
+    </g>
+  </g>
+</svg>

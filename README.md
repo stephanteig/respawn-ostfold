@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Respawn Østfold
 
-## Getting Started
+Hjemmeside for Respawn Østfold — Østfolds første MCSR Ranked Minecraft speedrun cash prize-turnering.
 
-First, run the development server:
+**Live:** https://stephanteig.github.io/respawnostfold
+
+## Utvikling
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev   # Start dev-server på http://localhost:3000
+npm run build # Produksjonsbygg (static export til /out)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Bytte ut bildeplaceholders
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Legg bildene i `public/screenshots/` med disse filnavnene:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Fil | Plassering |
+|-----|-----------|
+| `obs_brb.jpeg` | Hero-bakgrunn |
+| `obs_multistream.png` | SectionOm — FORMAT-kort |
+| `obs_interview.png` | SectionOm — placeholder |
+| `obs_countdown.png` | SectionOm — SENDING-kort |
+| `obs_kontrollpanel.png` | SectionRoller |
+| `obs_bracket.png` | SectionOm — PREMIE-kort |
 
-## Learn More
+Erstatt deretter `<ImgPlaceholder>` i `components/SectionOm.tsx` og `components/SectionRoller.tsx` med:
 
-To learn more about Next.js, take a look at the following resources:
+```tsx
+import Image from 'next/image';
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<Image
+  src="/screenshots/obs_multistream.png"
+  alt="Beskrivelse"
+  width={600}
+  height={340}
+  style={{ width: '100%', height: 'auto' }}
+/>
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy
 
-## Deploy on Vercel
+Siden deployes automatisk til GitHub Pages via GitHub Actions ved push til `main`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Aktiver GitHub Pages: **Settings → Pages → Source: GitHub Actions**
