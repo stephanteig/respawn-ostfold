@@ -4,8 +4,8 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig: NextConfig = {
   output: 'export',
-  basePath: isProd ? '/respawnostfold' : '',
-  assetPrefix: isProd ? '/respawnostfold/' : '',
+  basePath: isProd ? '/respawn-ostfold' : '',
+  assetPrefix: isProd ? '/respawn-ostfold/' : '',
   images: {
     unoptimized: true,
   },
