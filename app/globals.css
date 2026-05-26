@@ -59,6 +59,36 @@ a {
 ::-webkit-scrollbar-track { background: var(--dark); }
 ::-webkit-scrollbar-thumb { background: var(--teal); }
 
+/* Screenshot wrappers */
+.screenshot-wrap {
+  position: relative;
+  border: 1px solid rgba(135, 206, 52, 0.2);
+  background: var(--dark);
+  overflow: hidden;
+}
+
+.screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0.92;
+  transition: opacity 0.2s;
+}
+
+.screenshot-wrap:hover .screenshot {
+  opacity: 1;
+}
+
+.screenshot-caption {
+  padding: 10px 14px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--portal);
+  border-top: 1px solid rgba(135, 206, 52, 0.1);
+  background: var(--forest);
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

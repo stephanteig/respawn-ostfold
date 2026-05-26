@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import ImgPlaceholder from './ImgPlaceholder';
+import Image from 'next/image';
 
 const roles = [
   {
@@ -38,7 +38,7 @@ function RoleCard({ role }: { role: typeof roles[0] }) {
       style={{
         background: hovered ? 'rgba(30,72,53,0.9)' : 'var(--forest)',
         padding: '28px 22px',
-        borderLeft: `3px solid ${hovered ? role.color : role.color}`,
+        borderLeft: `3px solid ${role.color}`,
         transition: 'background .2s',
         cursor: 'default',
       }}
@@ -94,7 +94,19 @@ export default function SectionRoller() {
         ))}
       </div>
 
-      <ImgPlaceholder caption="obs_kontrollpanel.png — Scenekontroll med STARTER SMART, PAUSE osv." />
+      <div className="screenshot-wrap">
+        <Image
+          src="/screenshots/obs_kontrollpanel.png"
+          alt="Stream kontrollpanel — scenekontroll med alle live-knapper"
+          width={1456}
+          height={816}
+          className="screenshot"
+          style={{ width: '100%', height: 'auto' }}
+        />
+        <p className="screenshot-caption">
+          Stream kontrollpanel — STARTER SMART · STRAKS TILBAKE · PAUSE · MELLOMSPILL · KLARGJØRING
+        </p>
+      </div>
 
       <style>{`
         @media (max-width: 768px) {

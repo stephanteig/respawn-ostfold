@@ -1,4 +1,4 @@
-import ImgPlaceholder from './ImgPlaceholder';
+import Image from 'next/image';
 
 const cards = [
   {
@@ -6,27 +6,43 @@ const cards = [
     titleColor: 'var(--green)',
     title: 'FORMAT',
     body: 'MCSR Ranked — det offisielle Minecraft speedrun-systemet. Spillere konkurrerer 1v1 om å beate spillet raskest. Ranked format, som chess.com men for Minecraft.',
-    placeholder: 'obs_multistream.png — 1v1 multistream PLAYER_ONE vs PLAYER_TWO',
   },
   {
     accent: 'var(--portal)',
     titleColor: 'var(--portal)',
     title: 'PREMIE',
     body: 'Cash prize til vinneren, finansiert av lokale sponsorer. Ekte stakes, ekte turnering. Vi søker aktive støttespillere — ta kontakt hvis du eller din bedrift vil bidra.',
-    placeholder: 'obs_bracket.png — Bracket-panel kvartfinale/semifinale/finale',
   },
   {
     accent: 'var(--teal)',
     titleColor: 'var(--muted)',
     title: 'SENDING',
     body: 'Hele turneringen sendes live på Twitch med profesjonelle overlays, live bracket, spillerstatistikk, kommentatorer og intervju-scenes bygget fra bunnen av.',
-    placeholder: 'obs_countdown.png — Countdown overlay 30:00 MCSR RANKED TURNERING',
   },
 ];
 
-const SectionDivider = () => (
-  <hr style={{ border: 'none', borderTop: '1px solid rgba(135,206,52,0.12)' }} />
-);
+const screenshots: { src: string; alt: string; caption: string }[] = [
+  {
+    src: '/screenshots/obs_multistream.png',
+    alt: 'Respawn Østfold 1v1 multistream overlay med PLAYER_ONE vs PLAYER_TWO',
+    caption: 'Live 1v1 multistream — slik ser sendingen ut på Twitch',
+  },
+  {
+    src: '/screenshots/obs_interview.png',
+    alt: 'Intervju-scene med kommentator og spillerpanel med 3D Minecraft skin',
+    caption: 'Intervju-scene — ARON FOLKESTAD + STIFFEL_ med ELO og rank',
+  },
+  {
+    src: '/screenshots/obs_countdown.png',
+    alt: 'Countdown overlay — 30:00 nedtelling, MCSR RANKED TURNERING',
+    caption: 'Countdown overlay — streamen starter om 30:00',
+  },
+  {
+    src: '/screenshots/obs_bracket_overlay.png',
+    alt: 'Bracket-display overlay i OBS — SINGLE ELIMINATION',
+    caption: 'Live bracket — SINGLE ELIMINATION turnering',
+  },
+];
 
 export default function SectionOm() {
   return (
@@ -78,16 +94,25 @@ export default function SectionOm() {
         ))}
       </div>
 
-      {/* Screenshot placeholders */}
+      {/* Screenshots */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
         gap: '2px',
       }}>
-        <ImgPlaceholder caption="obs_multistream.png — 1v1 multistream layout" />
-        <ImgPlaceholder caption="obs_interview.png — Intervju-scene med ELO/rank" />
-        <ImgPlaceholder caption="obs_countdown.png — Countdown 30:00" />
-        <ImgPlaceholder caption="obs_bracket.png — Bracket-panel" />
+        {screenshots.map((s) => (
+          <div key={s.src} className="screenshot-wrap">
+            <Image
+              src={s.src}
+              alt={s.alt}
+              width={1456}
+              height={816}
+              className="screenshot"
+              style={{ width: '100%', height: 'auto' }}
+            />
+            <p className="screenshot-caption">{s.caption}</p>
+          </div>
+        ))}
       </div>
 
       <style>{`
