@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import StaticImage from './StaticImage';
 
 const swatches = [
   { name: 'RESPAWN GREEN', hex: '#87CE34', bg: '#87CE34' },
@@ -162,7 +162,7 @@ export default function SectionProfil() {
           gap: '16px',
           borderTop: '3px solid rgba(135,206,52,0.3)',
         }}>
-          <Image
+          <StaticImage
             src="/logo-2.svg"
             alt="Respawn Østfold horisontal logo"
             width={300}
@@ -187,7 +187,7 @@ export default function SectionProfil() {
           gap: '16px',
           borderTop: '3px solid rgba(135,206,52,0.3)',
         }}>
-          <Image
+          <StaticImage
             src="/logo-1.svg"
             alt="Respawn Østfold ikon logo"
             width={100}

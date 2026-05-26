@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import StaticImage from './StaticImage';
 
 const roles = [
   {
@@ -95,7 +95,7 @@ export default function SectionRoller() {
       </div>
 
       <div className="screenshot-wrap">
-        <Image
+        <StaticImage
           src="/screenshots/obs_kontrollpanel.png"
           alt="Stream kontrollpanel — scenekontroll med alle live-knapper"
           width={1456}

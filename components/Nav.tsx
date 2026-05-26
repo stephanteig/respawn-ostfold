@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import Link from 'next/link';
+import StaticImage from './StaticImage';
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,12 +23,12 @@ export default function Nav() {
         zIndex: 100,
       }}>
         <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-          <Image
+          <StaticImage
             src="/logo-1.svg"
             alt="Respawn Østfold logo ikon"
             width={36}
             height={36}
-            style={{ imageRendering: 'pixelated' }}
+            style={{ imageRendering: 'pixelated', width: 36, height: 36 }}
           />
           <div style={{ fontFamily: "'Share Tech Mono', monospace", lineHeight: 1.2 }}>
             <div style={{ color: 'var(--white)', letterSpacing: '3px', fontSize: '14px' }}>RESPAWN</div>
@@ -43,6 +44,7 @@ export default function Nav() {
           fontFamily: "'Share Tech Mono', monospace",
           fontSize: '11px',
           letterSpacing: '2px',
+          alignItems: 'center',
         }} className="nav-links-desktop">
           {['OM', 'ROLLER', 'PROFIL', 'RESSURSER'].map((item) => (
             <li key={item}>
@@ -57,7 +59,7 @@ export default function Nav() {
             </li>
           ))}
           <li>
-            <a
+            <Link
               href="/kontrollpanel"
               style={{
                 fontFamily: "'Share Tech Mono', monospace",
@@ -65,13 +67,14 @@ export default function Nav() {
                 padding: '5px 12px',
                 border: '1px solid rgba(135,206,52,0.5)',
                 color: 'var(--green)',
-                textDecoration: 'none', transition: 'all .2s',
+                textDecoration: 'none', transition: 'background .2s',
+                display: 'inline-block',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(135,206,52,0.12)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(135,206,52,0.12)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
             >
               KONTROLLPANEL
-            </a>
+            </Link>
           </li>
         </ul>
 
@@ -123,6 +126,20 @@ export default function Nav() {
               {item}
             </a>
           ))}
+          <Link
+            href="/kontrollpanel"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              display: 'block',
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: '13px', letterSpacing: '3px',
+              color: 'var(--green)',
+              padding: '12px 0',
+              textDecoration: 'none',
+            }}
+          >
+            KONTROLLPANEL
+          </Link>
         </div>
       )}
 

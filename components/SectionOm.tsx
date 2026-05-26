@@ -1,4 +1,5 @@
-import Image from 'next/image';
+import StaticImage from './StaticImage';
+
 
 const cards = [
   {
@@ -102,7 +103,7 @@ export default function SectionOm() {
       }}>
         {screenshots.map((s) => (
           <div key={s.src} className="screenshot-wrap">
-            <Image
+            <StaticImage
               src={s.src}
               alt={s.alt}
               width={1456}
