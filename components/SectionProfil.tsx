@@ -1,4 +1,5 @@
-import StaticImage from './StaticImage';
+import LogoFull from './LogoFull';
+import LogoIcon from './LogoIcon';
 
 const swatches = [
   { name: 'RESPAWN GREEN', hex: '#87CE34', bg: '#87CE34' },
@@ -154,7 +155,7 @@ export default function SectionProfil() {
         gap: '2px',
       }}>
         <div style={{
-          background: 'var(--bg)',
+          background: 'var(--dark)',
           padding: '40px',
           display: 'flex',
           flexDirection: 'column',
@@ -162,24 +163,18 @@ export default function SectionProfil() {
           gap: '16px',
           borderTop: '3px solid rgba(135,206,52,0.45)',
         }}>
-          <StaticImage
-            src="/logo-2.png"
-            alt="Respawn Østfold horisontal logo"
-            width={300}
-            height={120}
-            style={{ maxWidth: '100%', height: 'auto' }}
-          />
+          <LogoFull size={260} />
           <span style={{
             fontFamily: "'Share Tech Mono', monospace",
             fontSize: '9px',
             letterSpacing: '2px',
             color: 'var(--muted)',
           }}>
-            HORISONTAL LOGO (PRIMÆR)
+            FULL LOGO (PRIMÆR)
           </span>
         </div>
         <div style={{
-          background: 'var(--bg)',
+          background: 'var(--dark)',
           padding: '40px',
           display: 'flex',
           flexDirection: 'column',
@@ -187,13 +182,7 @@ export default function SectionProfil() {
           gap: '16px',
           borderTop: '3px solid rgba(135,206,52,0.45)',
         }}>
-          <StaticImage
-            src="/logo-1.png"
-            alt="Respawn Østfold ikon logo"
-            width={100}
-            height={100}
-            style={{ imageRendering: 'pixelated' }}
-          />
+          <LogoIcon size={160} />
           <span style={{
             fontFamily: "'Share Tech Mono', monospace",
             fontSize: '9px',

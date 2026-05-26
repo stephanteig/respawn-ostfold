@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
 
 :root {
   --green:   #87CE34;
@@ -97,159 +97,128 @@ a {
   }
 }
 
-/* ── Nextra Docs: Respawn Østfold Theme ── */
+/* ── Nextra Docs: Minimal Dark Theme ── */
 
 :root {
   --nextra-primary-hue: 90;
-  --nextra-primary-saturation: 60%;
-  --nextra-bg: #102C31;
-}
-
-.dark {
-  --nextra-bg: #102C31;
+  --nextra-primary-saturation: 55%;
 }
 
 html {
   color-scheme: dark;
 }
 
-.nextra-sidebar-container {
-  background: #0A1F23 !important;
-  border-right: 1px solid rgba(135, 206, 52, 0.12) !important;
-}
-
-.nextra-sidebar-container a[aria-current="true"],
-.nextra-sidebar-container a.active {
-  color: #87CE34 !important;
-  background: rgba(135, 206, 52, 0.08) !important;
-}
-
-.nextra-sidebar-container a:hover {
-  color: #87CE34 !important;
-}
-
+/* Navbar */
 nav.nextra-navbar {
-  background: #102C31 !important;
-  border-bottom: 1px solid rgba(135, 206, 52, 0.15) !important;
+  background: #0d2226 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
 nav.nextra-navbar::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 3px;
+  height: 2px;
   background: #87CE34;
 }
 
-.nextra-content h1,
-.nextra-content h2,
-.nextra-content h3 {
-  font-family: 'Share Tech Mono', monospace !important;
-  letter-spacing: 2px;
+/* Sidebar */
+.nextra-sidebar-container {
+  background: #0d1f24 !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
-.nextra-content h1 { color: #FFFFFF; }
-.nextra-content h2 { color: #87CE34; }
-.nextra-content h3 { color: #7AACAE; }
+.nextra-sidebar-container a {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
 
+.nextra-sidebar-container a:hover {
+  color: rgba(255, 255, 255, 0.9) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.nextra-sidebar-container a[aria-current="true"],
+.nextra-sidebar-container a.active,
+.nextra-sidebar-container a[data-active="true"],
+.nextra-sidebar-container a[aria-selected="true"] {
+  color: #ffffff !important;
+  background: rgba(135, 206, 52, 0.08) !important;
+  border-left: 2px solid #87CE34 !important;
+}
+
+/* Content headings */
+.nextra-content h1 { color: #ffffff; }
+.nextra-content h2 { color: rgba(255, 255, 255, 0.88); }
+.nextra-content h3 { color: rgba(255, 255, 255, 0.7); }
+
+/* Code */
 .nextra-content pre {
-  background: #0A1F23 !important;
-  border: 1px solid rgba(135, 206, 52, 0.2) !important;
-  border-left: 3px solid #87CE34 !important;
+  background: #0a1a1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 .nextra-content code {
-  background: rgba(30, 72, 53, 0.6) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
   color: #87CE34 !important;
 }
 
-.nextra-callout {
-  border-color: #1D9E75 !important;
-  background: rgba(29, 158, 117, 0.08) !important;
-}
-
-.nextra-toc a:hover {
-  color: #87CE34 !important;
-}
-
-.nextra-search input {
-  background: #1E4835 !important;
-  border-color: rgba(135, 206, 52, 0.3) !important;
-  color: #FFFFFF !important;
-}
-
-/* Links in docs content */
+/* Links */
 .nextra-content a {
   color: #87CE34 !important;
-  text-decoration-color: rgba(135, 206, 52, 0.4) !important;
+  text-decoration-color: rgba(135, 206, 52, 0.35) !important;
 }
 
 .nextra-content a:hover {
   color: #6EC836 !important;
-  text-decoration-color: rgba(110, 200, 54, 0.7) !important;
 }
 
-/* Table zebra-striping */
-.nextra-content table tr:nth-child(even) {
-  background: rgba(30, 72, 53, 0.3) !important;
-}
-
+/* Tables */
 .nextra-content table th {
-  background: rgba(30, 72, 53, 0.6) !important;
-  color: #87CE34 !important;
-  font-family: 'Share Tech Mono', monospace !important;
-  letter-spacing: 1px;
-  border-bottom: 1px solid rgba(135, 206, 52, 0.25) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.nextra-content table tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03) !important;
 }
 
 .nextra-content table td {
-  border-color: rgba(135, 206, 52, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
 }
 
-/* TOC sidebar — darker background */
-.nextra-toc {
-  background: transparent !important;
-}
+/* TOC */
+.nextra-toc { background: transparent !important; }
 
 .nextra-toc-title {
-  color: #87CE34 !important;
-  font-family: 'Share Tech Mono', monospace !important;
+  color: rgba(255, 255, 255, 0.35) !important;
   font-size: 11px !important;
-  letter-spacing: 2px !important;
+  letter-spacing: 1px !important;
 }
 
-/* Sidebar section spacing */
-.nextra-sidebar-container > ul > li {
-  margin-top: 8px !important;
+.nextra-toc a:hover { color: #87CE34 !important; }
+
+/* Search */
+.nextra-search input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
 }
 
-.nextra-sidebar-container > ul > li:first-child {
-  margin-top: 0 !important;
+/* Callouts */
+.nextra-callout {
+  border-color: rgba(135, 206, 52, 0.25) !important;
+  background: rgba(135, 206, 52, 0.04) !important;
 }
 
-/* Breadcrumbs and metadata */
+/* Metadata */
 .nextra-breadcrumb a,
-.nextra-breadcrumb span {
-  color: #7AACAE !important;
-}
-
+.nextra-breadcrumb span,
 footer a,
-.nextra-content footer {
-  color: #7AACAE !important;
-}
-
-/* "Last updated" and edit link */
+.nextra-content footer,
 time,
 .nextra-content [class*="lastUpdated"],
 .nextra-content [class*="edit"] {
-  color: #7AACAE !important;
-}
-
-/* Active sidebar item */
-.nextra-sidebar-container a[data-active="true"],
-.nextra-sidebar-container a[aria-selected="true"] {
-  color: #87CE34 !important;
-  background: rgba(135, 206, 52, 0.1) !important;
-  border-left: 2px solid #87CE34 !important;
+  color: rgba(255, 255, 255, 0.35) !important;
 }
 
