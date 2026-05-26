@@ -154,15 +154,13 @@ export default function SectionProfil() {
         gap: '2px',
       }}>
         <div style={{
-          background: '#0A1F23',
+          background: 'var(--bg)',
           padding: '40px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: '16px',
-          borderTop: '3px solid rgba(135,206,52,0.3)',
-          border: '1px solid rgba(135,206,52,0.15)',
-          borderTopWidth: '3px',
+          borderTop: '3px solid rgba(135,206,52,0.45)',
         }}>
           <StaticImage
             src="/logo-2.png"
@@ -181,15 +179,13 @@ export default function SectionProfil() {
           </span>
         </div>
         <div style={{
-          background: '#0A1F23',
+          background: 'var(--bg)',
           padding: '40px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: '16px',
-          borderTop: '3px solid rgba(135,206,52,0.3)',
-          border: '1px solid rgba(135,206,52,0.15)',
-          borderTopWidth: '3px',
+          borderTop: '3px solid rgba(135,206,52,0.45)',
         }}>
           <StaticImage
             src="/logo-1.png"
