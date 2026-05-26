@@ -1,0 +1,45 @@
+---
+title: OBS-lenker
+description: Kopier overlay-URL-er direkte fra kontrollpanelet til OBS.
+---
+
+import { Callout } from 'nextra/components'
+
+# OBS-lenker
+
+Kontrollpanelet genererer alle 8 overlay-URL-er med riktig sesjon-ID automatisk.
+
+## Slik bruker du dem
+
+1. Skriv inn sesjon-ID i feltet øverst (f.eks. `live`)
+2. Scroll ned i sidebaren til **OBS-LENKER**-seksjonen
+3. Kopier URL-en for ønsket overlay
+4. Lim inn i OBS som Browser Source URL
+
+## Format
+
+```
+https://stephanteig.github.io/respawn-ostfold/overlays/07_multistream.html?session=live
+```
+
+Lokalt (lokal server):
+```
+http://localhost:3001/07_multistream.html?session=live
+```
+
+<Callout type="info">
+  URL-er oppdateres automatisk når du endrer sesjon-ID i kontrollpanelet.
+  Du trenger ikke å oppdatere OBS-lenkene mellom sesjoner.
+</Callout>
+
+## Roller
+
+WebSocket-tilkoblingen bruker roller:
+
+| Rolle | URL-param | Rettigheter |
+|-------|-----------|-------------|
+| `control` | `?role=control` | Kan sende meldinger til alle overlays |
+| `overlay` | `?role=overlay` | Mottar meldinger, kan ikke sende |
+
+Kontrollpanelet kobler automatisk som `role=control`.
+Overlays kobler som `role=overlay`.

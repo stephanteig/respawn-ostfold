@@ -1,0 +1,26 @@
+---
+title: 03 — Kommentator-kamera
+description: Overlay for kommentator-scene med navn og tittel.
+---
+
+# 03 — Kommentator-kamera
+
+`03_commentator_cam.html` legges over kamera-sourcen i kommentator-scenen.
+
+## OBS-oppsett
+
+1. Legg til **Camera Source** (kommentator-kameraet) — 1920×1080
+2. Legg til **Browser Source** (denne filen) OVER kameraet — 1920×1080
+
+## WebSocket-event
+
+Lytter på `ro:commentator`:
+
+```json
+{
+  "name": "HENRIK LARSEN",
+  "handle": "@henrik · KOMMENTATOR"
+}
+```
+
+Viser navn og handle i nedre venstre hjørne i Respawn Østfold-stil.

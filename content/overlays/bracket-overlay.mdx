@@ -1,0 +1,38 @@
+---
+title: 06 — Bracket
+description: Live turneringstre-overlay.
+---
+
+import { Callout } from 'nextra/components'
+
+# 06 — Bracket
+
+`06_bracket.html` viser single elimination-turneringstreet live i OBS.
+
+## OBS-oppsett
+
+- Browser Source — 1920×1080
+- Bruk på egne "Bracket"-scener mellom kamper
+
+## WebSocket-event
+
+Lytter på `ro:bracket` med hele bracket-strukturen:
+
+```json
+{
+  "qf": [
+    { "p1": "Aron", "s1": "2", "p2": "Stiffel", "s2": "1", "winner": 1 },
+    { "p1": "Knut", "s1": "0", "p2": "Lars", "s2": "2", "winner": 2 },
+    { "p1": "Mikkel", "s1": "2", "p2": "Simen", "s2": "0", "winner": 1 },
+    { "p1": "Thor", "s1": "1", "p2": "Erik", "s2": "2", "winner": 2 }
+  ],
+  "sf": [ ... ],
+  "f": [ ... ],
+  "champion": ""
+}
+```
+
+<Callout>
+  Send bracket-oppdateringer fra kontrollpanelet under hele turneringen.
+  Tilstanden lagres på serveren og gjenopprettes ved reconnect.
+</Callout>

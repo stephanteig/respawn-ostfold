@@ -1,0 +1,42 @@
+---
+title: Countdown
+description: Start og stopp nedtellingsoverlayet.
+---
+
+import { Callout } from 'nextra/components'
+
+# Countdown
+
+Countdown-panelet styrer `01_countdown.html`-overlayet.
+
+## Felter
+
+| Felt | Kode | Beskrivelse |
+|------|------|-------------|
+| Minutter | `minutes` | Antall minutter for nedtellingen |
+| Sekunder | `seconds` | Ekstra sekunder |
+
+## Handlinger
+
+- **START** — starter nedtellingen fra angitt tid
+- **STOPP** — pauser nedtellingen
+- **RESET** — tilbakestiller til angitt tid
+
+## WebSocket-melding
+
+```json
+{
+  "type": "countdown",
+  "data": {
+    "action": "start",
+    "totalSeconds": 1800
+  }
+}
+```
+
+`action` kan være `start`, `stop`, eller `reset`.
+
+<Callout>
+  Countdown-overlayet har innebygd timer som teller ned lokalt etter at
+  `start`-meldingen er mottatt. Den trenger ikke kontinuerlige oppdateringer.
+</Callout>

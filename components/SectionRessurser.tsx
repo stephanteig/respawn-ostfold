@@ -59,6 +59,15 @@ const resources = [
     action: '↗ ÅPNE',
     external: true,
   },
+  {
+    type: 'DOCS',
+    name: 'Dokumentasjon',
+    desc: 'Teknisk dokumentasjon for stream-system, overlays, kontrollpanel og multi-sesjon.',
+    href: 'https://stephanteig.github.io/respawn-ostfold/docs',
+    download: undefined,
+    action: '↗ ÅPNE',
+    external: true,
+  },
 ];
 
 function ResourceCard({ r }: { r: typeof resources[0] }) {

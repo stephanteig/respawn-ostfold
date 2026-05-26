@@ -8,10 +8,13 @@
     "dev:all": "concurrently -n next,ws -c green,cyan \"npm run dev\" \"npm run dev:ws\"",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "next": "16.2.6",
+    "nextra": "^4.6.1",
+    "nextra-theme-docs": "^4.6.1",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
@@ -22,6 +25,7 @@
     "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "patch-package": "^8.0.1",
     "typescript": "^5"
   }
 }

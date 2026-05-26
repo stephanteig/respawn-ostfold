@@ -1,0 +1,32 @@
+---
+title: Kommentator
+description: Sett kommentator-navn og detaljer for kommentator-kamera-overlayet.
+---
+
+# Kommentator
+
+Kommentator-panelet sender visningsinfo til `03_commentator_cam.html`-overlayet.
+
+## Felter
+
+| Felt | Kode | Eksempel |
+|------|------|---------|
+| Navn | `name` | `HENRIK LARSEN` |
+| Handle/tittel | `handle` | `@henrik · KOMMENTATOR` |
+
+## WebSocket-melding
+
+```json
+{
+  "type": "commentator",
+  "data": {
+    "name": "HENRIK LARSEN",
+    "handle": "@henrik · KOMMENTATOR"
+  }
+}
+```
+
+## Overlay
+
+`03_commentator_cam.html` vises over kamera-sourcen i OBS.
+Det legger på navn og handle i nedre venstre hjørne i Respawn Østfold-stil.

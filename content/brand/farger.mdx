@@ -1,0 +1,42 @@
+---
+title: Farger
+description: Respawn Østfold fargepalett og CSS-variabler.
+---
+
+# Farger
+
+## Primærfarger
+
+| Navn | Hex | CSS-variabel | Bruk |
+|------|-----|-------------|------|
+| Respawn Green | `#87CE34` | `--green` | Primær accent, logoer, highlights |
+| Green Dark | `#6EC836` | `--green-d` | Hover-tilstander |
+| Deep Background | `#102C31` | `--bg` | Sidebagrbunn |
+| Forest | `#1E4835` | `--forest` | Kortbakgrunner |
+| Deep Teal | `#316364` | `--teal` | Sekundær accent |
+| Portal Teal | `#1D9E75` | `--portal` | Tertiær, caption-tekst |
+| White | `#FFFFFF` | `--white` | Primær tekst |
+| Muted | `#7AACAE` | `--muted` | Sekundær tekst |
+| Dark | `#0A1F23` | `--dark` | Dypeste bakgrunn |
+
+## CSS
+
+```css
+:root {
+  --green:   #87CE34;
+  --green-d: #6EC836;
+  --bg:      #102C31;
+  --forest:  #1E4835;
+  --teal:    #316364;
+  --portal:  #1D9E75;
+  --white:   #FFFFFF;
+  --muted:   #7AACAE;
+  --dark:    #0A1F23;
+}
+```
+
+## Bruksregler
+
+- Bruk alltid `--green` som primær accent — aldri andre grønnfarger
+- Bruk `--bg` som sidebagrunn, aldri svart (`#000000`)
+- Tekst på mørk bakgrunn: `--white` for primær, `--muted` for sekundær

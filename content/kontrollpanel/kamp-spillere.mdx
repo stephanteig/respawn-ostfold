@@ -1,0 +1,44 @@
+---
+title: Kamp & Spillere
+description: Sett spillernavn, handles og runde for aktiv kamp.
+---
+
+import { Callout } from 'nextra/components'
+
+# Kamp & Spillere
+
+Kamp-panelet sender spillerinfo til multistream- og nameplate-overlayene.
+
+## Felter
+
+| Felt | Beskrivelse | Eksempel |
+|------|-------------|---------|
+| Spiller 1 navn | Fullt visningsnavn | `ARON FOLKESTAD` |
+| Spiller 1 handle | @-handle | `@aronfolkestad` |
+| Spiller 2 navn | Fullt visningsnavn | `STIFFEL_` |
+| Spiller 2 handle | @-handle | `@stiffel_` |
+| Runde | Turneringsfase | `SEMIFINALE` |
+
+## WebSocket-melding
+
+```json
+{
+  "type": "match",
+  "data": {
+    "p1": "ARON FOLKESTAD",
+    "p1h": "@aronfolkestad",
+    "p2": "STIFFEL_",
+    "p2h": "@stiffel_",
+    "round": "SEMIFINALE"
+  }
+}
+```
+
+## Berørte overlays
+
+- `07_multistream.html` — viser spillernavn og runde i 1v1-visningen
+- `04_nameplates.html` — viser nameplates under gameplay
+
+<Callout type="info">
+  Trykk **SEND** etter at alle felter er fylt ut. Overlayene oppdateres i sanntid.
+</Callout>

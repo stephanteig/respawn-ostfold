@@ -1,0 +1,24 @@
+---
+title: 02 — Stinger
+description: Stinger-overgang for sceneskift i OBS.
+---
+
+import { Callout } from 'nextra/components'
+
+# 02 — Stinger
+
+`02_stinger.html` er stinger-overgangs-animasjonen mellom OBS-scener.
+
+## OBS-oppsett
+
+1. **Settings → Scene Transitions → +**
+2. Velg **Stinger**
+3. Sett **Video File** til stinger-filen, eller bruk Browser Source-metode
+4. **Duration:** 1000ms
+5. **Transition Point:** Time (500ms)
+6. **Audio Monitoring:** Off
+
+<Callout>
+  Stingeren er ren CSS-animasjon og trenger ikke WebSocket-tilkobling.
+  Den bruker Respawn Østfold-farger og pixel-estetikk.
+</Callout>

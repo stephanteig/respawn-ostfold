@@ -1,0 +1,45 @@
+---
+title: Intervju
+description: Sett opp intervju-scene med spillerdata og 3D Minecraft skin.
+---
+
+import { Callout } from 'nextra/components'
+
+# Intervju
+
+Intervju-panelet sender spillerdata til `08_interview.html`-overlayet som viser
+en intervju-scene med 3D Minecraft-skin via Crafatar API.
+
+## Felter
+
+| Felt | Kode | Eksempel |
+|------|------|---------|
+| Spillernavn | `player` | `STIFFEL_` |
+| Handle | `handle` | `@stiffel_` |
+| Minecraft-brukernavn | `skin` | `stiffel_` |
+| Kommentator | `comm` | `Henrik Larsen` |
+| ELO | `elo` | `1547` |
+| Tid (PB) | `time` | `7:42` |
+| Rank | `rank` | `D+` |
+
+## WebSocket-melding
+
+```json
+{
+  "type": "interview",
+  "data": {
+    "player": "STIFFEL_",
+    "handle": "@stiffel_",
+    "skin": "stiffel_",
+    "comm": "Henrik Larsen",
+    "elo": "1547",
+    "time": "7:42",
+    "rank": "D+"
+  }
+}
+```
+
+<Callout type="info">
+  `skin`-feltet er Minecraft-brukernavn brukt for å hente 3D skin-render fra
+  [Crafatar API](https://crafatar.com). Bruk det eksakte brukernavnet, ikke display-navn.
+</Callout>

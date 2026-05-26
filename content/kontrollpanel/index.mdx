@@ -1,0 +1,51 @@
+---
+title: Kontrollpanel
+description: Oversikt over Respawn Østfold stream kontrollpanel.
+---
+
+import { Callout, Cards } from 'nextra/components'
+
+# Kontrollpanel
+
+Stream kontrollpanelet er hovud-grensesnittet for produksjonsteamet under
+turneringen. Det kobler seg til WebSocket-serveren og sender sanntids-oppdateringer
+til alle tilkoblede overlays.
+
+## Tilgang
+
+| Miljø | URL |
+|-------|-----|
+| Lokal (Next.js) | `http://localhost:3000/kontrollpanel` |
+| Lokal (standalone) | `http://localhost:3001/KONTROLLPANEL.html` |
+| Produksjon | `https://stephanteig.github.io/respawn-ostfold/kontrollpanel` |
+
+## Tilkobling
+
+Øverst i sidebaren finnes et **Sesjon**-felt. Skriv inn sesjon-ID (bruk `live` på
+turneringsdagen) og klikk utenfor feltet — kontrollpanelet kobler seg automatisk
+til WebSocket-serveren.
+
+Statusindikator øverst til høyre viser:
+- `● TILKOBLET · N OVERLAYS` — tilkoblet med antall aktive overlays
+- `○ FRAKOBLET` — ikke tilkoblet
+
+<Callout type="warning">
+  Kontrollpanelet sender oppdateringer til **alle overlays i samme sesjon**.
+  Bruk en unik sesjon-ID for testing slik at du ikke forstyrrer en pågående sending.
+</Callout>
+
+## Paneler
+
+<Cards>
+  <Cards.Card title="Scenekontroll →" href="/docs/kontrollpanel/scenekontroll" />
+  <Cards.Card title="Kamp & Spillere →" href="/docs/kontrollpanel/kamp-spillere" />
+  <Cards.Card title="Bracket →" href="/docs/kontrollpanel/bracket" />
+  <Cards.Card title="Kommentator →" href="/docs/kontrollpanel/kommentator" />
+  <Cards.Card title="Intervju →" href="/docs/kontrollpanel/intervju" />
+  <Cards.Card title="Countdown →" href="/docs/kontrollpanel/countdown" />
+</Cards>
+
+## OBS-lenker
+
+Nederst i sidebaren finnes alle 8 overlay-lenker med sesjon-ID automatisk lagt til.
+Kopier og lim inn i OBS som Browser Sources.

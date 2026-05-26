@@ -1,0 +1,54 @@
+---
+title: Kom i gang
+description: Slik setter du opp Respawn Østfold stream-systemet lokalt.
+---
+
+import { Steps, Callout } from 'nextra/components'
+
+# Kom i gang
+
+<Steps>
+
+### Installer Node.js
+
+Node.js 18 eller nyere kreves. Last ned fra [nodejs.org](https://nodejs.org).
+
+### Klon repoet
+
+```bash
+git clone https://github.com/stephanteig/respawn-ostfold
+cd respawn-ostfold/Stream/respawn-overlays-v3/respawn-overlays
+```
+
+### Installer avhengigheter og start WebSocket-serveren
+
+```bash
+npm install
+node server.js
+```
+
+Serveren starter på port 3001. Du skal se dette i terminalen:
+
+```
+  RESPAWN ØSTFOLD — Overlay WebSocket Server
+
+  Port:           3001
+  Kontrollpanel:  http://localhost:3001/KONTROLLPANEL.html
+  Overlays (OBS): ws://localhost:3001?session=live&role=overlay
+```
+
+### Åpne kontrollpanelet
+
+Gå til [http://localhost:3000/kontrollpanel](http://localhost:3000/kontrollpanel) i Next.js dev-modus,
+eller `http://localhost:3001/KONTROLLPANEL.html` for standalone HTML-versjon.
+
+### Legg til i OBS
+
+Kopier URL-lenkene fra kontrollpanelets OBS-lenke-seksjon og lim dem inn som Browser Sources i OBS.
+
+</Steps>
+
+<Callout>
+  Vil du kjøre Next.js-fronten og WebSocket-serveren samtidig? Bruk `npm run dev:all` fra `respawn-ostfold/`-mappen.
+  Dette krever `concurrently` (allerede installert).
+</Callout>

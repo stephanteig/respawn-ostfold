@@ -351,11 +351,36 @@ export default function Kontrollpanel() {
             <div style={s.topbarSub}>STREAM KONTROLLPANEL</div>
           </div>
         </div>
-        <div style={s.statusPill}>
-          <div style={{ width: 8, height: 8, borderRadius: '50%', background: connected ? 'var(--green)' : '#E05050', animation: connected ? 'pulse 1.5s ease-in-out infinite' : 'none' }} />
-          <span style={{ fontSize: '10px', letterSpacing: '2px' }}>
-            {connected ? `TILKOBLET · ${clientCount} OVERLAYS` : 'FRAKOBLET'}
-          </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <a
+            href="https://stephanteig.github.io/respawn-ostfold/docs/kontrollpanel"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Åpne dokumentasjon"
+            style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              width: 26, height: 26,
+              border: '1px solid rgba(135,206,52,0.5)',
+              color: 'var(--green)',
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: '13px', fontWeight: 'bold',
+              textDecoration: 'none',
+              background: 'transparent',
+              transition: 'background 0.15s, border-color 0.15s',
+              cursor: 'pointer',
+              flexShrink: 0,
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(135,206,52,0.12)'; (e.currentTarget as HTMLElement).style.borderColor = '#87CE34'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(135,206,52,0.5)'; }}
+          >
+            ?
+          </a>
+          <div style={s.statusPill}>
+            <div style={{ width: 8, height: 8, borderRadius: '50%', background: connected ? 'var(--green)' : '#E05050', animation: connected ? 'pulse 1.5s ease-in-out infinite' : 'none' }} />
+            <span style={{ fontSize: '10px', letterSpacing: '2px' }}>
+              {connected ? `TILKOBLET · ${clientCount} OVERLAYS` : 'FRAKOBLET'}
+            </span>
+          </div>
         </div>
       </div>
 

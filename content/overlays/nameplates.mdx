@@ -1,0 +1,33 @@
+---
+title: 04 — Nameplates
+description: Spillernavn og handles under gameplay.
+---
+
+# 04 — Nameplates
+
+`04_nameplates.html` viser nameplates for begge spillere under kamp.
+Legges over gameplay capture i OBS.
+
+## URL-parametere
+
+```
+04_nameplates.html?p1=Notch&p1h=@notch&p2=Dream&p2h=@dream&round=FINALE&session=live
+```
+
+| Parameter | Beskrivelse |
+|-----------|-------------|
+| `p1` | Spiller 1 navn |
+| `p1h` | Spiller 1 handle |
+| `p2` | Spiller 2 navn |
+| `p2h` | Spiller 2 handle |
+| `round` | Runde-tekst |
+| `session` | Sesjon-ID |
+
+## OBS-oppsett
+
+- Browser Source over gameplay capture
+- 1920×1080
+
+## WebSocket-event
+
+Lytter på `ro:match` — oppdateres automatisk ved sending fra kontrollpanelet.

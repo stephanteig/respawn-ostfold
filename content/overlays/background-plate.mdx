@@ -1,0 +1,28 @@
+---
+title: 05 — Background Plate
+description: BRB og pause-screen overlay.
+---
+
+# 05 — Background Plate
+
+`05_background_plate.html` er pause/BRB-scenen. Viser en statisk eller dynamisk
+bakgrunn basert på aktiv scene.
+
+## Tilgjengelige scener
+
+| URL-param | Visning |
+|-----------|---------|
+| `?scene=brb` | STRAKS TILBAKE |
+| `?scene=break` | PAUSE |
+| `?scene=intermission` | MELLOMSPILL |
+| `?scene=setup` | KLARGJØRING |
+| `?scene=starting` | STARTER SNART |
+
+## OBS-oppsett
+
+- Browser Source — 1920×1080
+- Bruk som bakgrunn i alle pause-scener
+
+## WebSocket-event
+
+Lytter på `ro:scene` — scene byttes automatisk fra kontrollpanelet uten å endre OBS-source URL.

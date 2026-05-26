@@ -163,7 +163,7 @@ export default function SectionProfil() {
           borderTop: '3px solid rgba(135,206,52,0.3)',
         }}>
           <StaticImage
-            src="/logo-2.svg"
+            src="/logo-2.png"
             alt="Respawn Østfold horisontal logo"
             width={300}
             height={120}
@@ -188,7 +188,7 @@ export default function SectionProfil() {
           borderTop: '3px solid rgba(135,206,52,0.3)',
         }}>
           <StaticImage
-            src="/logo-1.svg"
+            src="/logo-1.png"
             alt="Respawn Østfold ikon logo"
             width={100}
             height={100}

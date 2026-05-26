@@ -1,0 +1,56 @@
+---
+title: Bracket
+description: Administrer turneringsbraketten fra kontrollpanelet.
+---
+
+import { Callout } from 'nextra/components'
+
+# Bracket
+
+Bracket-panelet lar deg redigere og sende turneringstre til `06_bracket.html`-overlayet.
+
+## Struktur
+
+Single elimination-bracket med:
+
+| Runde | Matcher |
+|-------|---------|
+| Kvartfinale (QF) | 4 matcher |
+| Semifinale (SF) | 2 matcher |
+| Finale (F) | 1 match |
+| Champion | 1 vinner |
+
+## Felter per match
+
+Hver match har fire felter:
+
+| Felt | Kode | Beskrivelse |
+|------|------|-------------|
+| Spiller 1 | `p1` | Navn |
+| Score 1 | `s1` | Ant. vunne kamper |
+| Spiller 2 | `p2` | Navn |
+| Score 2 | `s2` | Ant. vunne kamper |
+
+I tillegg kan du markere vinner (1, 2, eller ingen).
+
+## WebSocket-melding
+
+```json
+{
+  "type": "bracket",
+  "data": {
+    "qf": [
+      { "p1": "Aron", "s1": "2", "p2": "Stiffel", "s2": "1", "winner": 1 },
+      ...
+    ],
+    "sf": [ ... ],
+    "f": [ ... ],
+    "champion": "Aron"
+  }
+}
+```
+
+<Callout>
+  Bracket-tilstanden lagres på serveren. Nye overlays som kobler til mottar siste
+  bracket-data automatisk via `init`-meldingen.
+</Callout>

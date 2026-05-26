@@ -1,0 +1,37 @@
+---
+title: Scenekontroll
+description: Slik bruker du scenekontroll-panelet i kontrollpanelet.
+---
+
+import { Callout } from 'nextra/components'
+
+# Scenekontroll
+
+Scenekontroll-panelet lar deg sende scenekommandoer til `05_background_plate.html`-overlayet.
+
+## Tilgjengelige scener
+
+| Scene-ID | Label | Bruk |
+|----------|-------|------|
+| `starting` | STARTER SNART | Pre-show ventescreen |
+| `brb` | STRAKS TILBAKE | Kort pause, tilbake om øyeblikk |
+| `break` | PAUSE | Lengre pause |
+| `intermission` | MELLOMSPILL | Mellom kamper |
+| `setup` | KLARGJØRING | Teknisk oppsett eller reset |
+| _(tom)_ | NULLSTILL | Fjerner aktiv scene |
+
+## WebSocket-melding
+
+```json
+{
+  "type": "scene",
+  "data": "brb"
+}
+```
+
+`data` er scene-ID-en som streng. Tom streng (`""`) nullstiller.
+
+<Callout>
+  Background plate-overlayet (`05_background_plate.html`) lytter på `ro:scene`-eventet
+  og bytter visuell stil basert på mottatt scene-ID.
+</Callout>

@@ -1,0 +1,42 @@
+---
+title: Forutsetninger
+description: Hva du trenger for å kjøre Respawn Østfold stream-systemet.
+---
+
+import { Callout } from 'nextra/components'
+
+# Forutsetninger
+
+## Programvare
+
+| Verktøy | Versjon | Formål |
+|---------|---------|--------|
+| Node.js | 18+ | WebSocket-server og Next.js |
+| npm | 9+ | Pakkebehandler |
+| OBS Studio | 29+ | Stream-software |
+| Git | 2+ | Klon repoet |
+
+## OBS-innstillinger
+
+Browser Source-støtte krever at **OBS 29.0+** er installert.
+WebSocket-kommunikasjon bruker standard port 3001 lokalt eller `wss://` i produksjon.
+
+## Nettverk
+
+Alle overlays kommuniserer over WebSocket:
+
+- **Lokal kjøring:** `ws://localhost:3001`
+- **Produksjon (Railway):** `wss://respawnostfold-production.up.railway.app`
+
+WebSocket-URL velges automatisk basert på `location.hostname`.
+
+<Callout type="warning">
+  Brannmur på nettverket kan blokkere WebSocket-trafikk. Test alltid lokalt
+  før du tar systemet i bruk på Glemmen VGS.
+</Callout>
+
+## Maskinvare
+
+- Maskin som kjører OBS + Node.js + Twitch-encoder
+- Nettverkstilgang for overlay-kommunikasjon
+- Kamera for kommentator-scene (valgfritt)

@@ -1,0 +1,50 @@
+---
+title: Sesjons-ID
+description: Slik bruker du sesjons-ID for å isolere produksjoner.
+---
+
+# Sesjons-ID
+
+Kontrollpanelet og overlayene bruker **sesjons-ID** for å skille
+ulike produksjoner fra hverandre.
+
+## Slik fungerer det
+
+Alle meldinger fra kontrollpanelet sendes kun til overlays i
+**samme sesjon**. Dette gir deg:
+
+- **`session=live`** — turneringsdagen. Alle kobler til denne.
+- **`session=aron-test`** — Aron kan teste overlays uten å forstyrre live.
+- **`session=dev`** — lokal utvikling.
+
+## Bruk i URL
+
+Legg til `?session=<id>` i overlay-URL-en:
+
+```
+https://stephanteig.github.io/respawn-ostfold/overlays/07_multistream.html?session=live
+```
+
+Kontrollpanelet kobler til samme sesjon når du skriver inn ID-en i feltet øverst.
+
+## Flere brukere, samme sesjon
+
+Flere personer kan åpne kontrollpanelet med **samme sesjons-ID** simultant.
+Begge ser og kan sende oppdateringer til overlayene.
+
+## Sesjonstilstand
+
+Serveren lagrer siste tilstand per sesjon:
+
+```json
+{
+  "scene": "brb",
+  "match": { "p1": "Aron", ... },
+  "commentator": { "name": "Henrik", ... },
+  "interview": null,
+  "bracket": { "qf": [...], ... },
+  "countdown": null
+}
+```
+
+Nye overlays som kobler til mottar full tilstand via `init`-meldingen.

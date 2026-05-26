@@ -1,0 +1,41 @@
+---
+title: 08 — Intervju
+description: Intervju-scene med 3D Minecraft skin og spillerstatistikk.
+---
+
+import { Callout } from 'nextra/components'
+
+# 08 — Intervju
+
+`08_interview.html` er intervju-scenen med 3D Minecraft-skin, ELO, rank og personlig best-tid.
+
+## OBS-oppsett
+
+1. **Camera Source** (kommentator-cam) → venstre side, ca. x:0, y:5, w:1120, h:1068
+2. **Browser Source** (denne filen) → 1920×1080 over alt
+
+## URL-parametere
+
+```
+08_interview.html?player=Dream&handle=@dream&skin=Dream&comm=Henrik&elo=1500&time=7:42&rank=D+&session=live
+```
+
+| Parameter | Beskrivelse |
+|-----------|-------------|
+| `player` | Spillernavn (visningsnavn) |
+| `handle` | @-handle |
+| `skin` | Minecraft-brukernavn for 3D skin |
+| `comm` | Kommentator-navn |
+| `elo` | MCSR Ranked ELO |
+| `time` | Personlig best-tid |
+| `rank` | MCSR Ranked rank (D, D+, C, B, A, S) |
+| `session` | Sesjon-ID |
+
+## WebSocket-event
+
+Lytter på `ro:interview` — alle felter kan oppdateres dynamisk fra kontrollpanelet.
+
+<Callout type="info">
+  3D skin lastes via [Crafatar API](https://crafatar.com) basert på `skin`-parameteret.
+  Overlayet viser en roterende 3D-figur.
+</Callout>

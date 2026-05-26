@@ -1,0 +1,52 @@
+---
+title: Stream-overlays
+description: Alle 8 OBS-overlays for Respawn Østfold.
+---
+
+import { Callout } from 'nextra/components'
+
+# Stream-overlays
+
+Respawn Østfold har 8 overlay-filer som lastes inn i OBS som Browser Sources.
+Alle kommuniserer med kontrollpanelet via WebSocket i sanntid.
+
+| Fil | Navn | Bruk |
+|-----|------|------|
+| `01_countdown.html` | Countdown | Pre-show nedtelling |
+| `02_stinger.html` | Stinger | Scene-overgang |
+| `03_commentator_cam.html` | Kommentator-kamera | Kommentator-scene |
+| `04_nameplates.html` | Nameplates | Spillerinfo under kamp |
+| `05_background_plate.html` | Background Plate | BRB / pause-screen |
+| `06_bracket.html` | Bracket | Turneringstre |
+| `07_multistream.html` | Multistream 1v1 | Hoved-kampvisning |
+| `08_interview.html` | Intervju | Spillerintervju med 3D skin |
+
+<Callout>
+  Alle overlays henter sesjons-ID fra `?session=`-parameteret i URL-en.
+  Bruk `?session=live` på turneringsdagen.
+</Callout>
+
+## OBS-oppsett
+
+Legg til hvert overlay som **Browser Source** i OBS:
+- **Bredde:** 1920 · **Høyde:** 1080
+- **URL:** kopier fra kontrollpanelets OBS-lenke-seksjon
+- Huk av **"Refresh browser when scene becomes active"** på for scener som brukes sporadisk
+
+## WebSocket-kobling
+
+Alle overlays inkluderer `_ws_client.js` som:
+1. Kobler til WebSocket-serveren automatisk
+2. Bruker `?session=`-parameteret for sesjon-isolasjon
+3. Reconnecterer automatisk ved frakobling (2 sekunders intervall)
+4. Dispatcher Custom Events (`ro:scene`, `ro:match`, osv.) som overlayet lytter på
+
+## Tilgjengelig på GitHub Pages
+
+Overlayene er deployet til:
+
+```
+https://stephanteig.github.io/respawn-ostfold/overlays/07_multistream.html?session=live
+```
+
+Du kan bruke disse direkte i OBS uten lokal server.

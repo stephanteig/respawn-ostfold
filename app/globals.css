@@ -96,3 +96,83 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Nextra Docs: Respawn Østfold Theme ── */
+
+:root {
+  --nextra-primary-hue: 90;
+  --nextra-primary-saturation: 60%;
+  --nextra-bg: #102C31;
+}
+
+.dark {
+  --nextra-bg: #102C31;
+}
+
+html {
+  color-scheme: dark;
+}
+
+.nextra-sidebar-container {
+  background: #0A1F23 !important;
+  border-right: 1px solid rgba(135, 206, 52, 0.12) !important;
+}
+
+.nextra-sidebar-container a[aria-current="true"],
+.nextra-sidebar-container a.active {
+  color: #87CE34 !important;
+  background: rgba(135, 206, 52, 0.08) !important;
+}
+
+.nextra-sidebar-container a:hover {
+  color: #87CE34 !important;
+}
+
+nav.nextra-navbar {
+  background: #102C31 !important;
+  border-bottom: 1px solid rgba(135, 206, 52, 0.15) !important;
+}
+
+nav.nextra-navbar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: #87CE34;
+}
+
+.nextra-content h1,
+.nextra-content h2,
+.nextra-content h3 {
+  font-family: 'Share Tech Mono', monospace !important;
+  letter-spacing: 2px;
+}
+
+.nextra-content h1 { color: #FFFFFF; }
+.nextra-content h2 { color: #87CE34; }
+.nextra-content h3 { color: #7AACAE; }
+
+.nextra-content pre {
+  background: #0A1F23 !important;
+  border: 1px solid rgba(135, 206, 52, 0.2) !important;
+}
+
+.nextra-content code {
+  background: rgba(30, 72, 53, 0.6) !important;
+  color: #87CE34 !important;
+}
+
+.nextra-callout {
+  border-color: rgba(135, 206, 52, 0.3) !important;
+  background: rgba(30, 72, 53, 0.3) !important;
+}
+
+.nextra-toc a:hover {
+  color: #87CE34 !important;
+}
+
+.nextra-search input {
+  background: #1E4835 !important;
+  border-color: rgba(135, 206, 52, 0.3) !important;
+  color: #FFFFFF !important;
+}

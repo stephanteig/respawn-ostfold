@@ -1,0 +1,62 @@
+---
+title: Start serveren
+description: Slik starter og stopper du WebSocket-serveren.
+---
+
+import { Callout, Tabs } from 'nextra/components'
+
+# Start serveren
+
+## Lokal kjøring
+
+<Tabs items={['Node.js', 'npm script', 'bat/sh']}>
+  <Tabs.Tab>
+    ```bash
+    cd Stream/respawn-overlays-v3/respawn-overlays
+    node server.js
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```bash
+    cd respawn-ostfold
+    npm run dev:ws
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    **Windows:** Dobbeltklikk `START_SERVER.bat`
+
+    **Mac/Linux:** `./start_server.sh`
+  </Tabs.Tab>
+</Tabs>
+
+## Kjør alt med én kommando
+
+```bash
+npm run dev:all
+```
+
+Dette starter Next.js på port 3000 og WebSocket-serveren på port 3001 parallelt via `concurrently`.
+
+## Verifiser at serveren kjører
+
+Åpne helse-endepunktet i nettleseren:
+
+```
+http://localhost:3001/health
+```
+
+Du skal se: `Respawn Østfold WS Server OK`
+
+## Sesjoner
+
+Serveren oppretter sesjoner dynamisk ved første tilkobling.
+En sesjon inneholder:
+- `clients` — alle tilkoblede WebSocket-klienter
+- `state` — siste kjente tilstand for scene, match, bracket, osv.
+
+Tomme sesjoner ryddes automatisk når alle klienter kobler fra.
+
+<Callout>
+  Se [Multi-sesjon](/docs/multi-sesjon) for mer om sesjon-ID og
+  isolert testing av overlays.
+</Callout>

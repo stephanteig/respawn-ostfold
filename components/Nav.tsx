@@ -24,7 +24,7 @@ export default function Nav() {
       }}>
         <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
           <StaticImage
-            src="/logo-1.svg"
+            src="/logo-1.png"
             alt="Respawn Østfold logo ikon"
             width={36}
             height={36}
@@ -58,6 +58,26 @@ export default function Nav() {
               </a>
             </li>
           ))}
+          <li>
+            <a
+              href="https://stephanteig.github.io/respawn-ostfold/docs"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontFamily: "'Share Tech Mono', monospace",
+                fontSize: '10px', letterSpacing: '2px',
+                padding: '4px 12px',
+                border: '1px solid rgba(135,206,52,0.35)',
+                color: 'var(--green)',
+                textDecoration: 'none', transition: 'background .2s',
+                display: 'inline-block',
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(135,206,52,0.08)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+            >
+              DOCS
+            </a>
+          </li>
           <li>
             <Link
               href="/kontrollpanel"
@@ -126,6 +146,23 @@ export default function Nav() {
               {item}
             </a>
           ))}
+          <a
+            href="https://stephanteig.github.io/respawn-ostfold/docs"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              display: 'block',
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: '13px', letterSpacing: '3px',
+              color: 'var(--green)',
+              padding: '12px 0',
+              borderBottom: '1px solid rgba(135,206,52,0.08)',
+              textDecoration: 'none',
+            }}
+          >
+            DOCS
+          </a>
           <Link
             href="/kontrollpanel"
             onClick={() => setMenuOpen(false)}

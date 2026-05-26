@@ -1,0 +1,31 @@
+---
+title: 01 — Countdown
+description: Pre-show nedtellings-overlay.
+---
+
+# 01 — Countdown
+
+`01_countdown.html` er ventescreen-overlayet som vises før turneringen starter.
+
+## OBS-oppsett
+
+- Browser Source — 1920×1080
+- Bruk som "Starting Soon"-scene
+
+## Standard nedtelling
+
+Standard er 30 minutter (`const TOTAL_SECONDS = 30 * 60`).
+Endre direkte i filen for å justere, eller bruk WebSocket-kommando fra kontrollpanelet.
+
+## WebSocket-event
+
+Lytter på `ro:countdown`:
+
+```json
+{
+  "action": "start",
+  "totalSeconds": 1800
+}
+```
+
+`action` kan være `start`, `stop`, eller `reset`.

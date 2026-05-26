@@ -1,0 +1,59 @@
+---
+title: GitHub Pages
+description: Automatisk deploy av Next.js-siden til GitHub Pages via GitHub Actions.
+---
+
+import { Callout } from 'nextra/components'
+
+# GitHub Pages
+
+Next.js-nettsiden, Nextra-dokumentasjonen og alle overlays er deployet til GitHub Pages
+via GitHub Actions.
+
+## Workflow
+
+Deployment skjer automatisk ved push til `main`:
+
+```yaml
+# .github/workflows/deploy.yml
+# Kjøres automatisk ved push til main
+```
+
+Workflow:
+1. Bygger `npm run build` → genererer `out/`
+2. Laster opp `out/` som GitHub Pages artefakt
+3. Deployer til `stephanteig.github.io/respawn-ostfold/`
+
+## Konfigurasjon
+
+`next.config.ts` setter `basePath` og `assetPrefix` basert på miljø:
+
+```ts
+const isProd = process.env.NODE_ENV === 'production'
+
+basePath: isProd ? '/respawn-ostfold' : '',
+assetPrefix: isProd ? '/respawn-ostfold/' : '',
+```
+
+<Callout type="warning">
+  `basePath` **må** matche repo-navnet eksakt (med bindestrek: `respawn-ostfold`).
+  Sjekk med `git remote -v` hvis du er usikker.
+</Callout>
+
+## Statiske bilder
+
+`next/image` med `unoptimized: true` og `output: 'export'` prepender ikke
+`basePath` automatisk til bilde-src-attributter.
+
+Løsningen: `StaticImage`-wrapperkomponenten i `components/StaticImage.tsx`
+prepender `NEXT_PUBLIC_BASE_PATH` env-variabelen manuelt.
+
+## Tilgjengelige URLs etter deploy
+
+| Path | Innhold |
+|------|---------|
+| `/respawn-ostfold/` | Hjemmeside |
+| `/respawn-ostfold/kontrollpanel` | Stream kontrollpanel |
+| `/respawn-ostfold/docs` | Denne dokumentasjonen |
+| `/respawn-ostfold/overlays/*.html` | OBS-overlays |
+| `/respawn-ostfold/downloads/` | Nedlastbare filer |

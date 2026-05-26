@@ -1,0 +1,25 @@
+---
+title: Deploy & Hosting
+description: GitHub Pages for nettsiden og Railway for WebSocket-serveren.
+---
+
+import { Cards, Callout } from 'nextra/components'
+
+# Deploy & Hosting
+
+Respawn Østfold bruker to hosting-løsninger:
+
+| Komponent | Platform | URL |
+|-----------|----------|-----|
+| Nettside + Docs + Overlays | GitHub Pages | `stephanteig.github.io/respawn-ostfold/` |
+| WebSocket-server | Railway | `respawnostfold-production.up.railway.app` |
+
+<Callout type="info">
+  All deploy til GitHub Pages skjer automatisk via GitHub Actions
+  når du pusher til `main`-branchen.
+</Callout>
+
+<Cards>
+  <Cards.Card title="GitHub Pages →" href="/docs/deploy/github-pages" />
+  <Cards.Card title="Railway WebSocket →" href="/docs/deploy/railway" />
+</Cards>

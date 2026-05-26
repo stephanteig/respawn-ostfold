@@ -1,0 +1,30 @@
+---
+title: Multi-sesjon
+description: Isoler produksjoner og testmiljøer med sesjons-ID.
+---
+
+import { Callout, Cards } from 'nextra/components'
+
+# Multi-sesjon
+
+WebSocket-serveren støtter uavhengige sesjoner. Kontrollpanelet og overlays
+kobler seg til samme sesjon via sesjons-ID — meldinger sendes kun innen sesjonens grenser.
+
+## Typiske sesjoner
+
+| Sesjon-ID | Bruk |
+|-----------|------|
+| `live` | Turneringsdagen — alle kobler hit |
+| `test` | Generell testing |
+| `aron-test` | Aron tester overlays isolert |
+| `dev` | Lokal utvikling |
+
+<Callout type="info">
+  Sesjoner opprettes automatisk første gang en klient kobler til.
+  Tomme sesjoner slettes automatisk.
+</Callout>
+
+<Cards>
+  <Cards.Card title="Sesjons-ID →" href="/docs/multi-sesjon/sesjon-id" />
+  <Cards.Card title="OBS-lenker →" href="/docs/multi-sesjon/obs-lenker" />
+</Cards>

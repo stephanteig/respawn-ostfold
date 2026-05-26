@@ -1,0 +1,46 @@
+---
+title: 07 — Multistream 1v1
+description: Hoved-kampvisning med to spillere side ved side.
+---
+
+import { Callout } from 'nextra/components'
+
+# 07 — Multistream 1v1
+
+`07_multistream.html` er hoved-overlayet for live 1v1-kamper.
+Det viser spillernavn, handles og runde øverst, og legges over to gameplay captures i OBS.
+
+## OBS-layout
+
+```
+┌────────────────┬────────────────┐
+│  Game Capture  │  Game Capture  │
+│   Player 1     │   Player 2     │
+│  x:0, y:0     │  x:990, y:0   │
+│  w:930, h:960  │  w:930, h:960  │
+└────────────────┴────────────────┘
+     Browser Source (overlay) 1920×1080 over alt
+```
+
+1. Legg til **Game Capture Player 1** → x:0, y:0, w:930, h:960
+2. Legg til **Game Capture Player 2** → x:990, y:0, w:930, h:960
+3. Legg til **Browser Source** (denne filen) → 1920×1080 over alt
+
+## URL-parametere
+
+```
+07_multistream.html?p1=Aron&p1h=@aron&p2=Stiffel&p2h=@stiffel&round=SEMIFINALE&session=live
+```
+
+| Parameter | Beskrivelse |
+|-----------|-------------|
+| `p1` | Spiller 1 navn |
+| `p1h` | Spiller 1 handle |
+| `p2` | Spiller 2 navn |
+| `p2h` | Spiller 2 handle |
+| `round` | Runde-tekst |
+| `session` | Sesjon-ID for WebSocket |
+
+## WebSocket-event
+
+Overlayet lytter på `ro:match`-eventet og oppdaterer spillernavn og runde dynamisk.
