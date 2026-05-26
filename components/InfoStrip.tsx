@@ -13,7 +13,7 @@ export default function InfoStrip() {
         borderTop: '1px solid rgba(135,206,52,0.12)',
         borderBottom: '1px solid rgba(135,206,52,0.12)',
         background: 'rgba(30,72,53,0.25)',
-        padding: '20px 48px',
+        padding: '28px 48px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -44,7 +44,7 @@ export default function InfoStrip() {
               <div style={{
                 width: '1px',
                 height: '32px',
-                background: 'rgba(135,206,52,0.2)',
+                background: 'rgba(135,206,52,0.25)',
                 flexShrink: 0,
               }} className="info-sep" />
             )}

@@ -50,8 +50,8 @@ export default function SectionOm() {
     <section id="om" style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 48px' }}>
       <p style={{
         fontFamily: "'Share Tech Mono', monospace",
-        fontSize: '9px',
-        letterSpacing: '4px',
+        fontSize: '10px',
+        letterSpacing: '5px',
         color: 'var(--green)',
         marginBottom: '12px',
       }}>
@@ -76,8 +76,9 @@ export default function SectionOm() {
         {cards.map((card) => (
           <div key={card.title} style={{
             background: 'var(--forest)',
-            padding: '32px 28px',
+            padding: '36px 32px',
             borderTop: `3px solid ${card.accent}`,
+            boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
           }}>
             <h3 style={{
               fontFamily: "'Share Tech Mono', monospace",
@@ -88,7 +89,7 @@ export default function SectionOm() {
             }}>
               {card.title}
             </h3>
-            <p style={{ fontSize: '15px', color: 'var(--muted)', lineHeight: 1.65, fontWeight: 600 }}>
+            <p style={{ fontSize: '15px', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 600, maxWidth: '65ch' }}>
               {card.body}
             </p>
           </div>

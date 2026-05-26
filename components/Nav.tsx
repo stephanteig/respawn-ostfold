@@ -14,7 +14,7 @@ export default function Nav() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '16px 48px',
+        padding: '20px 48px',
         borderBottom: '1px solid rgba(135,206,52,0.15)',
         position: 'sticky',
         top: 0,
@@ -26,24 +26,24 @@ export default function Nav() {
           <StaticImage
             src="/logo-1.png"
             alt="Respawn Østfold logo ikon"
-            width={36}
-            height={36}
-            style={{ imageRendering: 'pixelated', width: 36, height: 36 }}
+            width={40}
+            height={40}
+            style={{ imageRendering: 'pixelated', width: 40, height: 40 }}
           />
           <div style={{ fontFamily: "'Share Tech Mono', monospace", lineHeight: 1.2 }}>
-            <div style={{ color: 'var(--white)', letterSpacing: '3px', fontSize: '14px' }}>RESPAWN</div>
-            <div style={{ color: 'var(--green)', letterSpacing: '4px', fontSize: '10px' }}>ØSTFOLD</div>
+            <div style={{ color: 'var(--white)', letterSpacing: '3px', fontSize: '15px' }}>RESPAWN</div>
+            <div style={{ color: 'var(--green)', letterSpacing: '5px', fontSize: '11px' }}>ØSTFOLD</div>
           </div>
         </a>
 
         {/* Desktop nav */}
         <ul style={{
           display: 'flex',
-          gap: '32px',
+          gap: '36px',
           listStyle: 'none',
           fontFamily: "'Share Tech Mono', monospace",
-          fontSize: '11px',
-          letterSpacing: '2px',
+          fontSize: '12px',
+          letterSpacing: '3px',
           alignItems: 'center',
         }} className="nav-links-desktop">
           {['OM', 'ROLLER', 'PROFIL', 'RESSURSER'].map((item) => (
@@ -65,15 +65,15 @@ export default function Nav() {
               rel="noopener noreferrer"
               style={{
                 fontFamily: "'Share Tech Mono', monospace",
-                fontSize: '10px', letterSpacing: '2px',
-                padding: '4px 12px',
-                border: '1px solid rgba(135,206,52,0.35)',
+                fontSize: '11px', letterSpacing: '2px',
+                padding: '6px 14px',
+                border: '1px solid rgba(135,206,52,0.45)',
                 color: 'var(--green)',
-                textDecoration: 'none', transition: 'background .2s',
+                textDecoration: 'none', transition: 'background .2s, border-color .2s',
                 display: 'inline-block',
               }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(135,206,52,0.08)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(135,206,52,0.10)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(135,206,52,0.7)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(135,206,52,0.45)'; }}
             >
               DOCS
             </a>
@@ -83,15 +83,16 @@ export default function Nav() {
               href="/kontrollpanel"
               style={{
                 fontFamily: "'Share Tech Mono', monospace",
-                fontSize: '10px', letterSpacing: '2px',
-                padding: '5px 12px',
-                border: '1px solid rgba(135,206,52,0.5)',
+                fontSize: '11px', letterSpacing: '2px',
+                padding: '6px 14px',
+                background: 'rgba(135,206,52,0.08)',
+                border: '1px solid rgba(135,206,52,0.6)',
                 color: 'var(--green)',
-                textDecoration: 'none', transition: 'background .2s',
+                textDecoration: 'none', transition: 'background .2s, border-color .2s',
                 display: 'inline-block',
               }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(135,206,52,0.12)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(135,206,52,0.18)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(135,206,52,0.9)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(135,206,52,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(135,206,52,0.6)'; }}
             >
               KONTROLLPANEL
             </Link>
@@ -185,9 +186,9 @@ export default function Nav() {
           .nav-links-desktop { display: none !important; }
           .nav-hamburger { display: block !important; }
         }
-        nav { padding: 16px 48px; }
+        nav { padding: 20px 48px; }
         @media (max-width: 768px) {
-          nav { padding: 14px 24px !important; }
+          nav { padding: 16px 24px !important; }
         }
       `}</style>
     </>

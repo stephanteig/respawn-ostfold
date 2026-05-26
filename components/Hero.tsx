@@ -51,10 +51,10 @@ export default function Hero() {
       {/* Corner brackets */}
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
         {[
-          { top: 24, left: 24, borderWidth: '2px 0 0 2px' },
-          { top: 24, right: 24, borderWidth: '2px 2px 0 0' },
-          { bottom: 24, left: 24, borderWidth: '0 0 2px 2px' },
-          { bottom: 24, right: 24, borderWidth: '0 2px 2px 0' },
+          { top: 24, left: 24, borderWidth: '3px 0 0 3px' },
+          { top: 24, right: 24, borderWidth: '3px 3px 0 0' },
+          { bottom: 24, left: 24, borderWidth: '0 0 3px 3px' },
+          { bottom: 24, right: 24, borderWidth: '0 3px 3px 0' },
         ].map((pos, i) => (
           <div key={i} style={{
             position: 'absolute',
@@ -129,10 +129,10 @@ export default function Hero() {
         </div>
 
         <p style={{
-          fontSize: 'clamp(15px, 2.5vw, 19px)',
+          fontSize: 'clamp(16px, 2.5vw, 20px)',
           color: 'var(--muted)',
           maxWidth: '580px',
-          lineHeight: 1.65,
+          lineHeight: 1.7,
           fontWeight: 600,
           animation: 'fadeUp .6s .35s ease both',
         }}>
@@ -141,10 +141,10 @@ export default function Hero() {
 
         <div style={{
           display: 'flex',
-          gap: '10px',
+          gap: '16px',
           flexWrap: 'wrap',
           justifyContent: 'center',
-          marginTop: '28px',
+          marginTop: '32px',
           animation: 'fadeUp .6s .4s ease both',
         }}>
           {badges.map((badge) => (
@@ -152,8 +152,8 @@ export default function Hero() {
               fontFamily: "'Share Tech Mono', monospace",
               fontSize: '10px',
               letterSpacing: '2px',
-              padding: '6px 14px',
-              border: '1px solid rgba(135,206,52,0.35)',
+              padding: '7px 18px',
+              border: '1px solid rgba(135,206,52,0.45)',
               color: 'var(--muted)',
               background: 'rgba(30,72,53,0.4)',
             }}>
@@ -174,20 +174,21 @@ export default function Hero() {
             href="#roller"
             style={{
               fontFamily: "'Share Tech Mono', monospace",
-              fontSize: '12px',
-              letterSpacing: '3px',
-              padding: '14px 32px',
+              fontSize: '13px',
+              letterSpacing: '4px',
+              padding: '16px 40px',
               background: 'var(--green)',
               color: 'var(--dark)',
               border: 'none',
               cursor: 'pointer',
               textDecoration: 'none',
               fontWeight: 700,
-              transition: 'background .2s, transform .15s',
+              transition: 'background .2s, transform .15s, box-shadow .15s',
               display: 'inline-block',
+              boxShadow: '0 4px 20px rgba(135,206,52,0.25)',
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'var(--green-d)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'var(--green)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--green-d)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(135,206,52,0.35)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'var(--green)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(135,206,52,0.25)'; }}
           >
             BLI MED PÅ LAGET
           </a>
@@ -197,17 +198,17 @@ export default function Hero() {
               fontFamily: "'Share Tech Mono', monospace",
               fontSize: '12px',
               letterSpacing: '3px',
-              padding: '13px 32px',
+              padding: '14px 28px',
               background: 'transparent',
               color: 'var(--green)',
-              border: '1px solid var(--green)',
+              border: '1px solid rgba(135,206,52,0.6)',
               cursor: 'pointer',
               textDecoration: 'none',
-              transition: 'background .2s, transform .15s',
+              transition: 'background .2s, transform .15s, border-color .2s',
               display: 'inline-block',
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(135,206,52,0.08)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(135,206,52,0.08)'; e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.borderColor = 'rgba(135,206,52,0.9)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(135,206,52,0.6)'; }}
           >
             LES MER
           </a>

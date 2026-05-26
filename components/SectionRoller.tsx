@@ -37,9 +37,9 @@ function RoleCard({ role }: { role: typeof roles[0] }) {
     <div
       style={{
         background: hovered ? 'rgba(30,72,53,0.9)' : 'var(--forest)',
-        padding: '28px 22px',
-        borderLeft: `3px solid ${role.color}`,
-        transition: 'background .2s',
+        padding: '32px 28px',
+        borderLeft: `${hovered ? '4px' : '3px'} solid ${role.color}`,
+        transition: 'background .2s, border-left-width .15s',
         cursor: 'default',
       }}
       onMouseEnter={() => setHovered(true)}
@@ -54,7 +54,7 @@ function RoleCard({ role }: { role: typeof roles[0] }) {
       }}>
         {role.title}
       </div>
-      <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6, fontWeight: 600 }}>
+      <div style={{ fontSize: '14px', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 600 }}>
         {role.desc}
       </div>
     </div>
@@ -66,8 +66,8 @@ export default function SectionRoller() {
     <section id="roller" style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 48px' }}>
       <p style={{
         fontFamily: "'Share Tech Mono', monospace",
-        fontSize: '9px',
-        letterSpacing: '4px',
+        fontSize: '10px',
+        letterSpacing: '5px',
         color: 'var(--green)',
         marginBottom: '12px',
       }}>
@@ -85,7 +85,7 @@ export default function SectionRoller() {
 
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
         gap: '2px',
         marginBottom: '40px',
       }}>

@@ -35,8 +35,8 @@ export default function SectionProfil() {
     <section id="profil" style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 48px' }}>
       <p style={{
         fontFamily: "'Share Tech Mono', monospace",
-        fontSize: '9px',
-        letterSpacing: '4px',
+        fontSize: '10px',
+        letterSpacing: '5px',
         color: 'var(--green)',
         marginBottom: '12px',
       }}>
@@ -58,8 +58,8 @@ export default function SectionProfil() {
       {/* Color palette */}
       <p style={{
         fontFamily: "'Share Tech Mono', monospace",
-        fontSize: '9px',
-        letterSpacing: '4px',
+        fontSize: '10px',
+        letterSpacing: '5px',
         color: 'var(--green)',
         marginBottom: '20px',
       }}>
@@ -74,8 +74,8 @@ export default function SectionProfil() {
         {swatches.map((s) => (
           <div key={s.hex} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
             <div style={{
-              width: '72px',
-              height: '72px',
+              width: '80px',
+              height: '80px',
               background: s.bg,
               border: '1px solid rgba(255,255,255,0.08)',
             }} />
@@ -103,8 +103,8 @@ export default function SectionProfil() {
       {/* Fonts */}
       <p style={{
         fontFamily: "'Share Tech Mono', monospace",
-        fontSize: '9px',
-        letterSpacing: '4px',
+        fontSize: '10px',
+        letterSpacing: '5px',
         color: 'var(--green)',
         marginBottom: '20px',
       }}>
@@ -131,7 +131,7 @@ export default function SectionProfil() {
             }}>
               {f.title}
             </h3>
-            <p style={{ fontSize: '15px', color: 'var(--muted)', lineHeight: 1.65, fontWeight: 600 }}>
+            <p style={{ fontSize: '15px', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 600, maxWidth: '65ch' }}>
               {f.body}
             </p>
           </div>
@@ -141,8 +141,8 @@ export default function SectionProfil() {
       {/* Logos */}
       <p style={{
         fontFamily: "'Share Tech Mono', monospace",
-        fontSize: '9px',
-        letterSpacing: '4px',
+        fontSize: '10px',
+        letterSpacing: '5px',
         color: 'var(--green)',
         marginBottom: '20px',
       }}>
@@ -154,13 +154,15 @@ export default function SectionProfil() {
         gap: '2px',
       }}>
         <div style={{
-          background: 'var(--forest)',
+          background: '#0A1F23',
           padding: '40px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: '16px',
           borderTop: '3px solid rgba(135,206,52,0.3)',
+          border: '1px solid rgba(135,206,52,0.15)',
+          borderTopWidth: '3px',
         }}>
           <StaticImage
             src="/logo-2.png"
@@ -179,13 +181,15 @@ export default function SectionProfil() {
           </span>
         </div>
         <div style={{
-          background: 'var(--forest)',
+          background: '#0A1F23',
           padding: '40px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: '16px',
           borderTop: '3px solid rgba(135,206,52,0.3)',
+          border: '1px solid rgba(135,206,52,0.15)',
+          borderTopWidth: '3px',
         }}>
           <StaticImage
             src="/logo-1.png"

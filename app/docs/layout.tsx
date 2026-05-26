@@ -20,13 +20,13 @@ export default async function DocsLayout({ children }: { children: React.ReactNo
           <img
             src={`${BASE}/logo-1.png`}
             alt="Respawn Østfold logo"
-            width={28}
-            height={28}
-            style={{ imageRendering: 'pixelated', width: 28, height: 28 }}
+            width={32}
+            height={32}
+            style={{ imageRendering: 'pixelated', width: 32, height: 32 }}
           />
           <span style={{
             fontFamily: 'Share Tech Mono, monospace',
-            fontSize: '13px',
+            fontSize: '14px',
             letterSpacing: '2px',
             color: '#FFFFFF',
           }}>
@@ -57,6 +57,7 @@ export default async function DocsLayout({ children }: { children: React.ReactNo
       }
       sidebar={{ defaultMenuCollapseLevel: 1 }}
       editLink="Rediger denne siden på GitHub"
+      nextThemes={{ forcedTheme: 'dark' }}
     >
       {children}
     </Layout>

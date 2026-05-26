@@ -85,9 +85,11 @@ function ResourceCard({ r }: { r: typeof resources[0] }) {
         flexDirection: 'column',
         gap: '8px',
         borderBottom: `2px solid ${hovered ? 'var(--green)' : 'transparent'}`,
-        transition: 'border-color .2s',
+        transition: 'border-color .2s, transform .2s, box-shadow .2s',
         textDecoration: 'none',
         cursor: 'pointer',
+        transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
+        boxShadow: hovered ? '0 8px 24px rgba(0,0,0,0.35)' : '0 2px 8px rgba(0,0,0,0.15)',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -95,7 +97,7 @@ function ResourceCard({ r }: { r: typeof resources[0] }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <span style={{
           fontFamily: "'Share Tech Mono', monospace",
-          fontSize: '9px',
+          fontSize: '11px',
           letterSpacing: '3px',
           color: 'var(--portal)',
         }}>
@@ -119,9 +121,19 @@ function ResourceCard({ r }: { r: typeof resources[0] }) {
       }}>
         {r.name}
       </span>
-      <span style={{ fontSize: '13px', color: 'var(--muted)', fontWeight: 600, lineHeight: 1.55 }}>
+      <span style={{ fontSize: '13px', color: 'var(--muted)', fontWeight: 600, lineHeight: 1.7, maxWidth: '65ch' }}>
         {r.desc}
       </span>
+      <div style={{ marginTop: 'auto', paddingTop: '12px', display: 'flex', justifyContent: 'flex-end' }}>
+        <span style={{
+          fontFamily: "'Share Tech Mono', monospace",
+          fontSize: '16px',
+          color: hovered ? 'var(--green)' : 'rgba(135,206,52,0.3)',
+          transition: 'color .2s',
+        }}>
+          {r.external ? '↗' : '↓'}
+        </span>
+      </div>
     </a>
   );
 }
@@ -131,8 +143,8 @@ export default function SectionRessurser() {
     <section id="ressurser" style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 48px' }}>
       <p style={{
         fontFamily: "'Share Tech Mono', monospace",
-        fontSize: '9px',
-        letterSpacing: '4px',
+        fontSize: '10px',
+        letterSpacing: '5px',
         color: 'var(--green)',
         marginBottom: '12px',
       }}>

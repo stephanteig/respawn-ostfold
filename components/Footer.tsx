@@ -3,12 +3,12 @@ export default function Footer() {
   return (
     <>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 48px' }}>
-        <hr style={{ border: 'none', borderTop: '1px solid rgba(135,206,52,0.12)' }} />
+        <hr style={{ border: 'none', borderTop: '2px solid rgba(135,206,52,0.15)' }} />
       </div>
       <footer style={{
         maxWidth: '1100px',
         margin: '0 auto',
-        padding: '32px 48px',
+        padding: '48px 48px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',

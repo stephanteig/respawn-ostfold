@@ -19,16 +19,16 @@ export default function Home() {
       {/* Corner brackets (fixed, full viewport) */}
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 998 }}>
         {[
-          { top: 16, left: 16, borderWidth: '2px 0 0 2px' },
-          { top: 16, right: 16, borderWidth: '2px 2px 0 0' },
-          { bottom: 16, left: 16, borderWidth: '0 0 2px 2px' },
-          { bottom: 16, right: 16, borderWidth: '0 2px 2px 0' },
+          { top: 16, left: 16, borderWidth: '3px 0 0 3px' },
+          { top: 16, right: 16, borderWidth: '3px 3px 0 0' },
+          { bottom: 16, left: 16, borderWidth: '0 0 3px 3px' },
+          { bottom: 16, right: 16, borderWidth: '0 3px 3px 0' },
         ].map((pos, i) => (
           <div key={i} style={{
             position: 'absolute',
             ...pos,
-            width: 28,
-            height: 28,
+            width: 32,
+            height: 32,
             borderColor: 'var(--green)',
             borderStyle: 'solid',
           }} />
