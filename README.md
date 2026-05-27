@@ -2,7 +2,7 @@
 
 Hjemmeside for Respawn Østfold — Østfolds første MCSR Ranked Minecraft speedrun cash prize-turnering.
 
-**Live:** https://stephanteig.github.io/respawnostfold
+**Live:** https://stephanteig.github.io/respawn-ostfold
 
 ## Utvikling
 
