@@ -2,10 +2,23 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import StaticImage from './StaticImage';
+
+const links = [
+  { label: 'HJEM', href: '/' },
+  { label: 'OM', href: '/om' },
+  { label: 'SPILLERE', href: '/spillere' },
+  { label: 'PÅMELDING', href: '/pamelding' },
+  { label: 'STREAM', href: '/stream' },
+];
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   return (
     <>
@@ -22,7 +35,7 @@ export default function Nav() {
         backdropFilter: 'blur(8px)',
         zIndex: 100,
       }}>
-        <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
           <StaticImage
             src="/logo-1.png"
             alt="Respawn Østfold logo ikon"
@@ -34,7 +47,7 @@ export default function Nav() {
             <div style={{ color: 'var(--white)', letterSpacing: '3px', fontSize: '15px' }}>RESPAWN</div>
             <div style={{ color: 'var(--green)', letterSpacing: '5px', fontSize: '11px' }}>ØSTFOLD</div>
           </div>
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <ul style={{
@@ -46,57 +59,28 @@ export default function Nav() {
           letterSpacing: '3px',
           alignItems: 'center',
         }} className="nav-links-desktop">
-          {['OM', 'ROLLER', 'PROFIL', 'RESSURSER'].map((item) => (
-            <li key={item}>
-              <a
-                href={`#${item.toLowerCase()}`}
-                style={{ color: 'var(--muted)', textDecoration: 'none', transition: 'color .2s', cursor: 'pointer' }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--green)')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}
-              >
-                {item}
-              </a>
-            </li>
-          ))}
-          <li>
-            <a
-              href="https://stephanteig.github.io/respawn-ostfold/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                fontFamily: "'Share Tech Mono', monospace",
-                fontSize: '11px', letterSpacing: '2px',
-                padding: '6px 14px',
-                border: '1px solid rgba(135,206,52,0.45)',
-                color: 'var(--green)',
-                textDecoration: 'none', transition: 'background .2s, border-color .2s',
-                display: 'inline-block',
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(135,206,52,0.10)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(135,206,52,0.7)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(135,206,52,0.45)'; }}
-            >
-              DOCS
-            </a>
-          </li>
-          <li>
-            <Link
-              href="/kontrollpanel"
-              style={{
-                fontFamily: "'Share Tech Mono', monospace",
-                fontSize: '11px', letterSpacing: '2px',
-                padding: '6px 14px',
-                background: 'rgba(135,206,52,0.08)',
-                border: '1px solid rgba(135,206,52,0.6)',
-                color: 'var(--green)',
-                textDecoration: 'none', transition: 'background .2s, border-color .2s',
-                display: 'inline-block',
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(135,206,52,0.18)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(135,206,52,0.9)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(135,206,52,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(135,206,52,0.6)'; }}
-            >
-              KONTROLLPANEL
-            </Link>
-          </li>
+          {links.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  style={{
+                    color: active ? 'var(--green)' : 'var(--muted)',
+                    textDecoration: 'none',
+                    transition: 'color .2s',
+                    cursor: 'pointer',
+                    borderBottom: active ? '2px solid var(--green)' : '2px solid transparent',
+                    paddingBottom: '4px',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.color = 'var(--green)')}
+                  onMouseLeave={e => (e.currentTarget.style.color = active ? 'var(--green)' : 'var(--muted)')}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         {/* Mobile hamburger */}
@@ -127,57 +111,31 @@ export default function Nav() {
           borderBottom: '1px solid rgba(135,206,52,0.2)',
           padding: '16px 24px',
           zIndex: 99,
+          position: 'sticky',
+          top: '0',
         }}>
-          {['OM', 'ROLLER', 'PROFIL', 'RESSURSER'].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                display: 'block',
-                fontFamily: "'Share Tech Mono', monospace",
-                fontSize: '13px',
-                letterSpacing: '3px',
-                color: 'var(--muted)',
-                padding: '12px 0',
-                borderBottom: '1px solid rgba(135,206,52,0.08)',
-                textDecoration: 'none',
-              }}
-            >
-              {item}
-            </a>
-          ))}
-          <a
-            href="https://stephanteig.github.io/respawn-ostfold/docs"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setMenuOpen(false)}
-            style={{
-              display: 'block',
-              fontFamily: "'Share Tech Mono', monospace",
-              fontSize: '13px', letterSpacing: '3px',
-              color: 'var(--green)',
-              padding: '12px 0',
-              borderBottom: '1px solid rgba(135,206,52,0.08)',
-              textDecoration: 'none',
-            }}
-          >
-            DOCS
-          </a>
-          <Link
-            href="/kontrollpanel"
-            onClick={() => setMenuOpen(false)}
-            style={{
-              display: 'block',
-              fontFamily: "'Share Tech Mono', monospace",
-              fontSize: '13px', letterSpacing: '3px',
-              color: 'var(--green)',
-              padding: '12px 0',
-              textDecoration: 'none',
-            }}
-          >
-            KONTROLLPANEL
-          </Link>
+          {links.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: 'block',
+                  fontFamily: "'Share Tech Mono', monospace",
+                  fontSize: '13px',
+                  letterSpacing: '3px',
+                  color: active ? 'var(--green)' : 'var(--muted)',
+                  padding: '12px 0',
+                  borderBottom: '1px solid rgba(135,206,52,0.08)',
+                  textDecoration: 'none',
+                }}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
       )}
 
