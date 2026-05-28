@@ -43,9 +43,9 @@ export default function Nav() {
             height={40}
             style={{ imageRendering: 'pixelated', width: 40, height: 40 }}
           />
-          <div style={{ fontFamily: "'Share Tech Mono', monospace", lineHeight: 1.2 }}>
-            <div style={{ color: 'var(--white)', letterSpacing: '3px', fontSize: '15px' }}>RESPAWN</div>
-            <div style={{ color: 'var(--green)', letterSpacing: '5px', fontSize: '11px' }}>ØSTFOLD</div>
+          <div style={{ fontFamily: "'Share Tech Mono', monospace", lineHeight: 1.4 }}>
+            <div style={{ fontFamily: "'Press Start 2P', 'Share Tech Mono', monospace", color: 'var(--white)', letterSpacing: '1px', fontSize: '11px' }}>RESPAWN</div>
+            <div style={{ color: 'var(--green)', letterSpacing: '5px', fontSize: '11px', marginTop: '4px' }}>ØSTFOLD</div>
           </div>
         </Link>
 

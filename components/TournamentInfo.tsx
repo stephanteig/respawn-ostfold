@@ -20,11 +20,12 @@ export default function TournamentInfo() {
   return (
     <section style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 48px' }}>
       <p style={{
-        fontFamily: "'Share Tech Mono', monospace",
-        fontSize: '10px',
-        letterSpacing: '5px',
+        fontFamily: "'Press Start 2P', 'Share Tech Mono', monospace",
+        fontSize: '8px',
+        letterSpacing: '2px',
+        lineHeight: 1.6,
         color: 'var(--green)',
-        marginBottom: '12px',
+        marginBottom: '14px',
       }}>
         01 / TURNERINGEN
       </p>

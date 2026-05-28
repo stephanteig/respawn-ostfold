@@ -55,11 +55,11 @@ export default function HeroHome() {
         </div>
 
         <h1 style={{
-          fontFamily: "'Share Tech Mono', monospace",
-          fontSize: 'clamp(40px, 8vw, 84px)',
-          letterSpacing: '8px',
+          fontFamily: "'Press Start 2P', 'Share Tech Mono', monospace",
+          fontSize: 'clamp(28px, 6vw, 60px)',
+          letterSpacing: '4px',
           color: 'var(--white)',
-          lineHeight: 1,
+          lineHeight: 1.1,
           animation: 'fadeUp .6s .2s ease both',
         }}>
           RESPAWN
@@ -121,10 +121,10 @@ export default function HeroHome() {
           <Link
             href="/pamelding"
             style={{
-              fontFamily: "'Share Tech Mono', monospace",
-              fontSize: '13px',
-              letterSpacing: '4px',
-              padding: '16px 40px',
+              fontFamily: "'Press Start 2P', 'Share Tech Mono', monospace",
+              fontSize: '11px',
+              letterSpacing: '2px',
+              padding: '18px 36px',
               background: 'var(--green)',
               color: 'var(--dark)',
               textDecoration: 'none',
@@ -141,10 +141,10 @@ export default function HeroHome() {
           <Link
             href="/stream"
             style={{
-              fontFamily: "'Share Tech Mono', monospace",
-              fontSize: '12px',
-              letterSpacing: '3px',
-              padding: '14px 28px',
+              fontFamily: "'Press Start 2P', 'Share Tech Mono', monospace",
+              fontSize: '11px',
+              letterSpacing: '2px',
+              padding: '16px 28px',
               background: 'transparent',
               color: 'var(--green)',
               border: '1px solid rgba(135,206,52,0.6)',

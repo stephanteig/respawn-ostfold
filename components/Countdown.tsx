@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-// Turneringsstart: 11. juni 2025 kl 12:00 (norsk tid, UTC+2 i juni)
-const TARGET = new Date('2025-06-11T12:00:00+02:00').getTime();
+// Turneringsstart: 11. juni 2026 kl 12:00 (norsk tid, UTC+2 i juni)
+const TARGET = new Date('2026-06-11T12:00:00+02:00').getTime();
 
 type Remaining = { days: number; hours: number; minutes: number; seconds: number };
 
@@ -22,12 +22,12 @@ function Unit({ value, label }: { value: number; label: string }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
       <div style={{
-        fontFamily: "'Share Tech Mono', monospace",
-        fontSize: 'clamp(28px, 7vw, 52px)',
+        fontFamily: "'Press Start 2P', 'Share Tech Mono', monospace",
+        fontSize: 'clamp(20px, 5vw, 38px)',
         color: 'var(--green)',
         background: 'rgba(30,72,53,0.5)',
         border: '1px solid rgba(135,206,52,0.25)',
-        padding: '14px 20px',
+        padding: '18px 18px',
         minWidth: 'clamp(64px, 16vw, 96px)',
         textAlign: 'center',
         lineHeight: 1,
@@ -56,9 +56,6 @@ export default function Countdown() {
     return () => clearInterval(id);
   }, []);
 
-  const started = remaining && remaining.days === 0 && remaining.hours === 0 &&
-    remaining.minutes === 0 && remaining.seconds === 0;
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}>
       <p style={{
@@ -67,7 +64,7 @@ export default function Countdown() {
         letterSpacing: '4px',
         color: 'var(--portal)',
       }}>
-        {started ? 'TURNERINGEN HAR STARTET' : 'NEDTELLING TIL START'}
+        NEDTELLING TIL START
       </p>
       <div style={{ display: 'flex', gap: 'clamp(8px, 2vw, 16px)', alignItems: 'flex-start' }} aria-live="polite">
         {/* Render fast layout uten verdier under hydrering for å unngå mismatch */}

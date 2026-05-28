@@ -1,33 +1,15 @@
 const INSTAGRAM_URL = 'https://www.instagram.com/respawnostfold/';
 
-/*
- * Instagram-feed via SnapWidget.
- * Når @respawnostfold-kontoen er opprettet og en SnapWidget er laget:
- *   1. Lag widget på https://snapwidget.com (Instagram, Grid, 6 poster)
- *   2. Bytt ut DINID i URL-en under med widget-ID-en du får
- *   3. Erstatt placeholder-boksen nedenfor med denne iframen:
- *
- *   <script src="https://snapwidget.com/js/snapwidget.js"></script>
- *   <iframe
- *     src="https://snapwidget.com/embed/DINID"
- *     className="snapwidget-widget"
- *     allowTransparency
- *     frameBorder="0"
- *     scrolling="no"
- *     style={{ border: 'none', overflow: 'hidden', width: '100%' }}
- *     title="Instagram-feed fra @respawnostfold"
- *   />
- */
-
 export default function InstagramSection() {
   return (
     <section style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 48px' }}>
       <p style={{
-        fontFamily: "'Share Tech Mono', monospace",
-        fontSize: '10px',
-        letterSpacing: '5px',
+        fontFamily: "'Press Start 2P', 'Share Tech Mono', monospace",
+        fontSize: '8px',
+        letterSpacing: '2px',
+        lineHeight: 1.6,
         color: 'var(--green)',
-        marginBottom: '12px',
+        marginBottom: '14px',
       }}>
         02 / INSTAGRAM
       </p>
@@ -41,35 +23,18 @@ export default function InstagramSection() {
         Følg oss
       </h2>
 
-      {/* Placeholder til SnapWidget-feed (se kommentar i kildekoden) */}
-      <div style={{
-        border: '1px dashed rgba(135,206,52,0.3)',
-        background: 'rgba(30,72,53,0.25)',
-        minHeight: '260px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-        padding: '40px',
-        textAlign: 'center',
-      }}>
-        <span style={{
-          fontFamily: "'Share Tech Mono', monospace",
-          fontSize: '13px',
-          letterSpacing: '2px',
-          color: 'var(--muted)',
-        }}>
-          Instagram feed lastes her
-        </span>
-        <span style={{
-          fontFamily: "'Share Tech Mono', monospace",
-          fontSize: '10px',
-          letterSpacing: '1px',
-          color: 'rgba(122,172,174,0.5)',
-        }}>
-          SnapWidget-ID legges inn når @respawnostfold er opprettet
-        </span>
+      {/* SnapWidget Instagram-feed for @respawnostfold */}
+      {/* TODO: Bytt SNAPWIDGET_ID_HER med ID fra snapwidget.com */}
+      <div style={{ border: '1px solid rgba(135,206,52,0.2)', background: 'rgba(30,72,53,0.25)' }}>
+        <iframe
+          src="https://snapwidget.com/embed/SNAPWIDGET_ID_HER"
+          className="snapwidget-widget"
+          allowTransparency
+          frameBorder="0"
+          scrolling="no"
+          style={{ border: 'none', overflow: 'hidden', width: '100%', minHeight: '400px' }}
+          title="Instagram-feed fra @respawnostfold"
+        />
       </div>
 
       <div style={{ marginTop: '28px', textAlign: 'center' }}>

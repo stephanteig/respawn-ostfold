@@ -5,8 +5,8 @@ import { useForm, ValidationError } from '@formspree/react';
 import PageShell from '@/components/PageShell';
 import PageHeading from '@/components/PageHeading';
 
-// Påmelding stenger tirsdag 9. juni 2025, ved døgnets slutt (norsk tid).
-const DEADLINE = new Date('2025-06-09T23:59:59+02:00').getTime();
+// Påmelding stenger tirsdag 9. juni 2026, ved døgnets slutt (norsk tid).
+const DEADLINE = new Date('2026-06-09T23:59:59+02:00').getTime();
 
 const labelStyle: React.CSSProperties = {
   fontFamily: "'Share Tech Mono', monospace",
