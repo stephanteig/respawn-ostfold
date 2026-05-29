@@ -4,7 +4,7 @@ import PageHeading from '@/components/PageHeading';
 
 export const metadata: Metadata = {
   title: 'Stream — Respawn Østfold',
-  description: 'Respawn Østfold streames live 11. juni 2025. Følg turneringen direkte.',
+  description: 'Respawn Østfold streames live 11. juni 2026. Følg turneringen direkte.',
 };
 
 export default function StreamPage() {

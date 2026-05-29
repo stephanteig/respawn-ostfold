@@ -4,7 +4,7 @@ import PageHeading from '@/components/PageHeading';
 
 export const metadata: Metadata = {
   title: 'Om turneringen — Respawn Østfold',
-  description: 'Hva er Respawn Østfold, hva er MCSR Ranked, turneringsformatet og tidslinjen frem mot 11. juni 2025.',
+  description: 'Hva er Respawn Østfold, hva er MCSR Ranked, turneringsformatet og tidslinjen frem mot 11. juni 2026.',
 };
 
 const sectionStyle: React.CSSProperties = { marginBottom: '48px' };
