@@ -1,11 +1,19 @@
 'use client';
 
-import Script from 'next/script';
+import { useEffect } from 'react';
 
 // Instagram: @respawnostfold
 const INSTAGRAM_URL = 'https://www.instagram.com/respawnostfold/';
 
 export default function InstagramSection() {
+  useEffect(() => {
+    const s = document.createElement('script');
+    s.type = 'module';
+    s.src = 'https://w.behold.so/widget.js';
+    document.head.append(s);
+    return () => { s.remove(); };
+  }, []);
+
   return (
     <section style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 48px' }}>
       <p style={{
@@ -28,13 +36,7 @@ export default function InstagramSection() {
         Følg oss
       </h2>
 
-      {/* Instagram-feed via Elfsight for @respawnostfold */}
-      <Script src="https://elfsightcdn.com/platform.js" strategy="lazyOnload" />
-      <div
-        className="elfsight-app-20fff04b-a791-4f36-a850-77e18c29d956"
-        data-elfsight-app-lazy=""
-      />
-
+      <div data-behold-id="ccx1yGIVV6sUCD1RWRov" />
 
       <div style={{ marginTop: '28px', textAlign: 'center' }}>
         <a
