@@ -1,3 +1,8 @@
+'use client';
+
+import Script from 'next/script';
+
+// Instagram: @respawnostfold
 const INSTAGRAM_URL = 'https://www.instagram.com/respawnostfold/';
 
 export default function InstagramSection() {
@@ -23,19 +28,13 @@ export default function InstagramSection() {
         Følg oss
       </h2>
 
-      {/* SnapWidget Instagram-feed for @respawnostfold */}
-      {/* TODO: Bytt SNAPWIDGET_ID_HER med ID fra snapwidget.com */}
-      <div style={{ border: '1px solid rgba(135,206,52,0.2)', background: 'rgba(30,72,53,0.25)' }}>
-        <iframe
-          src="https://snapwidget.com/embed/SNAPWIDGET_ID_HER"
-          className="snapwidget-widget"
-          allowTransparency
-          frameBorder="0"
-          scrolling="no"
-          style={{ border: 'none', overflow: 'hidden', width: '100%', minHeight: '400px' }}
-          title="Instagram-feed fra @respawnostfold"
-        />
-      </div>
+      {/* Instagram-feed via Elfsight for @respawnostfold */}
+      <Script src="https://elfsightcdn.com/platform.js" strategy="lazyOnload" />
+      <div
+        className="elfsight-app-20fff04b-a791-4f36-a850-77e18c29d956"
+        data-elfsight-app-lazy=""
+      />
+
 
       <div style={{ marginTop: '28px', textAlign: 'center' }}>
         <a
