@@ -2,11 +2,15 @@
 
 import SkinViewer from './SkinViewer';
 
+// Skin used for TBD / placeholder entries (blank-looking Minecraft skin).
+export const TBD_SKIN_USERNAME = 'UnsolvedX';
+
 export interface Player {
   username: string;
   displayName?: string;
   seed?: number;
   info?: string;
+  tbd?: boolean;
 }
 
 interface Props extends Player {
@@ -36,8 +40,9 @@ function CornerBrackets() {
   );
 }
 
-export default function PlayerCard({ username, displayName, seed, info, showSkin = true }: Props) {
-  const name = displayName || username;
+export default function PlayerCard({ username, displayName, seed, info, tbd, showSkin = true }: Props) {
+  const name = tbd ? 'TBD' : (displayName || username);
+  const skinUsername = tbd ? TBD_SKIN_USERNAME : username;
 
   return (
     <div style={{
@@ -53,7 +58,7 @@ export default function PlayerCard({ username, displayName, seed, info, showSkin
 
       {showSkin && (
         <div style={{ flexShrink: 0 }}>
-          <SkinViewer username={username} width={120} height={200} animate />
+          <SkinViewer username={skinUsername} width={120} height={200} animate />
         </div>
       )}
 
@@ -68,7 +73,7 @@ export default function PlayerCard({ username, displayName, seed, info, showSkin
           {name}
         </span>
 
-        {displayName && (
+        {displayName && !tbd && (
           <span style={{
             fontFamily: "'Share Tech Mono', monospace",
             fontSize: '12px',

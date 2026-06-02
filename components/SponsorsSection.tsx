@@ -1,3 +1,5 @@
+import StaticImage from './StaticImage';
+
 const PARTNER_EMAIL = 'teig.stephan@gmail.com';
 
 export default function SponsorsSection() {
@@ -29,17 +31,18 @@ export default function SponsorsSection() {
         gap: '24px',
         alignItems: 'center',
       }}>
-        {/* TODO: Drop KRED logo in /public/uploads/ and run node scripts/sort-uploads.js */}
         <div style={{
           border: '1px solid rgba(135,206,52,0.25)',
           background: 'rgba(30,72,53,0.4)',
-          padding: '36px 56px',
-          fontFamily: "'Share Tech Mono', monospace",
-          fontSize: '24px',
-          letterSpacing: '6px',
-          color: 'var(--white)',
+          padding: '28px 40px',
+          display: 'flex',
+          alignItems: 'center',
         }}>
-          KRED
+          <StaticImage
+            src="/images/sponsors/kred-norge.png"
+            alt="KRED Norge"
+            style={{ height: 56, width: 'auto', display: 'block' }}
+          />
         </div>
       </div>
 

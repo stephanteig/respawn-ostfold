@@ -2,7 +2,16 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import SkinViewer from '@/components/SkinViewer';
-import PlayerCard, { type Player } from '@/components/PlayerCard';
+import PlayerCard, { TBD_SKIN_USERNAME, type Player } from '@/components/PlayerCard';
+import {
+  readRoster,
+  writeRoster,
+  ROSTER_FILES,
+  type RosterCategory,
+} from '@/components/useRoster';
+import playersSeed from '@/public/data/players.json';
+import commentatorsSeed from '@/public/data/commentators.json';
+import guestsSeed from '@/public/data/guests.json';
 
 // ── Config ──
 const WS_BASE =
@@ -284,7 +293,6 @@ function CountdownTab({ send }: { send: (type: string, data: unknown) => void })
 }
 
 const PLAYER_COUNT_KEY = 'respawn_player_count';
-const PLAYERS_KEY = 'respawn_players';
 
 function readPlayerCount(): number {
   try {
@@ -294,29 +302,53 @@ function readPlayerCount(): number {
   }
 }
 
-function readPlayers(): Player[] {
-  try {
-    const raw = localStorage.getItem(PLAYERS_KEY);
-    if (!raw) return [];
-    const parsed: unknown = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return (parsed as Player[]).filter((p) => p && typeof p.username === 'string');
-  } catch {
-    return [];
-  }
+const CATEGORY_LABELS: Record<RosterCategory, string> = {
+  players: 'Spillere',
+  commentators: 'Kommentatorer',
+  guests: 'Gjester',
+};
+
+const CATEGORY_SINGULAR: Record<RosterCategory, string> = {
+  players: 'spiller',
+  commentators: 'kommentator',
+  guests: 'gjest',
+};
+
+function cleanSeed(data: unknown): Player[] {
+  if (!Array.isArray(data)) return [];
+  return (data as Player[]).filter((p) => p && typeof p.username === 'string' && p.username.trim() !== '');
+}
+
+const ROSTER_SEEDS: Record<RosterCategory, Player[]> = {
+  players: cleanSeed(playersSeed),
+  commentators: cleanSeed(commentatorsSeed),
+  guests: cleanSeed(guestsSeed),
+};
+
+function initRoster(category: RosterCategory): Player[] {
+  if (typeof window === 'undefined') return ROSTER_SEEDS[category];
+  return readRoster(category) ?? ROSTER_SEEDS[category];
 }
 
 function PlayerAdminTab({ show }: { show: (text: string) => void }) {
   // Part A — manual counter
   const [count, setCount] = useState<number>(() => (typeof window !== 'undefined' ? readPlayerCount() : 0));
-  // Part B — player cards
-  const [players, setPlayers] = useState<Player[]>(() => (typeof window !== 'undefined' ? readPlayers() : []));
+  // Part B — roster admin (players / commentators / guests)
+  const [category, setCategory] = useState<RosterCategory>('players');
+  const [rosters, setRosters] = useState<Record<RosterCategory, Player[]>>(() => ({
+    players: initRoster('players'),
+    commentators: initRoster('commentators'),
+    guests: initRoster('guests'),
+  }));
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [seed, setSeed] = useState('');
   const [info, setInfo] = useState('');
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [previewName, setPreviewName] = useState('');
+
+  const roster = rosters[category];
+  const singular = CATEGORY_SINGULAR[category];
 
   // Debounce live skin preview (800ms).
   useEffect(() => {
@@ -332,15 +364,19 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
     } catch {}
   }
 
-  function persistPlayers(next: Player[]) {
-    setPlayers(next);
-    try {
-      localStorage.setItem(PLAYERS_KEY, JSON.stringify(next));
-    } catch {}
+  // Persists to localStorage and broadcasts so /spillere auto-updates live.
+  function persistRoster(cat: RosterCategory, next: Player[]) {
+    setRosters((prev) => ({ ...prev, [cat]: next }));
+    writeRoster(cat, next);
   }
 
   function resetForm() {
     setUsername(''); setDisplayName(''); setSeed(''); setInfo(''); setEditIndex(null);
+  }
+
+  function switchCategory(cat: RosterCategory) {
+    setCategory(cat);
+    resetForm();
   }
 
   function submitPlayer() {
@@ -353,17 +389,23 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
       ...(info.trim() ? { info: info.trim().slice(0, 200) } : {}),
     };
     if (editIndex !== null) {
-      persistPlayers(players.map((p, i) => (i === editIndex ? entry : p)));
-      show('SPILLER OPPDATERT ✓');
+      persistRoster(category, roster.map((p, i) => (i === editIndex ? entry : p)));
+      show('LAGRET ✓');
     } else {
-      persistPlayers([...players, entry]);
-      show('SPILLER LAGT TIL ✓');
+      persistRoster(category, [...roster, entry]);
+      show('LAGT TIL ✓');
     }
     resetForm();
   }
 
+  function addTbd() {
+    persistRoster(category, [...roster, { username: 'TBD', displayName: 'TBD', tbd: true }]);
+    show('TBD LAGT TIL ✓');
+  }
+
   function editPlayer(i: number) {
-    const p = players[i];
+    const p = roster[i];
+    if (p.tbd) { show('TBD-OPPFØRING KAN IKKE REDIGERES'); return; }
     setUsername(p.username);
     setDisplayName(p.displayName || '');
     setSeed(p.seed !== undefined ? String(p.seed) : '');
@@ -372,16 +414,31 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
   }
 
   function deletePlayer(i: number) {
-    if (!confirm(`Slette ${players[i].displayName || players[i].username}?`)) return;
-    persistPlayers(players.filter((_, idx) => idx !== i));
+    const p = roster[i];
+    const label = p.tbd ? 'TBD' : (p.displayName || p.username);
+    if (!confirm(`Slette ${label}?`)) return;
+    persistRoster(category, roster.filter((_, idx) => idx !== i));
     if (editIndex === i) resetForm();
-    show('SPILLER SLETTET ✓');
+    show('SLETTET ✓');
   }
 
-  const exportJson = JSON.stringify(players, null, 2);
+  const exportJson = JSON.stringify(roster, null, 2);
 
-  function copyExport() {
-    navigator.clipboard.writeText(exportJson).then(() => show('JSON KOPIERT ✓'));
+  function downloadJson() {
+    try {
+      const blob = new Blob([exportJson], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = ROSTER_FILES[category];
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      show(`${ROSTER_FILES[category]} LASTET NED ✓`);
+    } catch {
+      show('NEDLASTING FEILET');
+    }
   }
 
   return (
@@ -408,10 +465,34 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
         </p>
       </div>
 
-      {/* Part B — spillerkort-admin */}
+      {/* Kategorivelger */}
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', margin: '8px 0 4px' }}>
+        {(Object.keys(CATEGORY_LABELS) as RosterCategory[]).map((cat) => {
+          const active = cat === category;
+          return (
+            <button
+              key={cat}
+              onClick={() => switchCategory(cat)}
+              style={{
+                ...s.cdBtn,
+                flex: 'none',
+                padding: '10px 18px',
+                background: active ? 'var(--green)' : 'transparent',
+                color: active ? 'var(--dark)' : 'var(--muted)',
+                borderColor: active ? 'var(--green)' : 'var(--forest)',
+                fontWeight: active ? 700 : 400,
+              }}
+            >
+              {CATEGORY_LABELS[cat]} ({rosters[cat].length})
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Part B — admin for valgt kategori */}
       <div style={{ ...s.playerBlock, borderTopColor: 'var(--teal)' }}>
         <div style={{ ...s.playerLabel, color: 'var(--teal)' }}>
-          ▶ {editIndex !== null ? 'REDIGER SPILLER' : 'LEGG TIL SPILLER'}
+          ▶ {editIndex !== null ? `REDIGER ${singular.toUpperCase()}` : `LEGG TIL ${singular.toUpperCase()}`}
         </div>
         <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
           <div style={{ flex: '1 1 280px', minWidth: '260px' }}>
@@ -422,12 +503,15 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
               <label style={s.label}>INFO ({info.length}/200)</label>
               <textarea style={{ ...s.input, minHeight: '70px', resize: 'vertical' }} value={info} maxLength={200} onChange={(e) => setInfo(e.target.value)} placeholder="Valgfritt" />
             </div>
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               <button style={s.sendBtn} onClick={submitPlayer}>
-                {editIndex !== null ? '✓ LAGRE ENDRINGER' : '+ LEGG TIL SPILLER'}
+                {editIndex !== null ? '✓ LAGRE ENDRINGER' : `+ LEGG TIL ${singular.toUpperCase()}`}
               </button>
               {editIndex !== null && (
                 <button style={{ ...s.cdBtn, marginTop: '20px', flex: 'none', padding: '13px 20px' }} onClick={resetForm}>AVBRYT</button>
+              )}
+              {editIndex === null && (
+                <button style={{ ...s.cdBtn, marginTop: '20px', flex: 'none', padding: '13px 20px' }} onClick={addTbd}>+ TBD (BLANKT SKIN)</button>
               )}
             </div>
           </div>
@@ -453,21 +537,21 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
         </div>
       </div>
 
-      {/* Added players list */}
-      {players.length > 0 && (
+      {/* Liste for valgt kategori */}
+      {roster.length > 0 && (
         <div style={{ ...s.playerBlock, borderTopColor: 'var(--green-d)' }}>
-          <div style={{ ...s.playerLabel, color: 'var(--green-d)' }}>▶ SPILLERE ({players.length})</div>
+          <div style={{ ...s.playerLabel, color: 'var(--green-d)' }}>▶ {CATEGORY_LABELS[category].toUpperCase()} ({roster.length})</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '320px', overflowY: 'auto' }}>
-            {players.map((p, i) => (
+            {roster.map((p, i) => (
               <div key={`${p.username}-${i}`} style={{
                 display: 'flex', alignItems: 'center', gap: '12px',
                 background: '#0D2328', border: '1px solid var(--forest)', padding: '8px 12px',
               }}>
-                <SkinViewer username={p.username} width={60} height={100} />
+                <SkinViewer username={p.tbd ? TBD_SKIN_USERNAME : p.username} width={60} height={100} />
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: '13px', color: 'var(--white)' }}>{p.displayName || p.username}</div>
+                  <div style={{ fontSize: '13px', color: 'var(--white)' }}>{p.tbd ? 'TBD' : (p.displayName || p.username)}</div>
                   <div style={{ fontSize: '10px', color: 'var(--muted)' }}>
-                    #{p.username}{p.seed !== undefined ? ` · SEED #${p.seed}` : ''}
+                    {p.tbd ? 'Blankt skin' : `#${p.username}${p.seed !== undefined ? ` · SEED #${p.seed}` : ''}`}
                   </div>
                 </div>
                 <button style={{ ...s.cdBtn, flex: 'none', padding: '7px 12px' }} onClick={() => editPlayer(i)}>✏️</button>
@@ -478,15 +562,15 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
         </div>
       )}
 
-      {/* Part C — eksport */}
+      {/* Part C — lagre / publiser */}
       <div style={{ ...s.playerBlock, borderTopColor: 'var(--portal)' }}>
-        <div style={{ ...s.playerLabel, color: 'var(--portal)' }}>▶ EKSPORT</div>
-        <textarea readOnly value={exportJson} style={{ ...s.input, minHeight: '160px', fontFamily: "'Share Tech Mono', monospace", resize: 'vertical' }} />
-        <button style={{ ...s.sendBtn, marginTop: '12px' }} onClick={copyExport}>⧉ KOPIER JSON</button>
-        <p style={{ fontSize: '10px', color: 'var(--muted)', marginTop: '10px', lineHeight: 1.6 }}>
-          Lagre som players.json og dropp i /public/uploads/<br />
-          Kjør deretter: node scripts/sort-uploads.js og redeploy
+        <div style={{ ...s.playerLabel, color: 'var(--portal)' }}>▶ PUBLISER ({CATEGORY_LABELS[category].toUpperCase()})</div>
+        <p style={{ fontSize: '12px', color: 'var(--muted)', marginBottom: '12px', lineHeight: 1.6 }}>
+          Endringer lagres automatisk og vises live på /spillere i denne nettleseren.
+          For å publisere til alle besøkende: last ned {ROSTER_FILES[category]} og legg den i /public/data/, så commit + push.
         </p>
+        <textarea readOnly value={exportJson} style={{ ...s.input, minHeight: '160px', fontFamily: "'Share Tech Mono', monospace", resize: 'vertical' }} />
+        <button style={{ ...s.sendBtn, marginTop: '12px' }} onClick={downloadJson}>⬇ LAST NED {ROSTER_FILES[category].toUpperCase()}</button>
       </div>
     </div>
   );

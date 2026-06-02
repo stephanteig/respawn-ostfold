@@ -17,6 +17,8 @@ const DATA = path.join(ROOT, 'public', 'data');
 
 const SKIP = new Set(['.gitkeep', 'README.md']);
 const IMAGE_EXTS = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg']);
+// Roster data files replace their destination instead of getting a -copy suffix.
+const DATA_FILES = new Set(['players.json', 'commentators.json', 'guests.json']);
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -53,8 +55,10 @@ function main() {
     const ext = path.extname(lower);
 
     let destDir;
-    if (lower === 'players.json') {
+    let overwrite = false;
+    if (DATA_FILES.has(lower)) {
       destDir = DATA;
+      overwrite = true; // latest roster data wins
     } else if (!IMAGE_EXTS.has(ext)) {
       console.warn(`Warning: skipped non-image file: ${filename}`);
       continue;
@@ -66,7 +70,8 @@ function main() {
     }
 
     ensureDir(destDir);
-    const dest = resolveCollision(destDir, filename);
+    const dest = overwrite ? path.join(destDir, lower) : resolveCollision(destDir, filename);
+    if (overwrite && fs.existsSync(dest)) fs.rmSync(dest);
     fs.renameSync(src, dest);
     console.log(`Moved: ${filename} → ${path.relative(ROOT, dest)}`);
   }
