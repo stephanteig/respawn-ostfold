@@ -6,6 +6,7 @@ const navLinks = [
   { label: 'Om', href: '/om' },
   { label: 'Spillere', href: '/spillere' },
   { label: 'Påmelding', href: '/pamelding' },
+  { label: 'Regler', href: '/regler' },
   { label: 'Stream', href: '/stream' },
 ];
 

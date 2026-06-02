@@ -10,6 +10,7 @@ const links = [
   { label: 'OM', href: '/om' },
   { label: 'SPILLERE', href: '/spillere' },
   { label: 'PÅMELDING', href: '/pamelding' },
+  { label: 'REGLER', href: '/regler' },
   { label: 'STREAM', href: '/stream' },
 ];
 

@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import SkinViewer from '@/components/SkinViewer';
+import PlayerCard, { type Player } from '@/components/PlayerCard';
 
 // ── Config ──
 const WS_BASE =
@@ -26,7 +28,7 @@ const OVERLAYS = [
 ];
 
 // ── Types ──
-type Tab = 'scene' | 'match' | 'bracket' | 'commentator' | 'interview' | 'countdown';
+type Tab = 'scene' | 'match' | 'bracket' | 'commentator' | 'interview' | 'countdown' | 'spillere';
 
 interface BracketMatch {
   p1: string; s1: string;
@@ -281,6 +283,215 @@ function CountdownTab({ send }: { send: (type: string, data: unknown) => void })
   );
 }
 
+const PLAYER_COUNT_KEY = 'respawn_player_count';
+const PLAYERS_KEY = 'respawn_players';
+
+function readPlayerCount(): number {
+  try {
+    return parseInt(localStorage.getItem(PLAYER_COUNT_KEY) || '0', 10) || 0;
+  } catch {
+    return 0;
+  }
+}
+
+function readPlayers(): Player[] {
+  try {
+    const raw = localStorage.getItem(PLAYERS_KEY);
+    if (!raw) return [];
+    const parsed: unknown = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return (parsed as Player[]).filter((p) => p && typeof p.username === 'string');
+  } catch {
+    return [];
+  }
+}
+
+function PlayerAdminTab({ show }: { show: (text: string) => void }) {
+  // Part A — manual counter
+  const [count, setCount] = useState<number>(() => (typeof window !== 'undefined' ? readPlayerCount() : 0));
+  // Part B — player cards
+  const [players, setPlayers] = useState<Player[]>(() => (typeof window !== 'undefined' ? readPlayers() : []));
+  const [username, setUsername] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [seed, setSeed] = useState('');
+  const [info, setInfo] = useState('');
+  const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [previewName, setPreviewName] = useState('');
+
+  // Debounce live skin preview (800ms).
+  useEffect(() => {
+    const t = setTimeout(() => setPreviewName(username.trim()), 800);
+    return () => clearTimeout(t);
+  }, [username]);
+
+  function persistCount(next: number) {
+    const val = Math.max(0, next);
+    setCount(val);
+    try {
+      localStorage.setItem(PLAYER_COUNT_KEY, String(val));
+    } catch {}
+  }
+
+  function persistPlayers(next: Player[]) {
+    setPlayers(next);
+    try {
+      localStorage.setItem(PLAYERS_KEY, JSON.stringify(next));
+    } catch {}
+  }
+
+  function resetForm() {
+    setUsername(''); setDisplayName(''); setSeed(''); setInfo(''); setEditIndex(null);
+  }
+
+  function submitPlayer() {
+    const name = username.trim();
+    if (!name) { show('MCSR BRUKERNAVN MANGLER!'); return; }
+    const entry: Player = {
+      username: name,
+      ...(displayName.trim() ? { displayName: displayName.trim() } : {}),
+      ...(seed.trim() ? { seed: parseInt(seed, 10) || undefined } : {}),
+      ...(info.trim() ? { info: info.trim().slice(0, 200) } : {}),
+    };
+    if (editIndex !== null) {
+      persistPlayers(players.map((p, i) => (i === editIndex ? entry : p)));
+      show('SPILLER OPPDATERT ✓');
+    } else {
+      persistPlayers([...players, entry]);
+      show('SPILLER LAGT TIL ✓');
+    }
+    resetForm();
+  }
+
+  function editPlayer(i: number) {
+    const p = players[i];
+    setUsername(p.username);
+    setDisplayName(p.displayName || '');
+    setSeed(p.seed !== undefined ? String(p.seed) : '');
+    setInfo(p.info || '');
+    setEditIndex(i);
+  }
+
+  function deletePlayer(i: number) {
+    if (!confirm(`Slette ${players[i].displayName || players[i].username}?`)) return;
+    persistPlayers(players.filter((_, idx) => idx !== i));
+    if (editIndex === i) resetForm();
+    show('SPILLER SLETTET ✓');
+  }
+
+  const exportJson = JSON.stringify(players, null, 2);
+
+  function copyExport() {
+    navigator.clipboard.writeText(exportJson).then(() => show('JSON KOPIERT ✓'));
+  }
+
+  return (
+    <div>
+      {/* Part A — manuell teller */}
+      <div style={{ ...s.playerBlock, borderTopColor: 'var(--green)' }}>
+        <div style={{ ...s.playerLabel, color: 'var(--green)' }}>▶ MANUELL SPILLERTELLER</div>
+        <div style={{ fontSize: '13px', color: 'var(--muted)', marginBottom: '12px' }}>
+          Påmeldte spillere: <span style={{ color: 'var(--green)', fontSize: '18px' }}>{count}</span>
+        </div>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <button style={s.cdBtn} onClick={() => persistCount(count - 1)}>−</button>
+          <input
+            style={{ ...s.input, maxWidth: '120px', textAlign: 'center' }}
+            type="number"
+            min={0}
+            value={count}
+            onChange={(e) => persistCount(parseInt(e.target.value, 10) || 0)}
+          />
+          <button style={s.cdBtn} onClick={() => persistCount(count + 1)}>+</button>
+        </div>
+        <p style={{ fontSize: '10px', color: 'var(--muted)', marginTop: '8px', lineHeight: 1.5 }}>
+          Vises live på forsiden (oppdateres på tvers av faner).
+        </p>
+      </div>
+
+      {/* Part B — spillerkort-admin */}
+      <div style={{ ...s.playerBlock, borderTopColor: 'var(--teal)' }}>
+        <div style={{ ...s.playerLabel, color: 'var(--teal)' }}>
+          ▶ {editIndex !== null ? 'REDIGER SPILLER' : 'LEGG TIL SPILLER'}
+        </div>
+        <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+          <div style={{ flex: '1 1 280px', minWidth: '260px' }}>
+            <div style={s.fieldWrap}><label style={s.label}>MCSR BRUKERNAVN *</label><input style={s.input} value={username} onChange={(e) => setUsername(e.target.value)} placeholder="MinecraftUsername" /></div>
+            <div style={s.fieldWrap}><label style={s.label}>VISNINGSNAVN</label><input style={s.input} value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Valgfritt" /></div>
+            <div style={s.fieldWrap}><label style={s.label}>SEED / RANGERING</label><input style={s.input} type="number" value={seed} onChange={(e) => setSeed(e.target.value)} placeholder="Valgfritt" /></div>
+            <div style={s.fieldWrap}>
+              <label style={s.label}>INFO ({info.length}/200)</label>
+              <textarea style={{ ...s.input, minHeight: '70px', resize: 'vertical' }} value={info} maxLength={200} onChange={(e) => setInfo(e.target.value)} placeholder="Valgfritt" />
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button style={s.sendBtn} onClick={submitPlayer}>
+                {editIndex !== null ? '✓ LAGRE ENDRINGER' : '+ LEGG TIL SPILLER'}
+              </button>
+              {editIndex !== null && (
+                <button style={{ ...s.cdBtn, marginTop: '20px', flex: 'none', padding: '13px 20px' }} onClick={resetForm}>AVBRYT</button>
+              )}
+            </div>
+          </div>
+
+          {/* Live preview */}
+          <div style={{ flex: '1 1 280px', minWidth: '260px' }}>
+            <div style={s.label}>FORHÅNDSVISNING</div>
+            <div style={{ marginTop: '10px' }}>
+              {previewName ? (
+                <PlayerCard
+                  username={previewName}
+                  displayName={displayName.trim() || undefined}
+                  seed={seed.trim() ? (parseInt(seed, 10) || undefined) : undefined}
+                  info={info.trim() || undefined}
+                />
+              ) : (
+                <div style={{ fontSize: '11px', color: 'var(--muted)', padding: '20px 0' }}>
+                  Skriv inn MCSR brukernavn for å se skin-preview.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Added players list */}
+      {players.length > 0 && (
+        <div style={{ ...s.playerBlock, borderTopColor: 'var(--green-d)' }}>
+          <div style={{ ...s.playerLabel, color: 'var(--green-d)' }}>▶ SPILLERE ({players.length})</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '320px', overflowY: 'auto' }}>
+            {players.map((p, i) => (
+              <div key={`${p.username}-${i}`} style={{
+                display: 'flex', alignItems: 'center', gap: '12px',
+                background: '#0D2328', border: '1px solid var(--forest)', padding: '8px 12px',
+              }}>
+                <SkinViewer username={p.username} width={60} height={100} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: '13px', color: 'var(--white)' }}>{p.displayName || p.username}</div>
+                  <div style={{ fontSize: '10px', color: 'var(--muted)' }}>
+                    #{p.username}{p.seed !== undefined ? ` · SEED #${p.seed}` : ''}
+                  </div>
+                </div>
+                <button style={{ ...s.cdBtn, flex: 'none', padding: '7px 12px' }} onClick={() => editPlayer(i)}>✏️</button>
+                <button style={{ ...s.cdBtn, flex: 'none', padding: '7px 12px', color: '#E05050' }} onClick={() => deletePlayer(i)}>🗑️</button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Part C — eksport */}
+      <div style={{ ...s.playerBlock, borderTopColor: 'var(--portal)' }}>
+        <div style={{ ...s.playerLabel, color: 'var(--portal)' }}>▶ EKSPORT</div>
+        <textarea readOnly value={exportJson} style={{ ...s.input, minHeight: '160px', fontFamily: "'Share Tech Mono', monospace", resize: 'vertical' }} />
+        <button style={{ ...s.sendBtn, marginTop: '12px' }} onClick={copyExport}>⧉ KOPIER JSON</button>
+        <p style={{ fontSize: '10px', color: 'var(--muted)', marginTop: '10px', lineHeight: 1.6 }}>
+          Lagre som players.json og dropp i /public/uploads/<br />
+          Kjør deretter: node scripts/sort-uploads.js og redeploy
+        </p>
+      </div>
+    </div>
+  );
+}
+
 // ── Main kontrollpanel ──
 export default function Kontrollpanel() {
   const [sessionId, setSessionId] = useState('live');
@@ -337,6 +548,7 @@ export default function Kontrollpanel() {
     { id: 'commentator', label: '🎙 KOMMENTATOR' },
     { id: 'interview',   label: '👤 INTERVJU' },
     { id: 'countdown',   label: '⏱ COUNTDOWN' },
+    { id: 'spillere',    label: '👥 SPILLERE' },
   ];
 
   return (
@@ -453,6 +665,7 @@ export default function Kontrollpanel() {
                 {activeTab === 'commentator' && 'Påvirker: 03_commentator_cam.html'}
                 {activeTab === 'interview' && 'Påvirker: 08_interview.html'}
                 {activeTab === 'countdown' && 'Påvirker: 01_countdown.html'}
+                {activeTab === 'spillere' && 'Spillerteller (forsiden) + spillerkort til players.json'}
               </div>
             </div>
           </div>
@@ -463,6 +676,7 @@ export default function Kontrollpanel() {
           {activeTab === 'commentator' && <CommentatorTab send={send} />}
           {activeTab === 'interview'   && <InterviewTab send={send} />}
           {activeTab === 'countdown'   && <CountdownTab send={send} />}
+          {activeTab === 'spillere'    && <PlayerAdminTab show={toast.show} />}
         </div>
       </div>
 

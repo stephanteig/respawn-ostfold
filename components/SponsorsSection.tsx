@@ -29,7 +29,7 @@ export default function SponsorsSection() {
         gap: '24px',
         alignItems: 'center',
       }}>
-        {/* KRED-logo placeholder — bytt ut med ekte logofil i /public når tilgjengelig */}
+        {/* TODO: Drop KRED logo in /public/uploads/ and run node scripts/sort-uploads.js */}
         <div style={{
           border: '1px solid rgba(135,206,52,0.25)',
           background: 'rgba(30,72,53,0.4)',
