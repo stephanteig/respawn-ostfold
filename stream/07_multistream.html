@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<!--
+  MULTISTREAM LAYOUT — RESPAWN ØSTFOLD
+  1920×1080 — Use as overlay in OBS
+  Add two game capture sources behind this overlay
+  Left game area:  x=0,    y=0,    w=930,  h=960
+  Right game area: x=990,  y=0,    w=930,  h=960
+  This overlay handles the center divider + bottom HUD + nameplates
+
+  URL params: ?p1=Name&p2=Name&round=Semifinale
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1920px; height: 1080px;
+    background: transparent;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Press Start 2P', monospace;
+  }
+
+  /* Center divider */
+  .center-divider {
+    position: absolute;
+    left: 50%; top: 0; bottom: 96px;
+    transform: translateX(-50%);
+    width: 60px;
+    background: #102C31;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .divider-line {
+    width: 2px; background: #87CE34;
+    position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%);
+  }
+  .divider-logo {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    z-index: 2;
+    background: #102C31;
+    padding: 8px;
+    border: 2px solid #87CE34;
+  }
+  .divider-logo img { width: 40px; image-rendering: pixelated; }
+
+  /* VS badge */
+  .vs-badge {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, calc(-50% + 60px));
+    background: #87CE34;
+    color: #102C31;
+    font-size: 11px;
+    padding: 6px 12px;
+    z-index: 3;
+  }
+
+  /* Bottom HUD bar */
+  .hud {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 96px;
+    background: #102C31;
+    border-top: 3px solid #87CE34;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Player HUD blocks */
+  .player-hud {
+    flex: 1; height: 100%;
+    display: flex; align-items: center;
+    padding: 0 40px;
+    gap: 20px;
+  }
+  .player-hud.right {
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+    border-left: 1px solid #1E4835;
+  }
+
+  .player-num {
+    width: 52px; height: 52px; flex-shrink: 0;
+    background: #87CE34;
+    display: flex; align-items: center; justify-content: center;
+    color: #102C31; font-size: 20px;
+  }
+  .player-hud.right .player-num { background: #6EC836; }
+
+  .player-info { display: flex; flex-direction: column; gap: 6px; }
+  .player-hud.right .player-info { align-items: flex-end; }
+
+  .p-label  { color: #316364; font-size: 8px; letter-spacing: 2px; }
+  .p-name   { color: #fff;    font-size: 18px; white-space: nowrap; }
+  .p-handle { color: #1E4835; font-size: 8px; letter-spacing: 2px; }
+
+  /* Center HUD */
+  .center-hud {
+    width: 240px; flex-shrink: 0;
+    height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px;
+    border-left: 1px solid #1E4835;
+    border-right: 1px solid #1E4835;
+  }
+  .round-pill {
+    background: #1E4835;
+    color: #87CE34;
+    font-size: 8px; padding: 4px 12px; letter-spacing: 2px;
+  }
+  .match-num { color: #316364; font-size: 8px; letter-spacing: 2px; }
+
+  /* Timer */
+  .match-timer {
+    color: #87CE34; font-size: 22px; letter-spacing: 2px;
+  }
+
+  /* Top mini-info */
+  .top-bar-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 36px;
+    background: rgba(16,44,49,0.75);
+    display: flex; align-items: center;
+    padding: 0 48px;
+    gap: 24px;
+    border-bottom: 1px solid #1E4835;
+  }
+  .top-bar-overlay img { width: 20px; image-rendering: pixelated; }
+  .top-info-txt { color: #316364; font-size: 8px; letter-spacing: 2px; }
+  .top-sep { width: 4px; height: 4px; background: #87CE34; transform: rotate(45deg); opacity: 0.5; }
+
+  /* Green scan line */
+  .scanline {
+    position: absolute; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(135,206,52,0.1), transparent);
+    animation: scan 8s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes scan { from{top:0} to{top:88%} }
+</style>
+</head>
+<body>
+
+<div class="scanline"></div>
+
+<div class="top-bar-overlay">
+  <img src="logo.png" alt="">
+  <span class="top-info-txt">RESPAWN ØSTFOLD</span>
+  <div class="top-sep"></div>
+  <span class="top-info-txt">MCSR RANKED</span>
+  <div class="top-sep"></div>
+  <span class="top-info-txt" id="topRound">KVARTFINALE</span>
+  <div class="top-sep"></div>
+  <span class="top-info-txt">GLEMMEN VGS · FREDRIKSTAD</span>
+</div>
+
+<div class="center-divider">
+  <div class="divider-line"></div>
+  <div class="divider-logo">
+    <img src="logo.png" alt="">
+  </div>
+  <div class="vs-badge">VS</div>
+</div>
+
+<div class="hud">
+  <!-- Player 1 left -->
+  <div class="player-hud left">
+    <div class="player-num">1</div>
+    <div class="player-info">
+      <div class="p-label">SPILLER 1</div>
+      <div class="p-name"  id="hudP1">PLAYER_ONE</div>
+      <div class="p-handle" id="hudP1h">@player1</div>
+    </div>
+  </div>
+
+  <!-- Center -->
+  <div class="center-hud">
+    <div class="round-pill" id="hudRound">KVARTFINALE</div>
+    <div class="match-timer" id="matchTimer">00:00</div>
+    <div class="match-num">MATCH TIMER</div>
+  </div>
+
+  <!-- Player 2 right -->
+  <div class="player-hud right">
+    <div class="player-num">2</div>
+    <div class="player-info">
+      <div class="p-label">SPILLER 2</div>
+      <div class="p-name"  id="hudP2">PLAYER_TWO</div>
+      <div class="p-handle" id="hudP2h">@player2</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  if (p.get('p1')) {
+    document.getElementById('hudP1').textContent = p.get('p1').toUpperCase();
+  }
+  if (p.get('p1h')) document.getElementById('hudP1h').textContent = p.get('p1h');
+  if (p.get('p2')) {
+    document.getElementById('hudP2').textContent = p.get('p2').toUpperCase();
+  }
+  if (p.get('p2h')) document.getElementById('hudP2h').textContent = p.get('p2h');
+  if (p.get('round')) {
+    const r = p.get('round').toUpperCase();
+    document.getElementById('hudRound').textContent = r;
+    document.getElementById('topRound').textContent = r;
+  }
+
+  // Match timer (counts up)
+  let sec = 0;
+  setInterval(() => {
+    sec++;
+    const m = String(Math.floor(sec/60)).padStart(2,'0');
+    const s = String(sec%60).padStart(2,'0');
+    document.getElementById('matchTimer').textContent = `${m}:${s}`;
+  }, 1000);
+</script>
+</body>
+
+<script src="_ws_client.js"></script>
+<script>
+
+window.addEventListener('ro:match', e => {
+  const d = e.detail;
+  if (!d) return;
+  if (d.p1)    document.getElementById('hudP1').textContent   = d.p1.toUpperCase();
+  if (d.p1h)   document.getElementById('hudP1h').textContent  = d.p1h;
+  if (d.p2)    document.getElementById('hudP2').textContent   = d.p2.toUpperCase();
+  if (d.p2h)   document.getElementById('hudP2h').textContent  = d.p2h;
+  if (d.round) { document.getElementById('hudRound').textContent = d.round.toUpperCase(); document.getElementById('topRound').textContent = d.round.toUpperCase(); }
+});
+
+</script>
+
+</html>

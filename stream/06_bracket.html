@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="no">
+  <head>
+    <meta charset="UTF-8" />
+    <!--
+  TOURNAMENT BRACKET - RESPAWN OSTFOLD
+  1920x1080 full-screen bracket display
+  Edit the `bracket` data object below to update players/scores
+-->
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+        background: #071215;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Press Start 2P", monospace;
+        color: #fff;
+      }
+
+      .stage {
+        width: 1920px;
+        height: 1080px;
+        background: #102c31;
+        overflow: hidden;
+        position: relative;
+        flex: 0 0 auto;
+        transform: scale(var(--stage-scale, 1));
+        transform-origin: center center;
+      }
+
+      .bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(135, 206, 52, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(135, 206, 52, 0.035) 1px, transparent 1px);
+        background-size: 48px 48px;
+        pointer-events: none;
+      }
+
+      .vignette {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 75% 62% at 50% 48%,
+            transparent 42%,
+            rgba(7, 18, 21, 0.72) 100%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(135, 206, 52, 0.05),
+            transparent 18%,
+            transparent 82%,
+            rgba(135, 206, 52, 0.035)
+          );
+        pointer-events: none;
+      }
+
+      .scanline {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(135, 206, 52, 0.12) 50%,
+          transparent 100%
+        );
+        animation: scan 6s linear infinite;
+        pointer-events: none;
+        opacity: 0.75;
+      }
+      @keyframes scan {
+        from {
+          top: 0;
+        }
+        to {
+          top: 100%;
+        }
+      }
+
+      .bar-top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: #87ce34;
+      }
+      .bar-bottom {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: #87ce34;
+      }
+
+      /* Header */
+      .header {
+        position: absolute;
+        top: 24px;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        padding: 0 80px;
+      }
+      .header::before,
+      .header::after {
+        content: "";
+        width: 220px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #1e4835, #87ce34);
+      }
+      .header::after {
+        transform: scaleX(-1);
+      }
+      .header img {
+        width: 52px;
+        image-rendering: pixelated;
+      }
+      .header-text {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+      }
+      .header-title {
+        color: #fff;
+        font-size: 18px;
+        letter-spacing: 5px;
+      }
+      .header-sub {
+        color: #87ce34;
+        font-size: 9px;
+        letter-spacing: 4px;
+      }
+
+      /* Corner brackets */
+      .corner {
+        position: absolute;
+        width: 68px;
+        height: 68px;
+      }
+      .corner::before,
+      .corner::after {
+        content: "";
+        position: absolute;
+        background: #87ce34;
+      }
+      .corner::before {
+        width: 4px;
+        height: 100%;
+      }
+      .corner::after {
+        width: 100%;
+        height: 4px;
+      }
+      .tl {
+        top: 36px;
+        left: 36px;
+      }
+      .tr {
+        top: 36px;
+        right: 36px;
+        transform: scaleX(-1);
+      }
+      .bl {
+        bottom: 36px;
+        left: 36px;
+        transform: scaleY(-1);
+      }
+      .br {
+        bottom: 36px;
+        right: 36px;
+        transform: scale(-1);
+      }
+
+      /* Bracket container */
+      .bracket-area {
+        position: absolute;
+        top: 132px;
+        left: 74px;
+        right: 74px;
+        bottom: 68px;
+        display: flex;
+        align-items: stretch;
+        gap: 24px;
+      }
+
+      /* Rounds */
+      .round {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        height: 100%;
+        align-items: center;
+        justify-content: space-around;
+        position: relative;
+        padding: 48px 0 28px;
+      }
+      .round::before {
+        content: "";
+        position: absolute;
+        top: 20px;
+        bottom: 12px;
+        left: 50%;
+        width: 1px;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(30, 72, 53, 0.75) 18%,
+          rgba(30, 72, 53, 0.75) 82%,
+          transparent
+        );
+        transform: translateX(-50%);
+        opacity: 0.55;
+      }
+      .round-label {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #87ce34;
+        font-size: 9px;
+        letter-spacing: 3px;
+        white-space: nowrap;
+        background: rgba(13, 35, 40, 0.92);
+        border: 1px solid #1e4835;
+        border-top: 3px solid #87ce34;
+        padding: 10px 22px 8px;
+        min-width: 170px;
+        text-align: center;
+      }
+
+      /* Match slot */
+      .match {
+        display: flex;
+        flex-direction: column;
+        width: 330px;
+        gap: 0;
+        position: relative;
+        background: rgba(13, 35, 40, 0.78);
+        border: 1px solid #1e4835;
+        box-shadow: 0 0 0 3px rgba(13, 35, 40, 0.35);
+      }
+      .match::before {
+        content: attr(data-match);
+        position: absolute;
+        left: 12px;
+        top: -18px;
+        color: #316364;
+        font-size: 7px;
+        letter-spacing: 2px;
+      }
+      .match::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -24px;
+        width: 24px;
+        height: 1px;
+        background: #1e4835;
+      }
+      .final-round .match::after {
+        display: none;
+      }
+
+      .match-cap {
+        height: 4px;
+        background: linear-gradient(90deg, #87ce34 0 28%, #1e4835 28% 100%);
+      }
+
+      .slot {
+        height: 54px;
+        background: rgba(13, 35, 40, 0.92);
+        border: 0;
+        border-left: 4px solid #1e4835;
+        display: flex;
+        align-items: center;
+        padding: 0 16px 0 14px;
+        gap: 12px;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+        position: relative;
+      }
+      .slot::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 1px;
+        background: rgba(49, 99, 100, 0.28);
+      }
+      .slot:last-child::after {
+        display: none;
+      }
+      .slot.winner {
+        border-left-color: #87ce34;
+        background:
+          linear-gradient(
+            90deg,
+            rgba(135, 206, 52, 0.18),
+            rgba(15, 46, 46, 0.96) 28%
+          ),
+          #0f2e2e;
+      }
+      .slot.winner .slot-name {
+        color: #87ce34;
+      }
+      .slot.winner .seed {
+        color: #87ce34;
+      }
+
+      .seed {
+        color: #316364;
+        font-size: 8px;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #1e4835;
+        background: rgba(16, 44, 49, 0.65);
+        flex-shrink: 0;
+      }
+      .slot-name {
+        color: #fff;
+        font-size: 12px;
+        letter-spacing: 1px;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .slot-score {
+        color: #87ce34;
+        font-size: 13px;
+        min-width: 34px;
+        text-align: center;
+        padding: 7px 0;
+        background: rgba(16, 44, 49, 0.75);
+        border-left: 1px solid #1e4835;
+      }
+      .slot-score.Navn {
+        color: #1e4835;
+      }
+
+      /* Final winner display */
+      .winner-display {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        flex: 0 0 270px;
+        margin: 48px 0 28px;
+        background: rgba(13, 35, 40, 0.72);
+        border: 1px solid #1e4835;
+        border-top: 4px solid #87ce34;
+        position: relative;
+      }
+      .winner-display::before,
+      .winner-display::after {
+        content: "";
+        position: absolute;
+        width: 34px;
+        height: 34px;
+        border-color: #87ce34;
+        opacity: 0.75;
+      }
+      .winner-display::before {
+        top: 14px;
+        left: 14px;
+        border-top: 3px solid;
+        border-left: 3px solid;
+      }
+      .winner-display::after {
+        right: 14px;
+        bottom: 14px;
+        border-right: 3px solid;
+        border-bottom: 3px solid;
+      }
+      .trophy-icon {
+        width: 74px;
+        height: 74px;
+        background: #87ce34;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #102c31;
+        font-size: 26px;
+        box-shadow: 0 0 26px rgba(135, 206, 52, 0.25);
+      }
+      .winner-label {
+        color: #316364;
+        font-size: 8px;
+        letter-spacing: 3px;
+      }
+      .winner-name {
+        color: #87ce34;
+        font-size: 15px;
+        text-align: center;
+        line-height: 1.7;
+        max-width: 210px;
+        overflow-wrap: anywhere;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stage" id="stage">
+      <div class="bg-grid"></div>
+      <div class="vignette"></div>
+      <div class="scanline"></div>
+      <div class="bar-top"></div>
+      <div class="bar-bottom"></div>
+      <div class="corner tl"></div>
+      <div class="corner tr"></div>
+      <div class="corner bl"></div>
+      <div class="corner br"></div>
+
+      <div class="header">
+        <img src="logo.png" alt="" />
+        <div class="header-text">
+          <div class="header-title">RESPAWN &Oslash;STFOLD</div>
+          <div class="header-sub">MCSR RANKED / SINGLE ELIMINATION</div>
+        </div>
+      </div>
+
+      <div class="bracket-area" id="bracketArea">
+        <!-- Generated by JS below -->
+      </div>
+    </main>
+
+    <script>
+      function fitStage() {
+        const scale = Math.min(
+          window.innerWidth / 1920,
+          window.innerHeight / 1080,
+        );
+        document.documentElement.style.setProperty("--stage-scale", scale);
+      }
+
+      fitStage();
+      window.addEventListener("resize", fitStage);
+
+      // ============================================================
+      // EDIT THIS DATA TO UPDATE THE BRACKET
+      // ============================================================
+      const bracket = {
+        rounds: [
+          {
+            name: "KVARTFINALE",
+            matches: [
+              {
+                p1: { name: "Navn", seed: 1, score: "-" },
+                p2: { name: "Navn", seed: 8, score: "-" },
+                winner: 0,
+              },
+              {
+                p1: { name: "Navn", seed: 4, score: "-" },
+                p2: { name: "Navn", seed: 5, score: "-" },
+                winner: 0,
+              },
+              {
+                p1: { name: "Navn", seed: 3, score: "-" },
+                p2: { name: "Navn", seed: 6, score: "-" },
+                winner: 0,
+              },
+              {
+                p1: { name: "Navn", seed: 2, score: "-" },
+                p2: { name: "Navn", seed: 7, score: "-" },
+                winner: 0,
+              },
+            ],
+          },
+          {
+            name: "SEMIFINALE",
+            matches: [
+              {
+                p1: { name: "Navn", seed: "", score: "-" },
+                p2: { name: "Navn", seed: "", score: "-" },
+                winner: 0,
+              },
+              {
+                p1: { name: "Navn", seed: "", score: "-" },
+                p2: { name: "Navn", seed: "", score: "-" },
+                winner: 0,
+              },
+            ],
+          },
+          {
+            name: "FINALE",
+            matches: [
+              {
+                p1: { name: "Navn", seed: "", score: "-" },
+                p2: { name: "Navn", seed: "", score: "-" },
+                winner: 0,
+              },
+            ],
+          },
+        ],
+        champion: null, // Set to winner name when known
+      };
+      // ============================================================
+
+      function buildBracket(data) {
+        const area = document.getElementById("bracketArea");
+        area.innerHTML = ""; // always clear first
+
+        data.rounds.forEach((round, roundIndex) => {
+          const col = document.createElement("div");
+          col.className =
+            "round round-" +
+            (roundIndex + 1) +
+            (roundIndex === data.rounds.length - 1 ? " final-round" : "");
+
+          const lbl = document.createElement("div");
+          lbl.className = "round-label";
+          lbl.textContent = round.name;
+          col.appendChild(lbl);
+
+          round.matches.forEach((match, matchIndex) => {
+            const m = document.createElement("div");
+            m.className = "match";
+            m.dataset.match =
+              "R" + (roundIndex + 1) + " / M" + (matchIndex + 1);
+
+            const cap = document.createElement("div");
+            cap.className = "match-cap";
+            m.appendChild(cap);
+
+            [1, 2].forEach((n) => {
+              const p = n === 1 ? match.p1 : match.p2;
+              const slot = document.createElement("div");
+              slot.className = "slot" + (match.winner === n ? " winner" : "");
+
+              const seed = document.createElement("div");
+              seed.className = "seed";
+              seed.textContent = p.seed;
+
+              const name = document.createElement("div");
+              name.className = "slot-name";
+              name.textContent = p.name.toUpperCase();
+
+              const score = document.createElement("div");
+              score.className = "slot-score" + (p.score === "-" ? " Navn" : "");
+              score.textContent = p.score;
+
+              slot.appendChild(seed);
+              slot.appendChild(name);
+              slot.appendChild(score);
+              m.appendChild(slot);
+            });
+
+            col.appendChild(m);
+          });
+
+          area.appendChild(col);
+        });
+
+        const champCol = document.createElement("div");
+        champCol.className = "winner-display";
+
+        const trophy = document.createElement("div");
+        trophy.className = "trophy-icon";
+        trophy.textContent = "*";
+
+        const winnerLabel = document.createElement("div");
+        winnerLabel.className = "winner-label";
+        winnerLabel.textContent = "VINNER";
+
+        const winnerName = document.createElement("div");
+        winnerName.className = "winner-name";
+        winnerName.textContent = data.champion
+          ? data.champion.toUpperCase()
+          : "???";
+
+        champCol.appendChild(trophy);
+        champCol.appendChild(winnerLabel);
+        champCol.appendChild(winnerName);
+        area.appendChild(champCol);
+      }
+
+      // Show the sample bracket immediately. Live control panel data can still replace it.
+      buildBracket(bracket);
+    </script>
+    <script src="_ws_client.js"></script>
+    <script>
+      window.addEventListener("ro:bracket", function (e) {
+        if (e.detail && e.detail.rounds) {
+          buildBracket(e.detail);
+        }
+      });
+    </script>
+  </body>
+</html>

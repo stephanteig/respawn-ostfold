@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1920px; height: 1080px;
+    background: #102C31;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+    font-family: 'Press Start 2P', monospace;
+  }
+
+  /* Pixel grid bg */
+  .bg-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(135,206,52,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(135,206,52,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Corner brackets */
+  .corner { position: absolute; width: 60px; height: 60px; }
+  .corner::before, .corner::after { content:''; position: absolute; background: #87CE34; }
+  .corner::before { width: 4px; height: 100%; }
+  .corner::after  { width: 100%; height: 4px; }
+  .tl { top:40px; left:40px; }
+  .tr { top:40px; right:40px; transform: scaleX(-1); }
+  .bl { bottom:40px; left:40px; transform: scaleY(-1); }
+  .br { bottom:40px; right:40px; transform: scale(-1); }
+
+  /* Top bar */
+  .top-bar {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 6px; background: #87CE34;
+  }
+  .bottom-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 6px; background: #87CE34;
+  }
+
+  /* Logo */
+  .logo-wrap {
+    position: absolute; top: 80px;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  .logo-wrap img { width: 120px; image-rendering: pixelated; }
+  .brand-title {
+    color: #fff; font-size: 28px; letter-spacing: 4px;
+  }
+  .brand-sub {
+    color: #87CE34; font-size: 13px; letter-spacing: 6px;
+    margin-top: -8px;
+  }
+
+  /* Countdown */
+  .countdown-ring {
+    position: relative; width: 360px; height: 360px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ring-svg { position: absolute; top: 0; left: 0; }
+  .ring-track { stroke: #1E4835; }
+  .ring-progress {
+    stroke: #87CE34;
+    stroke-dasharray: 1005;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear;
+    transform-origin: center;
+    transform: rotate(-90deg);
+  }
+  .time-display {
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .time-label { color: #6EC836; font-size: 11px; letter-spacing: 3px; }
+  .time-value { color: #fff; font-size: 52px; letter-spacing: 2px; line-height: 1; }
+  .time-sub { color: #87CE34; font-size: 13px; letter-spacing: 2px; }
+
+  /* Starting soon text */
+  .info-strip {
+    position: absolute; bottom: 120px;
+    display: flex; align-items: center; gap: 24px;
+    color: #316364; font-size: 11px; letter-spacing: 3px;
+  }
+  .dot { width: 6px; height: 6px; background: #87CE34; display: inline-block; animation: blink 1s step-end infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* Loading dots bottom */
+  .loading-dots {
+    position: absolute; bottom: 80px;
+    display: flex; gap: 12px;
+  }
+  .ld {
+    width: 18px; height: 18px; background: #1E4835;
+    animation: ldpulse 1.2s ease-in-out infinite;
+  }
+  .ld:nth-child(2) { background: #87CE34; animation-delay: 0.15s; }
+  .ld:nth-child(3) { background: #316364; animation-delay: 0.3s; }
+  @keyframes ldpulse {
+    0%,100%{opacity:0.4;transform:scale(1)}
+    50%{opacity:1;transform:scale(1.2)}
+  }
+
+  /* Scan line */
+  .scanline {
+    position: absolute; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(135,206,52,0.15) 50%, transparent 100%);
+    animation: scan 4s linear infinite;
+  }
+  @keyframes scan { from{top:0} to{top:100%} }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="top-bar"></div>
+<div class="bottom-bar"></div>
+<div class="scanline"></div>
+
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+
+<div class="logo-wrap">
+  <img src="logo.png" alt="Respawn Østfold">
+  <div class="brand-title">RESPAWN</div>
+  <div class="brand-sub">ØSTFOLD</div>
+</div>
+
+<div class="countdown-ring">
+  <svg class="ring-svg" width="360" height="360" viewBox="0 0 360 360">
+    <circle class="ring-track" cx="180" cy="180" r="160" fill="none" stroke-width="8"/>
+    <circle class="ring-progress" id="ringProgress" cx="180" cy="180" r="160" fill="none" stroke-width="8" stroke-linecap="square"/>
+  </svg>
+  <div class="time-display">
+    <div class="time-label">STREAMEN STARTER OM</div>
+    <div class="time-value" id="timeValue">30:00</div>
+    <div class="time-sub">MCSR RANKED TURNERING</div>
+  </div>
+</div>
+
+<div class="info-strip">
+  <span>GLEMMEN VGS</span>
+  <span class="dot"></span>
+  <span>FREDRIKSTAD</span>
+  <span class="dot"></span>
+  <span>CASH PRIZE TOURNAMENT</span>
+</div>
+
+<div class="loading-dots">
+  <div class="ld"></div>
+  <div class="ld"></div>
+  <div class="ld"></div>
+</div>
+
+<script src="_ws_client.js"></script>
+<script>
+  const circumference = 2 * Math.PI * 160;
+  const ring    = document.getElementById('ringProgress');
+  const timeVal = document.getElementById('timeValue');
+  ring.style.strokeDasharray = circumference;
+
+  let totalSeconds = 30 * 60;
+  let remaining    = totalSeconds;
+  let timer        = null;
+
+  function startCountdown(total, startedAt) {
+    // Calculate how many seconds have already elapsed since startedAt
+    const elapsed = startedAt ? Math.floor((Date.now() - startedAt) / 1000) : 0;
+    totalSeconds = total;
+    remaining    = Math.max(0, total - elapsed);
+    if (timer) clearInterval(timer);
+    tick();
+    timer = setInterval(tick, 1000);
+  }
+
+  function tick() {
+    if (remaining <= 0) {
+      timeVal.textContent = '00:00';
+      ring.style.strokeDashoffset = circumference;
+      clearInterval(timer);
+      return;
+    }
+    const mins = String(Math.floor(remaining / 60)).padStart(2,'0');
+    const secs = String(remaining % 60).padStart(2,'0');
+    timeVal.textContent = mins + ':' + secs;
+    ring.style.strokeDashoffset = circumference * (1 - remaining / totalSeconds);
+    remaining--;
+  }
+
+  // Listen for WS updates
+  window.addEventListener('ro:countdown', function(e) {
+    var d = e.detail;
+    if (d && d.total) startCountdown(d.total, d.startedAt);
+  });
+
+  // Start with default so something shows on load
+  tick();
+</script>
+</body>
+</html>

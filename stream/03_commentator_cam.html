@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<!--
+  COMMENTATOR CAM OVERLAY
+  1920×1080 transparent overlay — place over cam source in OBS
+  Bottom-left corner design
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1920px; height: 1080px;
+    background: transparent;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Press Start 2P', monospace;
+  }
+
+  /* Corner brackets on the cam feed area */
+  .cam-corners {
+    position: absolute;
+    /* Adjust these to match your cam area in OBS */
+    top: 0; left: 0; right: 0; bottom: 0;
+  }
+  .corner { position: absolute; width: 40px; height: 40px; }
+  .corner::before, .corner::after { content:''; position: absolute; background: #87CE34; }
+  .corner::before { width: 3px; height: 100%; }
+  .corner::after  { width: 100%; height: 3px; }
+  .tl { top:16px; left:16px; }
+  .tr { top:16px; right:16px; transform: scaleX(-1); }
+  .bl { bottom:16px; left:16px; transform: scaleY(-1); }
+  .br { bottom:16px; right:16px; transform: scale(-1); }
+
+  /* LIVE indicator */
+  .live-badge {
+    position: absolute;
+    top: 28px; right: 72px;
+    background: #87CE34;
+    color: #102C31;
+    font-size: 9px;
+    padding: 6px 12px;
+    display: flex; align-items: center; gap: 8px;
+    letter-spacing: 2px;
+  }
+  .live-dot {
+    width: 8px; height: 8px;
+    background: #102C31;
+    border-radius: 50%;
+    animation: livepulse 1s ease-in-out infinite;
+  }
+  @keyframes livepulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* Name plate — bottom left */
+  .nameplate-wrap {
+    position: absolute;
+    bottom: 72px; left: 72px;
+    display: flex; flex-direction: column; gap: 0;
+    animation: slideIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  @keyframes slideIn {
+    from { transform: translateX(-40px); opacity: 0; }
+    to   { transform: translateX(0);     opacity: 1; }
+  }
+
+  .nameplate-bar {
+    height: 4px;
+    background: #87CE34;
+    width: 100%;
+  }
+
+  .nameplate-main {
+    background: rgba(16,44,49,0.92);
+    padding: 14px 24px;
+    display: flex; flex-direction: column; gap: 8px;
+    border-left: 4px solid #87CE34;
+    min-width: 360px;
+    position: relative;
+  }
+
+  .nameplate-logo {
+    position: absolute;
+    right: 16px; top: 50%; transform: translateY(-50%);
+    opacity: 0.25;
+  }
+  .nameplate-logo img { width: 40px; image-rendering: pixelated; }
+
+  .commentator-role {
+    color: #87CE34;
+    font-size: 9px;
+    letter-spacing: 3px;
+  }
+  .commentator-name {
+    color: #fff;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+  .commentator-handle {
+    color: #316364;
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+
+  /* Event info strip at bottom */
+  .event-strip {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 36px;
+    background: rgba(16,44,49,0.88);
+    border-top: 2px solid #87CE34;
+    display: flex; align-items: center;
+    padding: 0 80px;
+    gap: 32px;
+  }
+  .event-strip img { width: 24px; image-rendering: pixelated; }
+  .event-text { color: #6EC836; font-size: 9px; letter-spacing: 2px; }
+  .sep { width: 4px; height: 4px; background: #87CE34; transform: rotate(45deg); }
+</style>
+</head>
+<body>
+
+<div class="cam-corners">
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+</div>
+
+<div class="live-badge">
+  <div class="live-dot"></div>
+  LIVE
+</div>
+
+<div class="nameplate-wrap">
+  <div class="nameplate-bar"></div>
+  <div class="nameplate-main">
+    <div class="commentator-role">KOMMENTATOR</div>
+    <div class="commentator-name" id="commName">NAVN NAVNESEN</div>
+    <div class="commentator-handle" id="commHandle">@handle</div>
+    <div class="nameplate-logo"><img src="logo.png" alt=""></div>
+  </div>
+</div>
+
+<div class="event-strip">
+  <img src="logo.png" alt="">
+  <span class="event-text">RESPAWN ØSTFOLD</span>
+  <div class="sep"></div>
+  <span class="event-text">MCSR RANKED</span>
+  <div class="sep"></div>
+  <span class="event-text">GLEMMEN VGS · FREDRIKSTAD</span>
+</div>
+
+</body>
+
+<script src="_ws_client.js"></script>
+<script>
+
+window.addEventListener('ro:commentator', e => {
+  const d = e.detail;
+  if (!d) return;
+  if (d.name)   document.getElementById('commName').textContent   = d.name.toUpperCase();
+  if (d.handle) document.getElementById('commHandle').textContent = d.handle;
+  if (d.role)   document.querySelector('.commentator-role').textContent = d.role.toUpperCase();
+});
+
+</script>
+
+</html>

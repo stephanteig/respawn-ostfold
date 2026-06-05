@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<!--
+  PLAYER NAME PLATES — RESPAWN ØSTFOLD
+  1920×1080 transparent overlay
+  Player 1 bottom-left, Player 2 bottom-right
+  Pass URL params: ?p1=PlayerName&p1handle=@handle&p2=PlayerName&p2handle=@handle
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1920px; height: 1080px;
+    background: transparent;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Press Start 2P', monospace;
+  }
+
+  .plate {
+    position: absolute;
+    bottom: 80px;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .plate.left  { left: 60px; }
+  .plate.right { right: 60px; align-items: flex-end; }
+
+  .plate-top-bar { height: 3px; background: #87CE34; width: 100%; }
+
+  .plate-body {
+    background: rgba(16,44,49,0.90);
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 16px;
+    min-width: 380px;
+    position: relative;
+    backdrop-filter: blur(2px);
+  }
+  .plate.left  .plate-body { border-left:  4px solid #87CE34; }
+  .plate.right .plate-body { border-right: 4px solid #87CE34; flex-direction: row-reverse; }
+
+  /* Player number badge */
+  .player-badge {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: #87CE34;
+    display: flex; align-items: center; justify-content: center;
+    color: #102C31;
+    font-size: 16px;
+  }
+  .plate.right .player-badge { background: #6EC836; }
+
+  .player-info { display: flex; flex-direction: column; gap: 7px; }
+  .plate.right .player-info { align-items: flex-end; }
+
+  .player-label { color: #6EC836; font-size: 8px; letter-spacing: 3px; }
+  .player-name  { color: #fff;    font-size: 18px; letter-spacing: 1px; white-space: nowrap; }
+  .player-handle{ color: #316364; font-size: 8px;  letter-spacing: 2px; }
+
+  /* VS divider center */
+  .vs-center {
+    position: absolute;
+    bottom: 80px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .vs-box {
+    background: rgba(16,44,49,0.95);
+    border: 2px solid #87CE34;
+    padding: 8px 20px;
+    color: #87CE34;
+    font-size: 24px;
+  }
+  .vs-event {
+    color: #316364; font-size: 8px; letter-spacing: 3px;
+    background: rgba(16,44,49,0.7);
+    padding: 4px 12px;
+  }
+
+  /* Bracket/round indicator — top center */
+  .round-badge {
+    position: absolute;
+    top: 48px; left: 50%; transform: translateX(-50%);
+    background: rgba(16,44,49,0.88);
+    border: 1px solid #1E4835;
+    border-top: 3px solid #87CE34;
+    padding: 10px 32px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .round-label { color: #316364; font-size: 8px; letter-spacing: 3px; }
+  .round-name  { color: #87CE34; font-size: 12px; letter-spacing: 2px; }
+
+  /* Animations */
+  .plate.left  { animation: slideInLeft  0.6s cubic-bezier(0.16,1,0.3,1) both; }
+  .plate.right { animation: slideInRight 0.6s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
+  .vs-center   { animation: fadeUp 0.5s ease 0.3s both; }
+  .round-badge { animation: fadeUp 0.5s ease 0.2s both; }
+
+  @keyframes slideInLeft  { from{transform:translateX(-60px);opacity:0} to{transform:translateX(0);opacity:1} }
+  @keyframes slideInRight { from{transform:translateX(60px);opacity:0}  to{transform:translateX(0);opacity:1} }
+  @keyframes fadeUp       { from{transform:translateX(-50%) translateY(20px);opacity:0} to{transform:translateX(-50%) translateY(0);opacity:1} }
+</style>
+</head>
+<body>
+
+<div class="round-badge">
+  <div class="round-label">RUNDE</div>
+  <div class="round-name" id="roundName">KVARTFINALE</div>
+</div>
+
+<!-- Player 1 — Left -->
+<div class="plate left">
+  <div class="plate-top-bar"></div>
+  <div class="plate-body">
+    <div class="player-badge">1</div>
+    <div class="player-info">
+      <div class="player-label">SPILLER 1</div>
+      <div class="player-name"  id="p1name">PLAYER_ONE</div>
+      <div class="player-handle" id="p1handle">@player1</div>
+    </div>
+  </div>
+</div>
+
+<!-- VS center -->
+<div class="vs-center">
+  <div class="vs-box">VS</div>
+  <div class="vs-event">RESPAWN ØSTFOLD</div>
+</div>
+
+<!-- Player 2 — Right -->
+<div class="plate right">
+  <div class="plate-top-bar"></div>
+  <div class="plate-body">
+    <div class="player-badge">2</div>
+    <div class="player-info">
+      <div class="player-label">SPILLER 2</div>
+      <div class="player-name"  id="p2name">PLAYER_TWO</div>
+      <div class="player-handle" id="p2handle">@player2</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Read from URL params for easy customization in OBS
+  // e.g. file:///path/to/file.html?p1=Notch&p1h=@notch&p2=Dream&p2h=@dream&round=FINALE
+  const p = new URLSearchParams(location.search);
+  if (p.get('p1'))    document.getElementById('p1name').textContent   = p.get('p1').toUpperCase();
+  if (p.get('p1h'))   document.getElementById('p1handle').textContent = p.get('p1h');
+  if (p.get('p2'))    document.getElementById('p2name').textContent   = p.get('p2').toUpperCase();
+  if (p.get('p2h'))   document.getElementById('p2handle').textContent = p.get('p2h');
+  if (p.get('round')) document.getElementById('roundName').textContent = p.get('round').toUpperCase();
+</script>
+</body>
+
+<script src="_ws_client.js"></script>
+<script>
+
+window.addEventListener('ro:match', e => {
+  const d = e.detail;
+  if (!d) return;
+  if (d.p1)    document.getElementById('p1name').textContent    = d.p1.toUpperCase();
+  if (d.p1h)   document.getElementById('p1handle').textContent  = d.p1h;
+  if (d.p2)    document.getElementById('p2name').textContent    = d.p2.toUpperCase();
+  if (d.p2h)   document.getElementById('p2handle').textContent  = d.p2h;
+  if (d.round) document.getElementById('roundName').textContent = d.round.toUpperCase();
+});
+
+</script>
+
+</html>

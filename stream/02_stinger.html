@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<!-- 
+  STINGER TRANSITION
+  Duration: 1000ms total
+  Use as Browser Source in OBS with "Stinger" transition type
+  Set transition point at 500ms (halfway)
+  Resolution: 1920x1080
+-->
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1920px; height: 1080px;
+    background: transparent;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Pixel block wipe — columns of pixel blocks sweep across */
+  .pixel-col {
+    position: absolute;
+    top: 0; width: 80px; height: 1080px;
+    display: flex; flex-direction: column;
+    gap: 0;
+  }
+  .pixel-block {
+    width: 80px; height: 80px; flex-shrink: 0;
+    background: #102C31;
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  /* Flash overlay at midpoint */
+  .flash {
+    position: absolute; inset: 0;
+    background: #87CE34;
+    opacity: 0;
+  }
+
+  /* Logo reveal at center */
+  .center-logo {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+    opacity: 0;
+  }
+  .center-logo img { width: 140px; image-rendering: pixelated; }
+
+  /* Animate */
+  @keyframes blockIn {
+    0%   { transform: scaleY(0); }
+    100% { transform: scaleY(1); }
+  }
+  @keyframes blockOut {
+    0%   { transform: scaleY(1); }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+  @keyframes flashPulse {
+    0%   { opacity: 0; }
+    45%  { opacity: 0; }
+    50%  { opacity: 1; }
+    60%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  @keyframes logoShow {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    45%  { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    55%  { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+    70%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    85%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  .flash { animation: flashPulse 1s ease-in-out forwards; }
+  .center-logo { animation: logoShow 1s ease-out forwards; }
+</style>
+</head>
+<body>
+
+<!-- 24 columns × 80px = 1920px -->
+<script>
+// Generate pixel columns programmatically
+const NUM_COLS = 24;
+const BLOCKS_PER_COL = 14; // 14 × 80 = 1120 > 1080
+const TOTAL_MS = 1000;
+
+for (let c = 0; c < NUM_COLS; c++) {
+  const col = document.createElement('div');
+  col.className = 'pixel-col';
+  col.style.left = (c * 80) + 'px';
+
+  // Alternate colors slightly for depth
+  const colors = ['#102C31','#1E4835','#102C31','#316364'];
+
+  for (let b = 0; b < BLOCKS_PER_COL; b++) {
+    const block = document.createElement('div');
+    block.className = 'pixel-block';
+    block.style.background = colors[b % colors.length];
+
+    // Stagger: columns sweep left to right, blocks stagger down
+    const colDelay = (c / NUM_COLS) * 350;
+    const blockDelay = (b / BLOCKS_PER_COL) * 80;
+    const delay = colDelay + blockDelay;
+
+    // In phase: 0 → 500ms
+    block.style.animation = `blockIn 0.25s ease-in ${delay}ms forwards`;
+
+    col.appendChild(block);
+  }
+  document.body.appendChild(col);
+}
+
+// Out phase: after 500ms, reverse wipe right-to-left
+setTimeout(() => {
+  document.querySelectorAll('.pixel-block').forEach((block, i) => {
+    const col = NUM_COLS - 1 - Math.floor(i / BLOCKS_PER_COL);
+    const row = i % BLOCKS_PER_COL;
+    const colDelay = (col / NUM_COLS) * 350;
+    const rowDelay = (row / BLOCKS_PER_COL) * 80;
+    block.style.transformOrigin = 'bottom';
+    block.style.animation = `blockOut 0.25s ease-out ${colDelay + rowDelay}ms forwards`;
+  });
+}, 500);
+</script>
+
+<div class="flash"></div>
+<div class="center-logo">
+  <img src="logo.png" alt="Respawn Østfold">
+</div>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "respawn-overlays",
+  "version": "1.0.0",
+  "description": "All files er 1920×1080. Legg `logo.png` i samme mappe som HTML-filene.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.19.0"
+  }
+}
