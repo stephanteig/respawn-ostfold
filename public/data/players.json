@@ -1,7 +1,11 @@
 [
   {
     "username": "Snuskongen",
-    "displayName": "Danil Polienok"
+    "displayName": "Danil Polienok",
+    "rank": "Emerald I",
+    "elo": 1240,
+    "pb": "7:32",
+    "avgTime": "8:15"
   },
   {
     "username": "Amir_King",
