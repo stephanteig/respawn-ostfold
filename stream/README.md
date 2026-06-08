@@ -15,11 +15,29 @@ All files er 1920×1080. Legg `logo.png` i samme mappe som HTML-filene.
 ---
 
 ### 02_stinger.html
-**Scene:** Stinger Transition mellom scener
+**Scene:** Stinger Transition mellom scener (HTML-versjon, ikke lenger primær)
 **OBS:** Settings → Scene Transitions → Stinger
 - Duration: 1000ms
 - Transition Point: Time (500ms)
 - Audio Monitoring: Off
+
+---
+
+### stinger/ — Manim MOV-stinger (primær)
+**Scene:** Stinger Transition mellom scener
+**Teknologi:** Python / Manim CE — rendres til transparent `.mov`
+
+Se [`stinger/README.md`](stinger/README.md) for full oppsettguide.
+
+**Rask oppsett:**
+```bash
+pip install manim pillow scikit-image
+cd stream/stinger
+python prepare_logo.py          # lag transparent logo
+manim -qh respawn_stinger.py RespawnStinger --format=mov --transparent
+```
+
+**OBS:** Scene Transitions → Stinger → `RespawnStinger.mov` → Transition point: **600ms** → Composite scene transition: ✓
 
 ---
 
