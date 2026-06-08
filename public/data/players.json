@@ -1,11 +1,7 @@
 [
   {
     "username": "Snuskongen",
-    "displayName": "Danil Polienok",
-    "rank": "Emerald I",
-    "elo": 1240,
-    "pb": "7:32",
-    "avgTime": "8:15"
+    "displayName": "Danil Polienok"
   },
   {
     "username": "Amir_King",
@@ -21,7 +17,10 @@
   },
   {
     "username": "w0s_Tiger",
-    "displayName": "Lukas Mendelis"
+    "displayName": "Lukas Mendelis",
+    "rank": "Emerald I",
+    "elo": 1240,
+    "pb": "11:56"
   },
   {
     "username": "skills2kills",
@@ -29,7 +28,11 @@
   },
   {
     "username": "WashedEva",
-    "displayName": "Even Theodorsen"
+    "displayName": "Even Theodorsen",
+    "rank": "Coal II",
+    "elo": 453,
+    "pb": "32:34",
+    "avgTime": "52:42"
   },
   {
     "username": "Cheezez1410",
