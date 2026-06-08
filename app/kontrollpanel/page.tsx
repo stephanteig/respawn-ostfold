@@ -343,7 +343,10 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [seed, setSeed] = useState('');
-  const [info, setInfo] = useState('');
+  const [rank, setRank] = useState('');
+  const [elo, setElo] = useState('');
+  const [pb, setPb] = useState('');
+  const [avgTime, setAvgTime] = useState('');
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [previewName, setPreviewName] = useState('');
 
@@ -371,7 +374,7 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
   }
 
   function resetForm() {
-    setUsername(''); setDisplayName(''); setSeed(''); setInfo(''); setEditIndex(null);
+    setUsername(''); setDisplayName(''); setSeed(''); setRank(''); setElo(''); setPb(''); setAvgTime(''); setEditIndex(null);
   }
 
   function switchCategory(cat: RosterCategory) {
@@ -386,7 +389,10 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
       username: name,
       ...(displayName.trim() ? { displayName: displayName.trim() } : {}),
       ...(seed.trim() ? { seed: parseInt(seed, 10) || undefined } : {}),
-      ...(info.trim() ? { info: info.trim().slice(0, 200) } : {}),
+      ...(rank.trim() ? { rank: rank.trim() } : {}),
+      ...(elo.trim() ? { elo: parseInt(elo, 10) || undefined } : {}),
+      ...(pb.trim() ? { pb: pb.trim() } : {}),
+      ...(avgTime.trim() ? { avgTime: avgTime.trim() } : {}),
     };
     if (editIndex !== null) {
       persistRoster(category, roster.map((p, i) => (i === editIndex ? entry : p)));
@@ -409,7 +415,10 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
     setUsername(p.username);
     setDisplayName(p.displayName || '');
     setSeed(p.seed !== undefined ? String(p.seed) : '');
-    setInfo(p.info || '');
+    setRank(p.rank || '');
+    setElo(p.elo !== undefined ? String(p.elo) : '');
+    setPb(p.pb || '');
+    setAvgTime(p.avgTime || '');
     setEditIndex(i);
   }
 
@@ -499,9 +508,11 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
             <div style={s.fieldWrap}><label style={s.label}>MCSR BRUKERNAVN *</label><input style={s.input} value={username} onChange={(e) => setUsername(e.target.value)} placeholder="MinecraftUsername" /></div>
             <div style={s.fieldWrap}><label style={s.label}>VISNINGSNAVN</label><input style={s.input} value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Valgfritt" /></div>
             <div style={s.fieldWrap}><label style={s.label}>SEED / RANGERING</label><input style={s.input} type="number" value={seed} onChange={(e) => setSeed(e.target.value)} placeholder="Valgfritt" /></div>
-            <div style={s.fieldWrap}>
-              <label style={s.label}>INFO ({info.length}/200)</label>
-              <textarea style={{ ...s.input, minHeight: '70px', resize: 'vertical' }} value={info} maxLength={200} onChange={(e) => setInfo(e.target.value)} placeholder="Valgfritt" />
+            <div style={s.fieldWrap}><label style={s.label}>RANK</label><input style={s.input} value={rank} onChange={(e) => setRank(e.target.value)} placeholder="f.eks. Emerald I" /></div>
+            <div style={s.fieldWrap}><label style={s.label}>ELO</label><input style={s.input} type="number" value={elo} onChange={(e) => setElo(e.target.value)} placeholder="f.eks. 1240" /></div>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <div style={{ ...s.fieldWrap, flex: 1 }}><label style={s.label}>PB</label><input style={s.input} value={pb} onChange={(e) => setPb(e.target.value)} placeholder="f.eks. 7:32" /></div>
+              <div style={{ ...s.fieldWrap, flex: 1 }}><label style={s.label}>AVG TIME</label><input style={s.input} value={avgTime} onChange={(e) => setAvgTime(e.target.value)} placeholder="f.eks. 8:15" /></div>
             </div>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               <button style={s.sendBtn} onClick={submitPlayer}>
@@ -525,7 +536,10 @@ function PlayerAdminTab({ show }: { show: (text: string) => void }) {
                   username={previewName}
                   displayName={displayName.trim() || undefined}
                   seed={seed.trim() ? (parseInt(seed, 10) || undefined) : undefined}
-                  info={info.trim() || undefined}
+                  rank={rank.trim() || undefined}
+                  elo={elo.trim() ? (parseInt(elo, 10) || undefined) : undefined}
+                  pb={pb.trim() || undefined}
+                  avgTime={avgTime.trim() || undefined}
                 />
               ) : (
                 <div style={{ fontSize: '11px', color: 'var(--muted)', padding: '20px 0' }}>
