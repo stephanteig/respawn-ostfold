@@ -116,7 +116,7 @@ export default function Footer() {
           letterSpacing: '2px',
           color: 'rgba(122,172,174,0.5)',
         }}>
-          © 2025 Respawn Østfold · Glemmen VGS
+          © 2026 Respawn Østfold · Glemmen VGS
         </div>
       </footer>
       <style>{`

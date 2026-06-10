@@ -94,7 +94,7 @@ export default function HeroHome() {
           marginTop: '20px',
           animation: 'fadeUp .6s .35s ease both',
         }}>
-          11. JUNI 2025
+          11. JUNI 2026
         </p>
         <p style={{
           fontFamily: "'Share Tech Mono', monospace",

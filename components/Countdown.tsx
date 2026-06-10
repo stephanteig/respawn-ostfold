@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-// Turneringsstart: 11. juni 2026 kl 12:00 (norsk tid, UTC+2 i juni)
-const TARGET = new Date('2026-06-11T12:00:00+02:00').getTime();
+// Turneringsstart: 11. juni 2026 kl 13:00 (norsk tid, UTC+2 i juni)
+const TARGET = new Date('2026-06-11T13:00:00+02:00').getTime();
 
 type Remaining = { days: number; hours: number; minutes: number; seconds: number };
 
