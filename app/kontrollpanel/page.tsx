@@ -55,7 +55,12 @@ interface BracketState {
 const emptyMatch = (): BracketMatch => ({ p1: '', s1: '', p2: '', s2: '', winner: 0 });
 
 const defaultBracket = (): BracketState => ({
-  qf: [emptyMatch(), emptyMatch(), emptyMatch(), emptyMatch()],
+  qf: [
+    { p1: 'w0s_Tiger',   s1: '', p2: 'Amir_King',      s2: '', winner: 0 },
+    { p1: 'Snuskongen',  s1: '', p2: 'Xraayy',          s2: '', winner: 0 },
+    { p1: 'DNAmann42',   s1: '', p2: 'BarrelDiamond72', s2: '', winner: 0 },
+    { p1: 'Cheezez1410', s1: '', p2: 'skills2kills',    s2: '', winner: 0 },
+  ],
   sf: [emptyMatch(), emptyMatch()],
   f:  [emptyMatch()],
   champion: '',
