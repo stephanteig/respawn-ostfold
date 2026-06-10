@@ -32,7 +32,7 @@ export default function StreamPage() {
           background: 'rgba(10,31,35,0.8)',
         }}>
           <iframe
-            src="https://player.twitch.tv/?channel=stephanteig&parent=stephanteig.github.io"
+            src="https://player.twitch.tv/?channel=respawnostfold&parent=stephanteig.github.io"
             allowFullScreen
             title="Respawn Østfold Live Stream"
             style={{
@@ -48,7 +48,7 @@ export default function StreamPage() {
 
         <div style={{ marginTop: '24px' }}>
           <a
-            href="https://www.twitch.tv/stephanteig"
+            href="https://www.twitch.tv/respawnostfold"
             target="_blank"
             rel="noopener noreferrer"
             style={{

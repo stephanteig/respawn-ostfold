@@ -11,7 +11,6 @@ const REGISTRATION_DEADLINE = new Date('2026-06-09T23:59:59+02:00');
 interface Props {
   players: Player[];
   commentators: Player[];
-  guests: Player[];
 }
 
 function Grid({ roster }: { roster: Player[] }) {
@@ -42,13 +41,12 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function SpillereView({ players: pInit, commentators: cInit, guests: gInit }: Props) {
+export default function SpillereView({ players: pInit, commentators: cInit }: Props) {
   const players = useRoster('players', pInit);
   const commentators = useRoster('commentators', cInit);
-  const guests = useRoster('guests', gInit);
 
   const registrationOpen = new Date() < REGISTRATION_DEADLINE;
-  const hasAny = players.length > 0 || commentators.length > 0 || guests.length > 0;
+  const hasAny = players.length > 0 || commentators.length > 0;
 
   return (
     <section style={{ maxWidth: '1100px', margin: '0 auto', padding: '72px 48px 96px' }}>
@@ -114,13 +112,6 @@ export default function SpillereView({ players: pInit, commentators: cInit, gues
         <>
           <SectionTitle>Kommentatorer</SectionTitle>
           <Grid roster={commentators} />
-        </>
-      )}
-
-      {guests.length > 0 && (
-        <>
-          <SectionTitle>Gjester</SectionTitle>
-          <Grid roster={guests} />
         </>
       )}
 

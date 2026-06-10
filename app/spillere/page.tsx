@@ -4,7 +4,6 @@ import SpillereView from '@/components/SpillereView';
 import { type Player } from '@/components/PlayerCard';
 import playersData from '@/public/data/players.json';
 import commentatorsData from '@/public/data/commentators.json';
-import guestsData from '@/public/data/guests.json';
 
 export const metadata: Metadata = {
   title: 'Spillere & bracket — Respawn Østfold',
@@ -22,7 +21,6 @@ export default function SpillerePage() {
       <SpillereView
         players={clean(playersData)}
         commentators={clean(commentatorsData)}
-        guests={clean(guestsData)}
       />
     </PageShell>
   );
