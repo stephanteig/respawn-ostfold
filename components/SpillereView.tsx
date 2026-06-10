@@ -5,6 +5,7 @@ import PageHeading from './PageHeading';
 import PlayerCard, { type Player } from './PlayerCard';
 import PlayerCountDisplay from './PlayerCountDisplay';
 import { useRoster } from './useRoster';
+import BracketDisplay from './BracketDisplay';
 
 const REGISTRATION_DEADLINE = new Date('2026-06-09T23:59:59+02:00');
 
@@ -107,6 +108,9 @@ export default function SpillereView({ players: pInit, commentators: cInit }: Pr
           )}
         </div>
       )}
+
+      <SectionTitle>Bracket</SectionTitle>
+      <BracketDisplay />
 
       {commentators.length > 0 && (
         <>
